@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="app_name">Cip Examples</string>
+
+    <string name="lorem_ipsus">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet luctus mauris, id auctor erat. Integer a sem ut dui tempor pulvinar. Maecenas pretium cursus purus, eu viverra felis tempus sit amet. Suspendisse in nibh sit amet dui dignissim rutrum. Vivamus sagittis eleifend sagittis. Curabitur aliquam a ipsum et semper. Nullam vel accumsan justo, quis egestas dui. Nullam faucibus pretium velit sed lacinia. Nulla pretium eget nibh nec condimentum. Quisque nec urna in tellus dignissim tincidunt. Proin molestie rutrum congue. Sed lobortis adipiscing massa, ac convallis leo dignissim quis. Cras non mauris ornare, eleifend sem at, lacinia eros. Sed a consequat purus. Phasellus tincidunt orci ac nunc vehicula, sit amet congue nibh ullamcorper. Aliquam erat volutpat. Ut eget adipiscing ante, vel placerat nibh. Quisque sit amet eleifend augue. Ut vel condimentum leo, in commodo lorem. Praesent id est dapibus, blandit purus a, ultrices diam. Nam et scelerisque metus, in ultrices lorem. Vivamus commodo ante in nulla vestibulum dictum. Nulla facilisi. Vestibulum nec enim vel felis sodales consectetur et ac odio. Suspendisse dapibus id metus nec scelerisque. Suspendisse eu arcu rhoncus, auctor ligula ac, egestas lacus. Morbi euismod, sapien vel pretium pharetra, diam libero egestas dolor, sit amet faucibus urna lorem at purus. Morbi id orci eros. Ut id posuere enim. Aliquam lobortis congue nisl ac hendrerit. Aenean purus mauris, ultrices et blandit eget, tempus sit amet velit. Aenean ac sem ac purus dictum mollis non eu massa. Etiam pellentesque ullamcorper tortor vitae adipiscing. Suspendisse faucibus tincidunt tellus sed eleifend.</string>
+    <string name="test_drawer_arrayitemnumber1">number 1</string>
+    <string name="test_drawer_arrayitemnumber2">number 2</string>
+    <string name="test_drawer_arrayitemnumber3">number 3</string>
+
+</resources>
