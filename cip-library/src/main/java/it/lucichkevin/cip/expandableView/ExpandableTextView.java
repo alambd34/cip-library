@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
 import it.lucichkevin.cip.R;
 
 /*
@@ -135,13 +136,16 @@ public class ExpandableTextView extends TextView {
 
 /**
     Create an expandable Textview: expands or compresses clicking it
+
+    <code>
+    //
+    ExpandableTextView myTextView = ((ExpandableTextView) rootView.findViewById(R.id.my_text_view));
+    </code>
+
     @author     Kevin Lucich    30/05/2014
     @version	1.0.0
-
-    Usage:
-
-    In your Java code:  ExpandableTextView myTextView = ((ExpandableTextView) rootView.findViewById(R.id.my_text_view));
- */
+    @since      Cip v0.1.0
+*/
 public class ExpandableTextView extends TextView {
 
     private static final String APP_TAG = "ExpandableTextView";

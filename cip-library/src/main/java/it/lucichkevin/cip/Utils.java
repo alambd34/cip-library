@@ -11,6 +11,7 @@ import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
 /**
     @author Kevin on 14/02/14.
     @since      0.0.1
+    @version    1.0.1
 
     Singleton class of utility methods. Instantiate with Utils.init()
 */
@@ -34,6 +35,7 @@ public class Utils {
     public static void init( Context context, String app_tag ){
         setContext(context);
         setAppTag(app_tag);
+        PreferencesManager.init(context);
     }
 
     //////////////////////////////////////////////
@@ -52,7 +54,7 @@ public class Utils {
     protected static void setAppTag(){
         setAppTag(context.getPackageName());
     }
-    private static void setAppTag(String app_tag ){
+    protected static void setAppTag( String app_tag ){
         APP_TAG = app_tag;
     }
 
@@ -69,32 +71,40 @@ public class Utils {
     }
 
     /**
-     * Prints log ONLY IF devel_log is enabled.
-     * Please remember to set this parameter to FALSE when creating production APK
-     * @param   message   Message to log
-     * @param   loglevel  Level of the log
-     *
-     * @author  Marco Zanetti (on Github: MarKco)
-     */
+        @since 0.0.1
+        @see #logger(String, String, int)
+    */
     public static void logger( String message, int loglevel ){
+        Utils.logger( getAppTag(), message, loglevel );
+    }
+
+    /**
+        Prints log ONLY if PreferencesManager.isDebugLog() it's true.
+        @author Marco Zanetti (on Github search: MarKco), Kevin Lucich [create Alias for param "app_tag"]
+
+        @since  v0.4.0
+        @param  app_tag     App tag to search the log
+        @param  message     Message to log
+        @param  logLevel    Level of the log
+    */
+    public static void logger( String app_tag, String message, int logLevel ){
         if( PreferencesManager.isDebugLog() ){
-            switch( loglevel ) {
+            switch( logLevel ) {
                 case LOG_DEBUG:
-                    Log.d( getAppTag(), message );
+                    Log.d( app_tag, message );
                     break;
                 case LOG_INFO:
-                    Log.i( getAppTag(), message );
+                    Log.i( app_tag, message );
                     break;
                 case LOG_ERROR:
-                    Log.e( getAppTag(), message );
+                    Log.e( app_tag, message );
                     break;
                 default:
-                    Log.i( getAppTag(), message );
+                    Log.i( app_tag, message );
                     break;
             }
         }
     }
-
 
 
     ///////////////////////////////////////////////////////
@@ -116,8 +126,9 @@ public class Utils {
         }
     }
 
-    /*
-        Usage:  Utils.Toaster( [context], "test", Utils.Toaster.LENGTH_LONG );
+    /**
+        @since      Cip v0.0.1
+        Utils.Toaster( [context], "test", Utils.Toaster.LENGTH_LONG );
     */
     public static class Toaster{
 
@@ -125,9 +136,9 @@ public class Utils {
         public static final int LENGTH_LONG = Toast.LENGTH_SHORT;
 
         /**
-         @deprecated
-         @desc   Use Utils.Toaster (not need the "new")
-         */
+            @deprecated
+            Use Utils.Toaster (not need the "new")
+        */
         public Toaster( Context context, String msg ){
             if( PreferencesManager.isToasterToLogcat() ){
                 Utils.logger( msg , LOG_INFO);
@@ -137,9 +148,9 @@ public class Utils {
         }
 
         /**
-         @deprecated
-         @desc   Use Utils.Toaster (not need the "new")
-         */
+            @deprecated
+            Use Utils.Toaster (not need the "new")
+        */
         public Toaster( Context context, String msg, int seconds ){
             if( seconds > 1 ){
                 Toaster.showLongToast(context, msg, seconds);

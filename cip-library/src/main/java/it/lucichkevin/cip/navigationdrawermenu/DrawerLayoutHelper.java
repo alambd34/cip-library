@@ -1,18 +1,26 @@
 package it.lucichkevin.cip.navigationdrawermenu;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.app.ActionBar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import it.lucichkevin.cip.ObjectAdapter;
 import it.lucichkevin.cip.R;
 import it.lucichkevin.cip.Utils;
 
-
+/**
+ * Create a drawer menu using a drawer layout (DRAWER_LAYOUT_ID) and populating the DRAWER_LIST_VIEW_ID with list of items (array of ItemDrawerMenu object) and attaching a callback to menu
+ *
+ * @author  Kevin Lucich
+ * @version 1.1.0
+*/
 public class DrawerLayoutHelper {
 
     private Activity activity;
@@ -21,9 +29,11 @@ public class DrawerLayoutHelper {
     private DrawerLayout drawerLayout;
     private ListView drawerListView;
     private ActionBarDrawerToggle drawerToggle;
-//    private int defaultActionBarDisplay;
     private int defaultNavigationMode;
     private CharSequence defaultTitle;
+
+    public static final int RESOURCE_ID_MAIN_CONTAINER = R.id.drawer_layout;
+    public static final int RESOURCE_ID_DRAWER_LIST_VIEW = R.id.drawer_list_view;
 
 //    private ItemDrawerMenu[] ARRAY_ITEMS = new ItemDrawerMenu[]{
 //
@@ -57,32 +67,64 @@ public class DrawerLayoutHelper {
 //        new ItemDrawerMenu( R.string.prefs_about, AboutActivity.class ),
 //
 //    };
-/*
-    public DrawerLayoutHelper( final Activity activity, final ItemDrawerMenu[] ARRAY_ITEMS_LIST ){
-        this( activity, activity.getActionBar(), R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS_LIST, null );
-    }
-    public DrawerLayoutHelper( final Activity activity, final ItemDrawerMenu[] ARRAY_ITEMS_LIST, final DrawerCallbacks drawerCallbacks ){
-        this( activity, activity.getActionBar(), R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS_LIST, drawerCallbacks );
-    }
-    public DrawerLayoutHelper( final Activity activity, ActionBar actionBar, final ItemDrawerMenu[] ARRAY_ITEMS_LIST, final DrawerCallbacks drawerCallbacks ){
-        this( activity, actionBar, R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS_LIST, drawerCallbacks );
-    }
-    public DrawerLayoutHelper( final Activity activity, ActionBar actionBar, final ItemDrawerMenu[] ARRAY_ITEMS_LIST ){
-        this( activity, actionBar, R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS_LIST, null );
-    }
-*/
-//    public DrawerLayoutHelper( final Activity activity, final ItemDrawerMenu[] ARRAY_ITEMS_LIST ){
-//        this( activity, R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS_LIST, null );
-//    }
-//    public DrawerLayoutHelper( final Activity activity, final ItemDrawerMenu[] ARRAY_ITEMS_LIST, final DrawerCallbacks drawerCallbacks ){
-//        this( activity, R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS_LIST, drawerCallbacks );
-//    }
-    public DrawerLayoutHelper( final Activity activity, int DRAWER_LAYOUT_ID, int DRAWER_LIST_VIEW_ID, final ItemDrawerMenu[] ARRAY_ITEMS_LIST ){
-        this( activity, DRAWER_LAYOUT_ID, DRAWER_LIST_VIEW_ID, ARRAY_ITEMS_LIST, null );
+
+    /**
+     * Create a empty drawer menu, will be attachd a empty callbacks
+     *
+     * @param   activity    The activity where including the drawer menu
+     * @since   Cip version 0.4.0
+     * @see     EmptyDrawerCallbacks
+     */
+    public DrawerLayoutHelper( final Activity activity ){
+        this( activity, RESOURCE_ID_MAIN_CONTAINER, RESOURCE_ID_DRAWER_LIST_VIEW, new ItemDrawerMenu[]{}, new EmptyDrawerCallbacks() );
     }
 
+    /**
+     * Create drawer menu with a list of items of menu
+     *
+     * @param   activity            The activity where including the drawer menu
+     * @param   ARRAY_ITEMS_LIST    Array of items of menu
+     * @since   Cip version 0.4.0
+     * @see     ItemDrawerMenu
+     * @see     EmptyDrawerCallbacks
+     */
+    public DrawerLayoutHelper( final Activity activity, final ItemDrawerMenu[] ARRAY_ITEMS_LIST ){
+        this( activity, RESOURCE_ID_MAIN_CONTAINER, RESOURCE_ID_DRAWER_LIST_VIEW, ARRAY_ITEMS_LIST, new EmptyDrawerCallbacks() );
+    }
+
+    /**
+     * Create a drawer menu with list of items (ARRAY_ITEMS_LIST) and attaching a callback to menu
+     *
+     * @param   activity            The activity where including the drawer menu
+     * @param   ARRAY_ITEMS_LIST    Array of items of menu
+     * @param   drawerCallbacks     Implementation of callbacks when an action performed to drawer menu
+     * @since   Cip version 0.4.0
+     * @see     ItemDrawerMenu
+     * @see     DrawerCallbacks
+     */
+    public DrawerLayoutHelper( final Activity activity, final ItemDrawerMenu[] ARRAY_ITEMS_LIST, final DrawerCallbacks drawerCallbacks ){
+        this( activity, RESOURCE_ID_MAIN_CONTAINER, RESOURCE_ID_DRAWER_LIST_VIEW, ARRAY_ITEMS_LIST, drawerCallbacks );
+    }
+
+    /**
+     * Create a drawer menu, using a drawer layout (DRAWER_LAYOUT_ID) and populating the DRAWER_LIST_VIEW_ID with list of items (ARRAY_ITEMS_LIST)
+     *
+     * @param   activity    The activity where including the drawer menu
+     * @since   Cip version 0.4.0
+     * @see     EmptyDrawerCallbacks
+     * @see     #DrawerLayoutHelper(android.app.Activity, int, int, ItemDrawerMenu[], it.lucichkevin.cip.navigationdrawermenu.DrawerLayoutHelper.DrawerCallbacks)
+     */
+    public DrawerLayoutHelper( final Activity activity, int DRAWER_LAYOUT_ID, int DRAWER_LIST_VIEW_ID, final ItemDrawerMenu[] ARRAY_ITEMS_LIST ){
+        this( activity, DRAWER_LAYOUT_ID, DRAWER_LIST_VIEW_ID, ARRAY_ITEMS_LIST, new EmptyDrawerCallbacks() );
+    }
+
+    /**
+     * Create a drawer menu, using a drawer layout (DRAWER_LAYOUT_ID) and populating the DRAWER_LIST_VIEW_ID with list of items (ARRAY_ITEMS_LIST) and attaching a callback to menu
+     *
+     * @param   activity    The activity where including the drawer menu
+     * @since   Cip version 0.4.0
+     */
     //  Delete the support.v7 (permette di chiamare .setHomeButtonEnabled() )
-//    public DrawerLayoutHelper( final Activity activity, ActionBar actionBar, int DRAWER_LAYOUT_ID, int DRAWER_LIST_VIEW_ID, final ItemDrawerMenu[] ARRAY_ITEMS_LIST, final DrawerCallbacks drawerCallbacks ){
     public DrawerLayoutHelper( final Activity activity, int DRAWER_LAYOUT_ID, int DRAWER_LIST_VIEW_ID, final ItemDrawerMenu[] ARRAY_ITEMS_LIST, final DrawerCallbacks drawerCallbacks ){
 
         setActivity(activity);
@@ -95,14 +137,23 @@ public class DrawerLayoutHelper {
         defaultNavigationMode = actionBar.getNavigationMode();
         defaultTitle = actionBar.getTitle();
 
-//        drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.main_layout);
         drawerLayout = (DrawerLayout) getActivity().findViewById(DRAWER_LAYOUT_ID);
-//        drawerListView = (ListView) activity.findViewById(R.id.left_drawer);
         drawerListView = (ListView) getActivity().findViewById(DRAWER_LIST_VIEW_ID);
 
-//        drawerListView.setAdapter(adapter);
-        MenuItemDrawerAdapter mAdapter = new MenuItemDrawerAdapter( getActivity(), R.layout.navigationdrawermenu, ARRAY_ITEMS_LIST );
-        drawerListView.setAdapter( mAdapter );
+        ObjectAdapter<ItemDrawerMenu> adapter = new ObjectAdapter<ItemDrawerMenu>( getActivity(), R.layout.drawerlayouthelper_itemmenu, ARRAY_ITEMS_LIST ){
+            @Override
+            protected void attachItemToLayout( ItemDrawerMenu item, int position ){
+
+                ((TextView) findViewById(R.id.item_menu_name)).setText(item.getTitle());
+
+                if( item.getImage() != null ) {
+                    ImageView imageView = (ImageView) findViewById(R.id.item_menu_image);
+                    imageView.setImageResource(item.getImage());
+                    imageView.setVisibility(View.VISIBLE);
+                }
+            }
+        };
+        drawerListView.setAdapter(adapter);
 
         // Set the list's click listener
 //        drawerListView.setOnItemClickListener(new DrawerItemClickListener());
@@ -131,15 +182,11 @@ public class DrawerLayoutHelper {
 
             public void onDrawerClosed( View drawerView ){
                 restoreActionBar();
-                if( drawerCallbacks != null ){
-                    drawerCallbacks.onDrawerClose(drawerView);
-                }
+                drawerCallbacks.onDrawerClose(getActivity(), drawerView);
             }
 
             public void onDrawerOpened(View drawerView) {
-                if( drawerCallbacks != null ) {
-                    drawerCallbacks.onDrawerOpen(drawerView);
-                }
+                drawerCallbacks.onDrawerOpen(getActivity(), drawerView);
 //                actionBar.setTitle(activity.getString(R.string.title_activity_settings));
 //                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             }
@@ -198,9 +245,28 @@ public class DrawerLayoutHelper {
     /////////////////////////////////////////
     //  Callbacks
 
-    public interface DrawerCallbacks{
-        public void onDrawerOpen(View drawerView);
-        public void onDrawerClose(View drawerView);
+    /**
+     *
+     * @since   Cip version 0.2.0
+     * */
+    public static abstract class DrawerCallbacks{
+        public void onDrawerOpen( Activity activity, View drawerView ){
+            Utils.Toaster( activity, "Drawer opened!");
+        }
+        public void onDrawerClose( Activity activity, View drawerView ){
+            Utils.Toaster( activity, "Drawer closed!");
+        }
     }
+
+    public static class EmptyDrawerCallbacks extends DrawerCallbacks{
+        public void onDrawerOpen( Activity activity, View drawerView ){
+            super.onDrawerOpen(activity, drawerView);
+        }
+        public void onDrawerClose( Activity activity, View drawerView ){
+            super.onDrawerClose(activity, drawerView);
+        }
+    }
+
+
 }
 

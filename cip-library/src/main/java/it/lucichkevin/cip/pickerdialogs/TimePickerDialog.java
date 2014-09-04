@@ -20,8 +20,6 @@ import it.lucichkevin.cip.Utils;
     @version	0.1.0
     @since      0.3.0
 
-    Usage:
-
 */
 public class TimePickerDialog extends DialogFragment {
 
@@ -30,16 +28,23 @@ public class TimePickerDialog extends DialogFragment {
 
     protected Dialog timePickerDialog = null;
     protected TimePicker timePicker = null;
-    protected Callbacks callbacks = null;
     protected boolean is24HourFormat = false;
+
+    //  Default behavior - Log (if in debug) and close dialog
+    protected Callbacks callbacks = new TimePickerDialog.EmptyCallbacks(){
+        public void onButtonPositiveClicked( Button view, int hour, int minute ){
+            super.onButtonPositiveClicked( view, hour, minute );
+            timePickerDialog.dismiss();
+        }
+        public void onButtonCancelClicked( Button view, int hour, int minute ){
+            super.onButtonCancelClicked( view, hour, minute );
+            timePickerDialog.dismiss();
+        }
+    };
 
     protected int hour = 0;
     protected int minute = 0;
 
-    //  Used for save sthe status
-    protected static final String HOUR = "hour";
-    protected static final String MINUTE = "minute";
-    protected static final String IS_24_HOUR = "is24hour";
 
     public TimePickerDialog(){
         final Calendar c = Calendar.getInstance();
@@ -66,20 +71,24 @@ public class TimePickerDialog extends DialogFragment {
             e.printStackTrace();
         }
 
+        setCallbacksOfButtons();
+
+        return timePickerDialog;
+    }
+
+    protected void setCallbacksOfButtons() {
         ((Button) timePickerDialog.findViewById(BUTTON_POSITIVE)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ){
-                callbacks.onButtonPositiveClicked((Button) view, timePicker.getCurrentHour(), timePicker.getCurrentMinute(), timePickerDialog);
+                callbacks.onButtonPositiveClicked((Button) view, timePicker.getCurrentHour(), timePicker.getCurrentMinute() );
             }
         });
         ((Button) timePickerDialog.findViewById(BUTTON_NEGATIVE)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ){
-                callbacks.onButtonCancelClicked( (Button) view, timePicker.getCurrentHour(), timePicker.getCurrentMinute(), timePickerDialog );
+                callbacks.onButtonCancelClicked( (Button) view, timePicker.getCurrentHour(), timePicker.getCurrentMinute() );
             }
         });
-
-        return timePickerDialog;
     }
 
 
@@ -102,17 +111,21 @@ public class TimePickerDialog extends DialogFragment {
     }
 
 
+
     /////////////////////////////////////
     //  Callbacks
 
-    public static abstract class Callbacks {
-        public void onButtonPositiveClicked( Button view, int hourOfDay, int minute, Dialog dialog ){
-            Utils.logger("Mi orario settato, chiamo la callback ;) ", Utils.LOG_DEBUG);
-            dialog.dismiss();
+    public static interface Callbacks {
+        public void onButtonPositiveClicked( Button view, int hour, int minute );
+        public void onButtonCancelClicked( Button view, int hour, int minute );
+    }
+
+    public static class EmptyCallbacks implements Callbacks {
+        public void onButtonPositiveClicked( Button view, int hour, int minute ){
+            Utils.logger("Cip.TimePickerDialog","Callback onButtonPositiveClicked( Button, \"+ hour +\", \"+ minute +\" )\" called!", Utils.LOG_INFO );
         }
-        public void onButtonCancelClicked( Button view, int hourOfDay, int minute, Dialog dialog ){
-            Utils.logger("Mi sto chiudendo... :) ", Utils.LOG_DEBUG);
-            dialog.dismiss();
+        public void onButtonCancelClicked( Button view, int hour, int minute ){
+            Utils.logger("Cip.TimePickerDialog","Callback onButtonCancelClicked( Button, \"+ hour +\", \"+ minute +\" )\" called!", Utils.LOG_INFO );
         }
     }
 

@@ -52,7 +52,7 @@ public class FragmentMainTest extends Fragment {
         };
 
         ListView listView = (ListView) rootView.findViewById(R.id.list_sample);
-        listView.setAdapter( adapter );
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override

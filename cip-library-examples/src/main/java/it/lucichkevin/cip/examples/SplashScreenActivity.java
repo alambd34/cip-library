@@ -8,7 +8,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import it.lucichkevin.cip.Utils;
-import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
 
 
 public class SplashScreenActivity extends ActionBarActivity {
@@ -17,8 +16,7 @@ public class SplashScreenActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         //  First and unique instance - set the Context into Utils class
-        Utils.setContext(getBaseContext());
-        PreferencesManager.init(getBaseContext());
+        Utils.init(getBaseContext());
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);

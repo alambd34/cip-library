@@ -9,6 +9,7 @@ import android.widget.NumberPicker;
 import java.lang.reflect.Field;
 
 import it.lucichkevin.cip.Utils;
+import it.lucichkevin.cip.dialogs.WelcomeDialog;
 
 /**
     Create a dialog with a NumberPicker to choose the minutes
@@ -17,18 +18,24 @@ import it.lucichkevin.cip.Utils;
     @version	0.1.0
     @since      0.3.0
 
-    Usage:
-
 */
 public class MinutesPickerDialog extends TimePickerDialog {
 
-    protected Callbacks callbacks = null;
+    protected MinutesPickerDialog.Callbacks callbacks = new MinutesPickerDialog.EmptyCallbacks(){
+        public void onButtonPositiveClicked( Button view, int minute ){
+            super.onButtonPositiveClicked( view, minute );
+            timePickerDialog.dismiss();
+        }
+        public void onButtonCancelClicked( Button view, int minute ){
+            super.onButtonCancelClicked( view, minute );
+            timePickerDialog.dismiss();
+        }
+    };
 
     @Override
     public Dialog onCreateDialog( Bundle savedInstanceState ){
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
-//        timePicker.findViewById(R.id.ho)
         try {
             Class<?> classForid = Class.forName("com.android.internal.R$id");
             Field minute = classForid.getField("hour");
@@ -41,13 +48,37 @@ public class MinutesPickerDialog extends TimePickerDialog {
         return dialog;
     }
 
-    //  MinutesPickerDialog.Callbacks
-    public static abstract class Callbacks extends TimePickerDialog.Callbacks{
-        public void onButtonPositiveClicked( Button view, int minute, Dialog dialog ){
-            super.onButtonPositiveClicked( view, 0, minute, dialog );
+    protected void setCallbacksOfButtons() {
+        ((Button) timePickerDialog.findViewById(BUTTON_POSITIVE)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View view ){
+                callbacks.onButtonPositiveClicked( (Button) view, timePicker.getCurrentMinute() );
+            }
+        });
+        ((Button) timePickerDialog.findViewById(BUTTON_NEGATIVE)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View view ){
+                callbacks.onButtonCancelClicked( (Button) view, timePicker.getCurrentMinute() );
+            }
+        });
+    }
+
+
+
+    /////////////////////////////////////
+    //  Callbacks
+
+    public static interface Callbacks {
+        public void onButtonPositiveClicked( Button view, int minute );
+        public void onButtonCancelClicked( Button view, int minute );
+    }
+
+    public static class EmptyCallbacks implements MinutesPickerDialog.Callbacks{
+        public void onButtonPositiveClicked( Button view, int minute ){
+            Utils.logger("Cip.MinutesPickerDialog","Callback onButtonCancelClicked( Button, "+ minute +" ) called!", Utils.LOG_INFO );
         }
-        public void onButtonCancelClicked( Button view, int minute, Dialog dialog ){
-            super.onButtonCancelClicked( view, 0, minute, dialog );
+        public void onButtonCancelClicked( Button view, int minute ){
+            Utils.logger("Cip.MinutesPickerDialog","Callback onButtonCancelClicked( Button, "+ minute +" ) called!", Utils.LOG_INFO );
         }
     }
 

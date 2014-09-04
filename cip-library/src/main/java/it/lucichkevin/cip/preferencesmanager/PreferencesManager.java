@@ -12,17 +12,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import it.lucichkevin.cip.Utils;
+
 /**
     Base utility to manager shared preferences without call the specify native android methods.
- it is recommended to create your own object (which extends PreferencesManager) where you can specify shortcuts for setting keys
+    it is recommended to create your own object (which extends PreferencesManager) where you can specify shortcuts for setting keys
 
-    @author     Kevin Lucich    29/08/2014
-    @version	1.0.0
-    @since      0.3.0
-
-    Usage:
-
-    In your Java code:  ExpandablePanel myPanel = ((ExpandablePanel) rootView.findViewById(R.id.my_panel));
+    <code>
 
     class MyPreferences extends PreferencesManager{
 
@@ -44,20 +40,34 @@ import java.util.Set;
         }
     }
 
-    In another code:    MyView.setText("My name is: "+ MyPreferences.getName() );
-*/
+    //  Somewhere else...
+    MyView.setText("My name is: "+ MyPreferences.getName() );
+
+    </code>
+
+    @author     Kevin Lucich    29/08/2014
+    @version	1.1.0
+    @since      0.3.0
+
+ */
 public class PreferencesManager {
 
-    private static boolean init = false;
+    private static boolean initialized = false;
     private static Context context = null;
 
     public static void init( Context context ){
-        PreferencesManager.init = true;
+        if( PreferencesManager.isInitialized() ){
+            Utils.logger("CIP.PreferencesManager", "PreferencesManager is already initialized, don't worry, i will change only the context :)", Utils.LOG_INFO );
+        }
+        if( !PreferencesManager.isFirstRun() ){
+            PreferencesManager.setFirstRun(false);
+        }
+        PreferencesManager.initialized = true;
         setContext(context);
     }
 
     public static Context getContext() throws Exception {
-        if( !isInit() ){
+        if( !isInitialized() ){
             throw new Exception("You must call PreferencesManager.init() in the first Activity available");
         }
         return context;
@@ -65,8 +75,8 @@ public class PreferencesManager {
     public static void setContext(Context context) {
         PreferencesManager.context = context;
     }
-    public static boolean isInit(){
-        return PreferencesManager.init;
+    public static boolean isInitialized(){
+        return PreferencesManager.initialized;
     }
 
     ///////////////////////////////////////
@@ -78,6 +88,7 @@ public class PreferencesManager {
     //  Costants
 
     protected static final String STRING_LOG = "PREFERENCESMANAGER";
+    protected static final String KEY_FIRST_RUN_OF_APP = "FIRST_RUN_OF_APP";
     protected static final String KEY_DEBUG_LOG = "DEBUG_LOG";
     protected static final String KEY_TOASTER_TO_LOGCAT = "TOASTER_TO_LOGCAT";
 
@@ -210,6 +221,13 @@ public class PreferencesManager {
     }
     public static void setDebugLog( boolean b ){
         PreferencesManager.setPreferences( KEY_DEBUG_LOG, b );
+    }
+
+    public static boolean isFirstRun(){
+        return PreferencesManager.is(KEY_FIRST_RUN_OF_APP);
+    }
+    public static void setFirstRun( boolean b ){
+        PreferencesManager.setPreferences( KEY_FIRST_RUN_OF_APP, b );
     }
 
 

@@ -14,13 +14,13 @@ import it.lucichkevin.cip.R;
     Create an expandable panel (LinearLayout): expands or compresses clicking the handle View (if the handle is not defined handle will be the panel).
     The contentView is compulsory: will must be a view inside the ExpandablePanel.
 
-    clicking the handle
+    <code>
+    ExpandablePanel myPanel = ((ExpandablePanel) rootView.findViewById(R.id.my_panel));
+    </code>
+
     @author     Kevin Lucich    27/05/2014
     @version	1.0.0
-
-    Usage:
-
-    In your Java code:  ExpandablePanel myPanel = ((ExpandablePanel) rootView.findViewById(R.id.my_panel));
+    @since      Cip v0.1.0
 */
 public class ExpandablePanel extends LinearLayout {
 

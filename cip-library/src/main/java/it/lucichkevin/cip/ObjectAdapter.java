@@ -9,19 +9,19 @@ import android.widget.ArrayAdapter;
 
 /**
     Adapter for T type object
-    @author     Kevin Lucich    14/05/2014
-    @version	0.0.2
 
-    @since      0.0.1
-
-    Usage:
-
+    <code>
     ObjectAdapter<MyObject> adapter = new ObjectAdapter<MyObject>(){
-        @Override
-        protected void attachItemToLayout(MyObject item, int position) {
+        #@Override
+        protected void attachItemToLayout( MyObject item, int position ){
             //  Do something...
         }
     };
+    </code>
+
+    @author     Kevin Lucich    14/05/2014
+    @version	0.0.2
+    @since      Cip version 0.0.1
 */
 public abstract class ObjectAdapter<T> extends ArrayAdapter<T> {
 
@@ -76,8 +76,10 @@ public abstract class ObjectAdapter<T> extends ArrayAdapter<T> {
     protected abstract void attachItemToLayout( T item, int position );
 
     /**
-     *	Return the View searched
-     *	@deprecated Deprecated since v0.0.2. Deprecated due of a better name
+     *	Return the View searched. Deprecated since v0.0.3 due of a better name
+     *
+     *	@deprecated
+     *  @since v0.0.2
      */
 	protected View getViewById( int resource_id ){
 		return findViewById(resource_id);

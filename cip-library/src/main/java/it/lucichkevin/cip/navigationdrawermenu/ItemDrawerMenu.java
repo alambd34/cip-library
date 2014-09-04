@@ -1,8 +1,12 @@
 package it.lucichkevin.cip.navigationdrawermenu;
 
 /**
- * Created by kevin on 30/08/2014.
- */
+
+
+    @author     Kevin Lucich (30/05/2014)
+    @version	1.0.0
+    @since      Cip v0.2.0
+*/
 public class ItemDrawerMenu {
 
     private Integer title;      //  Resource

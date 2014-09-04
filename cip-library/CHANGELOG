@@ -1,28 +1,35 @@
 
+v0.4.1
+    [FIX]    TimePickerDialog.Callbacks
+    [REMOVE] Remove MenuItemDrawerAdapter
+    [FIX]    PreferencesManager
+                +   PreferencesManager.isFirstRun()
+
 v0.4.0
-    -   Remove MenuItemDrawerAdapter
+    [ADD]   TimePickerDialog
+    [ADD]   MinutesPickerDialog
 
 v0.3.0
-    *   PreferencesManager
-    *   PreferencesListFragment (in progress)
+    [ADD]   PreferencesManager
+    [ADD]   PreferencesListFragment (in progress)
 
 v0.2.0
-    *   DrawerLayoutHelper (v1.1.0)
-    *   ItemDrawerMenu (v1.0.0)
-    *   MenuItemDrawerAdapter (v1.0.0)
+    [ADD]   DrawerLayoutHelper (v1.1.0)
+    [ADD]   ItemDrawerMenu (v1.0.0)
+    [ADD]   MenuItemDrawerAdapter (v1.0.0)
 
 v0.1.0
-    *   ExpandablePanel
-    *   ExpandableTextView
-    *   ExpandAnimation
+    [ADD]   ExpandablePanel
+    [ADD]   ExpandableTextView
+    [ADD]   ExpandAnimation
 
 v0.0.3
-    *   Deprecated ObjectAdapter.getViewById( int resource_id )
+    [DEPRECATED]   Deprecated ObjectAdapter.getViewById( int resource_id )
 
 v0.0.2
-    *   ObjectAdapter
+    [ADD]   ObjectAdapter
 
 v0.0.1
-    *   Utils:
-        - Logger
-        - Toaster
+    [ADD]   Utils:
+                - Logger
+                - Toaster

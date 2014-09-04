@@ -6,8 +6,10 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
 /**
- * Created by kevin on 29/05/14.
- */
+     @author    Kevin Lucich    29/05/2014
+     @version	1.0.0
+     @since     Cip v0.1.0
+*/
 public class ExpandAnimation extends Animation {
 
     private final int startHeight;
