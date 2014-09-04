@@ -1,0 +1,28 @@
+
+v0.4.0
+    -   Remove MenuItemDrawerAdapter
+
+v0.3.0
+    *   PreferencesManager
+    *   PreferencesListFragment (in progress)
+
+v0.2.0
+    *   DrawerLayoutHelper (v1.1.0)
+    *   ItemDrawerMenu (v1.0.0)
+    *   MenuItemDrawerAdapter (v1.0.0)
+
+v0.1.0
+    *   ExpandablePanel
+    *   ExpandableTextView
+    *   ExpandAnimation
+
+v0.0.3
+    *   Deprecated ObjectAdapter.getViewById( int resource_id )
+
+v0.0.2
+    *   ObjectAdapter
+
+v0.0.1
+    *   Utils:
+        - Logger
+        - Toaster
