@@ -22,48 +22,47 @@ import it.lucichkevin.cip.Utils;
 public class MinutesPickerDialog extends TimePickerDialog {
 
     protected MinutesPickerDialog.Callbacks callbacks = new MinutesPickerDialog.EmptyCallbacks(){
-        public void onButtonPositiveClicked( Button view, int minute ){
-            super.onButtonPositiveClicked( view, minute );
-            timePickerDialog.dismiss();
+        public void onButtonPositiveClicked( Dialog dialog, int minute ){
+            super.onButtonPositiveClicked( dialog, minute );
+            Utils.logger("Cip.MinutesPickerDialog", "Callback onButtonCancelClicked( Button, " + String.valueOf(minute) + " ) called!", Utils.LOG_INFO);
         }
-        public void onButtonCancelClicked( Button view, int minute ){
-            super.onButtonCancelClicked( view, minute );
-            timePickerDialog.dismiss();
+        public void onButtonCancelClicked( Dialog dialog, int minute ){
+            super.onButtonCancelClicked( dialog, minute );
+            Utils.logger("Cip.MinutesPickerDialog", "Callback onButtonCancelClicked( Button, " + String.valueOf(minute) + " ) called!", Utils.LOG_INFO);
         }
     };
 
-
-    public MinutesPickerDialog(Context context) {
+    public MinutesPickerDialog( Context context ){
         super(context);
     }
 
     @Override
-    public Dialog onCreateDialog( Bundle savedInstanceState ){
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
+    public void onCreate( Bundle savedInstanceState ){
+        super.onCreate(savedInstanceState);
 
         try {
             Class<?> classForid = Class.forName("com.android.internal.R$id");
             Field minute = classForid.getField("hour");
+            Field divider = classForid.getField("hour");
             ((NumberPicker) timePicker.findViewById(minute.getInt(null))).setVisibility(View.GONE);
-
-        } catch (Exception e) {
+            ((NumberPicker) timePicker.findViewById(divider.getInt(null))).setVisibility(View.GONE);
+        }catch( Exception e ){
             e.printStackTrace();
         }
 
-        return dialog;
     }
 
     protected void setCallbacksOfButtons() {
         ((Button) timePickerDialog.findViewById(BUTTON_POSITIVE)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ){
-                callbacks.onButtonPositiveClicked( (Button) view, timePicker.getCurrentMinute() );
+                callbacks.onButtonPositiveClicked( timePickerDialog, timePicker.getCurrentMinute() );
             }
         });
         ((Button) timePickerDialog.findViewById(BUTTON_NEGATIVE)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ){
-                callbacks.onButtonCancelClicked( (Button) view, timePicker.getCurrentMinute() );
+                callbacks.onButtonCancelClicked( timePickerDialog, timePicker.getCurrentMinute() );
             }
         });
     }
@@ -82,16 +81,16 @@ public class MinutesPickerDialog extends TimePickerDialog {
     //  Callbacks
 
     public static interface Callbacks {
-        public void onButtonPositiveClicked( Button view, int minute );
-        public void onButtonCancelClicked( Button view, int minute );
+        public void onButtonPositiveClicked( Dialog dialog, int minute );
+        public void onButtonCancelClicked( Dialog dialog, int minute );
     }
 
     public static class EmptyCallbacks implements MinutesPickerDialog.Callbacks{
-        public void onButtonPositiveClicked( Button view, int minute ){
-            Utils.logger("Cip.MinutesPickerDialog", "Callback onButtonCancelClicked( Button, " + minute + " ) called!", Utils.LOG_INFO);
+        public void onButtonPositiveClicked( Dialog dialog, int minute ){
+            dialog.dismiss();
         }
-        public void onButtonCancelClicked( Button view, int minute ){
-            Utils.logger("Cip.MinutesPickerDialog", "Callback onButtonCancelClicked( Button, " + minute + " ) called!", Utils.LOG_INFO);
+        public void onButtonCancelClicked( Dialog dialog, int minute ){
+            dialog.dismiss();
         }
     }
 
