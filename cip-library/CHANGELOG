@@ -1,4 +1,27 @@
 
+v0.4.4
+    [FIX] Fix setHour() and setMinute() of TimePickerDialog and MinutesPickerDialog
+    [FIX] TimePickerDialog and MinutesPickerDialog extends Dialog, nothing DialogFragment (is an error? it was appropriate to extend DialogFragment?)
+    [FIX] javaDoc and Examples
+
+v0.4.3.4
+    [FIX]   PreferencesManager.isFirstRun()
+
+v0.4.3.1
+    [FIX]   Implements getDialog() method for TimePickerDialog and MinutesPickerDialog
+    [FIX]   Change Callbacks for TimePickerDialog and MinutesPickerDialog
+
+v0.4.3
+    [ADD]   DialogHelper
+    [ADD]   Utils.findViewById( View container, int id ), Utils.findViewById( Activity activity, int id )
+    [FIX]   DrawerLayoutHelper: if a callback instance not provide DrawerLayoutHelper log into logcat the actions of drawer
+    [FIX]   TimePickerDialog (required Activity params)
+    [FIX]   PreferencesManager.isFirstRun()
+
+v0.4.1.1
+    [FIX]    MinutesPickerDialog.setCallbacks
+    [REMOVE] Remove method ObjectAdapter.getViewById(int)
+
 v0.4.1
     [FIX]    TimePickerDialog.Callbacks
     [REMOVE] Remove MenuItemDrawerAdapter

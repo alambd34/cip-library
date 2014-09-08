@@ -18,12 +18,13 @@ allprojects {
 
     repositories {
 //        mavenLocal()
-//        repositories{
-//            maven {
-//                url System.getProperty("user.home") + "/.m2/repository"
-//            }
-//        }
         mavenCentral()
+        repositories{
+            maven {
+//                url System.getProperty("user.home") + "/.m2/repository"
+                url "https://oss.sonatype.org/content/repositories/snapshots/"
+            }
+        }
     }
 }
 

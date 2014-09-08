@@ -1,5 +1,6 @@
 package it.lucichkevin.cip.examples;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -58,14 +59,14 @@ public class TestMainActivity extends ActionBarActivity {
                 .add( R.id.container, new FragmentMainTest() )
                 .commit();
 
-        drawerLayoutHelper = new DrawerLayoutHelper( TestMainActivity.this, R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS, new DrawerLayoutHelper.DrawerCallbacks() {
+        drawerLayoutHelper = new DrawerLayoutHelper( TestMainActivity.this, R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS, new DrawerLayoutHelper.Callbacks() {
             @Override
-            public void onDrawerOpen(View drawerView) {
-                Utils.Toaster( TestMainActivity.this, "Drawer opened!");
+            public void onDrawerOpen( Activity activity, View drawerView) {
+                Utils.Toaster( activity, "Drawer opened!");
             }
             @Override
-            public void onDrawerClose(View drawerView) {
-                Utils.Toaster( TestMainActivity.this, "Drawer closed!");
+            public void onDrawerClose( Activity activity, View drawerView) {
+                Utils.Toaster( activity, "Drawer closed!");
             }
         });
     }
