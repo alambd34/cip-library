@@ -75,15 +75,6 @@ public abstract class ObjectAdapter<T> extends ArrayAdapter<T> {
     */
     protected abstract void attachItemToLayout( T item, int position );
 
-    /**
-     *	Return the View searched. Deprecated since v0.0.3 due of a better name
-     *
-     *	@deprecated
-     *  @since v0.0.2
-     */
-	protected View getViewById( int resource_id ){
-		return findViewById(resource_id);
-    }
 
 	/**
 	 *	Return the View searched

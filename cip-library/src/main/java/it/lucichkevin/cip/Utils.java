@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
@@ -68,6 +69,16 @@ public class Utils {
         }else{
             return "0"+ String.valueOf(c);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends View> T findViewById( View container, int id ){
+        View view = container.findViewById(id);
+        return (T) view;
+    }
+
+    public static <T extends View> T findViewById( Activity activity, int id ){
+        return Utils.findViewById( activity.getWindow().getDecorView(), id );
     }
 
     /**

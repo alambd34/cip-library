@@ -59,11 +59,12 @@ public class PreferencesManager {
         if( PreferencesManager.isInitialized() ){
             Utils.logger("CIP.PreferencesManager", "PreferencesManager is already initialized, don't worry, i will change only the context :)", Utils.LOG_INFO );
         }
-        if( !PreferencesManager.isFirstRun() ){
-            PreferencesManager.setFirstRun(false);
-        }
         PreferencesManager.initialized = true;
         setContext(context);
+
+        if( PreferencesManager.isFirstRun() ){
+            PreferencesManager.setFirstRun(false);
+        }
     }
 
     public static Context getContext() throws Exception {
