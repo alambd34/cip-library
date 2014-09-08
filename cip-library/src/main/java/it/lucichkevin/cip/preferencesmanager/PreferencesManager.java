@@ -105,17 +105,29 @@ public class PreferencesManager {
     }
 
     /**
-        Return a boolean associated to the key of setting param
+        Return a boolean associated to the key of setting param, if the key don't exist return false
         @param  key     The key of setting to check
+        @see    #is( String, Boolean )
     */
     public static boolean is( String key ){
+        return PreferencesManager.is( key, false );
+    }
+
+    /**
+        Return a boolean associated to the key of setting param
+        @param  key             The key of setting to check
+        @param  default_value   The value to return if the key don't exist
+        @see    #is( String )
+    */
+    public static boolean is( String key, Boolean default_value ){
         try{
-            return PreferencesManager.getPreferences().getBoolean(key, false);
+            return PreferencesManager.getPreferences().getBoolean(key, default_value);
         }catch( NullPointerException e ){
             Log.d( STRING_LOG, "Error when getting SharedPreferences [key = \"" + key + "\"] \n" + e.getMessage());
             return false;
         }
     }
+
 
     public static SharedPreferences getPreferences(){
         try{
@@ -225,7 +237,7 @@ public class PreferencesManager {
     }
 
     public static boolean isFirstRun(){
-        return PreferencesManager.is(KEY_FIRST_RUN_OF_APP);
+        return PreferencesManager.is(KEY_FIRST_RUN_OF_APP, true);
     }
     public static void setFirstRun( boolean b ){
         PreferencesManager.setPreferences( KEY_FIRST_RUN_OF_APP, b );
