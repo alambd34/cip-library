@@ -41,6 +41,7 @@ import it.lucichkevin.cip.Utils;
     }
 
     //  Somewhere else...
+    MyView.setText("Is my first run? "+ String.valueOf(MyPreferences.isFirstRun()) );
     MyView.setText("My name is: "+ MyPreferences.getName() );
 
     </code>
@@ -52,24 +53,28 @@ import it.lucichkevin.cip.Utils;
  */
 public class PreferencesManager {
 
+    //  is_first_run is a placeholder for all session of App, started is NULL for read the real value from Prefereces :)
+    private static Boolean is_first_run = null;
     private static boolean initialized = false;
     private static Context context = null;
 
     public static void init( Context context ){
         if( PreferencesManager.isInitialized() ){
-            Utils.logger("CIP.PreferencesManager", "PreferencesManager is already initialized, don't worry, i will change only the context :)", Utils.LOG_INFO );
+//            Utils.logger("CIP.PreferencesManager", "PreferencesManager is already initialized, don't worry, i will change only the context :)", Utils.LOG_INFO );
+            Utils.logger("CIP.PreferencesManager", "PreferencesManager is already initialized :)", Utils.LOG_INFO );
+            return;
         }
         PreferencesManager.initialized = true;
         setContext(context);
 
         if( PreferencesManager.isFirstRun() ){
-            PreferencesManager.setFirstRun(false);
+            PreferencesManager.setFirstRun(false,false);
         }
     }
 
     public static Context getContext() throws Exception {
         if( !isInitialized() ){
-            throw new Exception("You must call PreferencesManager.init() in the first Activity available");
+            throw new Exception("You must call Utils.init() in the first Activity available");
         }
         return context;
     }
@@ -236,11 +241,36 @@ public class PreferencesManager {
         PreferencesManager.setPreferences( KEY_DEBUG_LOG, b );
     }
 
+    /**
+     *  Return true if is the first run of application
+     *  @return     boolean
+     */
     public static boolean isFirstRun(){
-        return PreferencesManager.is(KEY_FIRST_RUN_OF_APP, true);
+        //  The variable is using as placeholder
+        if( is_first_run == null ){
+            is_first_run = PreferencesManager.is(KEY_FIRST_RUN_OF_APP, true);
+            Utils.logger("[PREFERENCESMANAGER - isFirstRun()] la variabile is_first_run è NULL -> la popolo con questo valore: "+ String.valueOf(is_first_run), Utils.LOG_DEBUG );
+        }
+        return is_first_run;
     }
-    public static void setFirstRun( boolean b ){
-        PreferencesManager.setPreferences( KEY_FIRST_RUN_OF_APP, b );
+    /**
+     *  Set the key first_run in SharedPreferences
+     *  @param  value   The value will be set to key
+     *  @see    #setFirstRun(boolean, boolean)
+     */
+    public static void setFirstRun( boolean value ){
+        setFirstRun(value,false);
+    }
+    /**
+     *  Set the key first_run in SharedPreferences
+     *  @param  value       The value will be set to key
+     *  @param  thisSession If passed TRUE, overwrite the check for the session in running (ATTENTION: usare con cautela)
+     */
+    public static void setFirstRun( boolean value, boolean thisSession ){
+        if( thisSession ){
+            PreferencesManager.is_first_run = value;
+        }
+        PreferencesManager.setPreferences( KEY_FIRST_RUN_OF_APP, value );
     }
 
 

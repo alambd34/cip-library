@@ -32,13 +32,17 @@ public class MinutesPickerDialog extends TimePickerDialog {
         }
     };
 
+    public MinutesPickerDialog(){
+        super();
+    }
+
     public MinutesPickerDialog( Context context ){
         super(context);
     }
 
     @Override
-    public void onCreate( Bundle savedInstanceState ){
-        super.onCreate(savedInstanceState);
+    public Dialog onCreateDialog( Bundle savedInstanceState ){
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
 
         try {
             Class<?> classForid = Class.forName("com.android.internal.R$id");
@@ -50,6 +54,7 @@ public class MinutesPickerDialog extends TimePickerDialog {
             e.printStackTrace();
         }
 
+        return dialog;
     }
 
     protected void setCallbacksOfButtons() {

@@ -1,8 +1,26 @@
 
+v0.5.0
+    [ADD]   PreferecesListActivity and PreferencesListFragment, used to manager with interface the Preferences
+
+v0.4.6
+    [FIX]   TimePickerDialog and MinutesPickerDialog constructor without param initialize context with Utils.getContext()
+    [FIX]   Check isFirstRun()
+    [FIX]   Compulsory call Utils.init() in first Activity available to use PreferencesManager
+    [FIX]   Utils.init( Context ) set default APP_TAG
+    [FIX]   PreferencesManager.isFirstRun()
+    [ADD]   Add constructor ObjectAdapter( Context, List<T> )
+
+v0.4.5
+    [REVERT] TimePickerDialog and MinutesPickerDialog extends DialogFragment!
+
+v0.4.4.4.1
+    [FIX]   Add check exists resources DrawerLayoutHelper
+    [ADD]   Add constructor ObjectAdapter( Context, int, List<T> )
+
 v0.4.4
-    [FIX] Fix setHour() and setMinute() of TimePickerDialog and MinutesPickerDialog
-    [FIX] TimePickerDialog and MinutesPickerDialog extends Dialog, nothing DialogFragment (is an error? it was appropriate to extend DialogFragment?)
-    [FIX] javaDoc and Examples
+    [FIX]   Fix setHour() and setMinute() of TimePickerDialog and MinutesPickerDialog
+    [FIX]   TimePickerDialog and MinutesPickerDialog extends Dialog, nothing DialogFragment (is an error? it was appropriate to extend DialogFragment?)
+    [FIX]   javaDoc and Examples
 
 v0.4.3.4
     [FIX]   PreferencesManager.isFirstRun()

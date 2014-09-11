@@ -21,7 +21,7 @@ import it.lucichkevin.cip.Utils;
     @version	0.1.0
     @since      0.3.0
  */
-public class TimePickerDialog extends Dialog {
+public class TimePickerDialog extends DialogFragment {
 
     protected final static int BUTTON_POSITIVE = R.id.btn_positive;
     protected final static int BUTTON_NEGATIVE = R.id.btn_negative;
@@ -41,8 +41,11 @@ public class TimePickerDialog extends Dialog {
         }
     };
 
+    public TimePickerDialog(){
+        this(Utils.getContext());
+    }
+
     public TimePickerDialog( Context context ){
-        super(context);
 
         timePickerDialog = new Dialog(context);
         timePickerDialog.setContentView(R.layout.timepicker_layout);
@@ -58,8 +61,9 @@ public class TimePickerDialog extends Dialog {
     }
 
     @Override
-    public void onCreate( Bundle savedInstanceState ){
+    public Dialog onCreateDialog( Bundle savedInstanceState ){
         setCallbacksOfButtons();
+        return timePickerDialog;
     }
 
     protected void setCallbacksOfButtons() {

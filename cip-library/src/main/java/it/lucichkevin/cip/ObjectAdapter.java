@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 /**
     Adapter for T type object
 
@@ -25,6 +28,8 @@ import android.widget.ArrayAdapter;
 */
 public abstract class ObjectAdapter<T> extends ArrayAdapter<T> {
 
+    protected final static int DEFAULT_RESOURCE_LAYOUT = android.R.layout.simple_list_item_1;
+
     protected View convertView = null;
     protected Context context = null;
 
@@ -33,13 +38,17 @@ public abstract class ObjectAdapter<T> extends ArrayAdapter<T> {
     protected SparseArray<View> viewHolder = null;
 
     public ObjectAdapter( Context context, T[] items ){
-        this(context, android.R.layout.simple_list_item_1, items );
+        this(context, DEFAULT_RESOURCE_LAYOUT, items );
     }
 
-//    public ObjectAdapter( Context context, int layout, List<T> objectsList ){
-//        //  Cast to Array
-//        this( context, layout, objectsList.toArray( T[objectsList.size()] ));
-//    }
+    public ObjectAdapter( Context context, List<T> objectsList ){
+        this( context, DEFAULT_RESOURCE_LAYOUT, objectsList );
+    }
+
+    public ObjectAdapter( Context context, int layout, List<T> objectsList ){
+        //  Cast to Array
+        this( context, layout, Utils.listToArray(objectsList) );
+    }
 
     public ObjectAdapter( Context context, int layout, T[] items ){
         super( context, layout, items );

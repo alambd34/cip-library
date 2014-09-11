@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import it.lucichkevin.cip.Utils;
  * Create a drawer menu using a drawer layout (DRAWER_LAYOUT_ID) and populating the DRAWER_LIST_VIEW_ID with list of items (array of ItemDrawerMenu object) and attaching a callback to menu
  *
  * @author  Kevin Lucich
+ * @author  Marco Zanetti (various fix and new methods)
  * @version 1.1.0
 */
 public class DrawerLayoutHelper {
@@ -138,6 +140,15 @@ public class DrawerLayoutHelper {
 
         drawerLayout = (DrawerLayout) getActivity().findViewById(DRAWER_LAYOUT_ID);
         drawerListView = (ListView) getActivity().findViewById(DRAWER_LIST_VIEW_ID);
+
+        if( drawerLayout == null ){
+            Log.e("Cip-Library DrawerLayoutHelper", "ERROR: Resource for drawer_layout not found!");
+            return;
+        }
+        if( drawerListView == null ){
+            Log.e("Cip-Library DrawerLayoutHelper", "ERROR: Resource for drawer listView not found!");
+            return;
+        }
 
         ObjectAdapter<ItemDrawerMenu> adapter = new ObjectAdapter<ItemDrawerMenu>( getActivity(), R.layout.drawerlayouthelper_itemmenu, ARRAY_ITEMS_LIST ){
             @Override

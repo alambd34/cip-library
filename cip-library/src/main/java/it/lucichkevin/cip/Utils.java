@@ -7,10 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
 
 /**
-    @author Kevin on 14/02/14.
+    @author Kevin Lucich (14/02/14).
+    @author  Marco Zanetti - MarKco - method Utils.logger(String,int)
     @since      0.0.1
     @version    1.0.1
 
@@ -31,7 +35,8 @@ public class Utils {
 
     public static void init( Context context ){
         setContext(context);
-        setAppTag();
+        setAppTag();    //  Default: use getPackageName() method
+        PreferencesManager.init(context);
     }
     public static void init( Context context, String app_tag ){
         setContext(context);
@@ -91,7 +96,6 @@ public class Utils {
 
     /**
         Prints log ONLY if PreferencesManager.isDebugLog() it's true.
-        @author Marco Zanetti (on Github search: MarKco), Kevin Lucich [create Alias for param "app_tag"]
 
         @since  v0.4.0
         @param  app_tag     App tag to search the log
@@ -121,6 +125,11 @@ public class Utils {
     ///////////////////////////////////////////////////////
     //  Toaster
 
+    /**
+     *  Create a Toast on the device
+     *  @param  context     The context where display the toast
+     *  @param  msg         The message to display in the toast
+     */
     public static void Toaster( Context context, String msg ){
         if( PreferencesManager.isToasterToLogcat() ){
             Utils.logger( msg , LOG_INFO);
@@ -129,6 +138,12 @@ public class Utils {
         Toaster.showToast(context, msg);
     }
 
+    /**
+     *  Create a Toast on the device
+     *  @param  context     The context where display the toast
+     *  @param  msg         The message to display in the toast
+     *  @param  seconds     The time to view the toast
+     */
     public static void Toaster( Context context, String msg, int seconds ){
         if( seconds > 1 ){
             Toaster.showLongToast(context, msg, seconds);
@@ -206,6 +221,15 @@ public class Utils {
             }.start();
 
         }
+    }
+
+    /**
+     *  Get a List of Object of T type, and return an array
+     *  @param      list    The list to convert in array
+     *  @return     array
+    */
+    public static <T> T[] listToArray( List<T> list ){
+        return (T[]) Array.newInstance( Object.class, list.size() );
     }
 
 /*
