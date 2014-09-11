@@ -1,16 +1,16 @@
 package it.lucichkevin.cip.examples;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import it.lucichkevin.cip.Utils;
 
 
-public class SplashScreenActivity extends ActionBarActivity {
+public class SplashScreenActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

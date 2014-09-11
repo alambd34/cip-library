@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import it.lucichkevin.cip.examples.R;
@@ -32,6 +33,7 @@ public class FragmentMainTest extends Fragment {
         examplesList.add(new Example( "ObjectAdapter", new FragmentObjectAdapter() ) );
         examplesList.add(new Example( "ExpandablePanel", new FragmentExpandablePanel() ) );
         examplesList.add(new Example( "ExpandableTextView", new FragmentExpandableTextView() ) );
+        examplesList.add(new Example( "FragmentsDialogs", new FragmentsDialogs() ) );
 
         examplesArray = examplesList.toArray( new Example[examplesList.size()] );
 
@@ -44,7 +46,7 @@ public class FragmentMainTest extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_test_main, container, false);
 
-        ObjectAdapter<Example> adapter = new ObjectAdapter<Example>(getActivity(), android.R.layout.simple_list_item_1, examplesArray) {
+        ObjectAdapter<Example> adapter = new ObjectAdapter<Example>(getActivity(), android.R.layout.simple_list_item_1, examplesArray ){
             @Override
             protected void attachItemToLayout( Example example, int position ){
                 ((TextView) findViewById(android.R.id.text1)).setText( example.title );

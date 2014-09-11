@@ -8,5 +8,6 @@
     <string name="test_drawer_arrayitemnumber1">number 1</string>
     <string name="test_drawer_arrayitemnumber2">number 2</string>
     <string name="test_drawer_arrayitemnumber3">number 3</string>
+    <string name="show_prefereces">Prefereces List</string>
 
 </resources>

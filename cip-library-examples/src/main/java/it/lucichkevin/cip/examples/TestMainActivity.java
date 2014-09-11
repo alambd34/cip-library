@@ -18,7 +18,6 @@ public class TestMainActivity extends ActionBarActivity {
     private DrawerLayoutHelper drawerLayoutHelper = null;
     private ItemDrawerMenu[] ARRAY_ITEMS = new ItemDrawerMenu[]{
 
-        //  Duration in hours and minutes
         new ItemDrawerMenu( R.string.test_drawer_arrayitemnumber1, new ItemDrawerMenu.OnClickListener() {
             @Override
             public void onClick() {
@@ -26,7 +25,6 @@ public class TestMainActivity extends ActionBarActivity {
             }
         }),
 
-        //
         new ItemDrawerMenu( R.string.test_drawer_arrayitemnumber2, new ItemDrawerMenu.OnClickListener() {
             @Override
             public void onClick() {
@@ -34,7 +32,6 @@ public class TestMainActivity extends ActionBarActivity {
             }
         }),
 
-        //
         new ItemDrawerMenu( R.string.test_drawer_arrayitemnumber3, new ItemDrawerMenu.OnClickListener() {
             @Override
             public void onClick() {
@@ -42,6 +39,7 @@ public class TestMainActivity extends ActionBarActivity {
             }
         }),
 
+        new ItemDrawerMenu( R.string.show_prefereces, TestPreferencesListActivity.class),
     };
 
 
@@ -71,21 +69,12 @@ public class TestMainActivity extends ActionBarActivity {
         });
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu( Menu menu ){
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.test_main, menu);
-//        return true;
-//    }
-
     @Override
     public boolean onOptionsItemSelected( MenuItem item ){
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch( item.getItemId() ){
-//            case R.id.action_settings:
-//                return true;
             case android.R.id.home:
                 drawerLayoutHelper.toggle();
                 return true;

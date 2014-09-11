@@ -38,16 +38,16 @@ public class FragmentsDialogs extends Fragment{
         (Utils.findViewById( rootView, R.id.open_timepickerdialog )).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog dialog = new TimePickerDialog(getActivity());
-                dialog.show();
+                TimePickerDialog dialog = new TimePickerDialog();
+//                dialog.show();
             }
         });
 
         (Utils.findViewById( rootView, R.id.open_minutespickerdialog )).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MinutesPickerDialog dialog = new MinutesPickerDialog(getActivity());
-                dialog.show();
+                MinutesPickerDialog dialog = new MinutesPickerDialog();
+//                dialog.show();
             }
         });
 
