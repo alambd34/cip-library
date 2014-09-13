@@ -229,7 +229,7 @@ public class Utils {
      *  @return     array
     */
     public static <T> T[] listToArray( List<T> list ){
-        return (T[]) Array.newInstance( Object.class, list.size() );
+        return (T[]) list.toArray();
     }
 
 /*

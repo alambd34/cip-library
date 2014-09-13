@@ -47,7 +47,7 @@ public abstract class ObjectAdapter<T> extends ArrayAdapter<T> {
 
     public ObjectAdapter( Context context, int layout, List<T> objectsList ){
         //  Cast to Array
-        this( context, layout, Utils.listToArray(objectsList) );
+        this( context, layout, (T[]) objectsList.toArray() );
     }
 
     public ObjectAdapter( Context context, int layout, T[] items ){

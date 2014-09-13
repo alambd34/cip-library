@@ -3,6 +3,7 @@ package it.lucichkevin.cip.navigationdrawermenu;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -17,11 +18,11 @@ import it.lucichkevin.cip.R;
 import it.lucichkevin.cip.Utils;
 
 /**
- * Create a drawer menu using a drawer layout (DRAWER_LAYOUT_ID) and populating the DRAWER_LIST_VIEW_ID with list of items (array of ItemDrawerMenu object) and attaching a callback to menu
+ *  Create a drawer menu using a drawer layout (DRAWER_LAYOUT_ID) and populating the DRAWER_LIST_VIEW_ID with list of items (array of ItemDrawerMenu object) and attaching a callback to menu
  *
- * @author  Kevin Lucich
- * @author  Marco Zanetti (various fix and new methods)
- * @version 1.1.0
+ *  @author  Kevin Lucich
+ *  @author  Marco Zanetti (fixes and new methods)
+ *  @version 1.1.0
 */
 public class DrawerLayoutHelper {
 
@@ -42,25 +43,7 @@ public class DrawerLayoutHelper {
 //        new ItemDrawerMenu( R.string.prefs_choose_workday_length, new ItemDrawerMenu.OnClickListener() {
 //            @Override
 //            public void onClick() {
-//                final CustomTimeDialog dialog = new CustomTimeDialog(DrawerLayoutHelper.this.getActivity());
-//                dialog.setContentView(R.layout.time_preference);
-//                dialog.show();
-//            }
-//        }),
-//
-//        //
-//        new ItemDrawerMenu( R.string.prefs_delete_timings, new ItemDrawerMenu.OnClickListener() {
-//            @Override
-//            public void onClick() {
-//                ((WorkItOutMain) DrawerLayoutHelper.this.getActivity()).clearAllInput();
-//            }
-//        }),
-//
-//        //
-//        new ItemDrawerMenu( R.string.send_email, new ItemDrawerMenu.OnClickListener() {
-//            @Override
-//            public void onClick() {
-//                ((WorkItOutMain) DrawerLayoutHelper.this.getActivity()).sendMail();
+//                //    Do something....
 //            }
 //        }),
 //
@@ -73,7 +56,7 @@ public class DrawerLayoutHelper {
      * Create a empty drawer menu, will be attachd a empty callbacks
      *
      * @param   activity    The activity where including the drawer menu
-     * @since   Cip version 0.4.0
+     * @since   CipLibrary v0.4.0
      * @see     EmptyCallbacks
      */
     public DrawerLayoutHelper( final Activity activity ){
@@ -85,7 +68,7 @@ public class DrawerLayoutHelper {
      *
      * @param   activity            The activity where including the drawer menu
      * @param   ARRAY_ITEMS_LIST    Array of items of menu
-     * @since   Cip version 0.4.0
+     * @since   CipLibrary v0.4.0
      * @see     ItemDrawerMenu
      * @see     EmptyCallbacks
      */
@@ -99,7 +82,7 @@ public class DrawerLayoutHelper {
      * @param   activity            The activity where including the drawer menu
      * @param   ARRAY_ITEMS_LIST    Array of items of menu
      * @param   callbacks           Implementation of callbacks when an action performed to drawer menu
-     * @since   Cip version 0.4.0
+     * @since   CipLibrary v0.4.0
      * @see     ItemDrawerMenu
      * @see     Callbacks
      */
@@ -111,7 +94,7 @@ public class DrawerLayoutHelper {
      * Create a drawer menu, using a drawer layout (DRAWER_LAYOUT_ID) and populating the DRAWER_LIST_VIEW_ID with list of items (ARRAY_ITEMS_LIST)
      *
      * @param   activity    The activity where including the drawer menu
-     * @since   Cip version 0.4.0
+     * @since   CipLibrary v0.4.0
      * @see     EmptyCallbacks
      * @see     #DrawerLayoutHelper(android.app.Activity, int, int, ItemDrawerMenu[], it.lucichkevin.cip.navigationdrawermenu.DrawerLayoutHelper.Callbacks)
      */
@@ -123,28 +106,32 @@ public class DrawerLayoutHelper {
      * Create a drawer menu, using a drawer layout (DRAWER_LAYOUT_ID) and populating the DRAWER_LIST_VIEW_ID with list of items (ARRAY_ITEMS_LIST) and attaching a callback to menu
      *
      * @param   activity    The activity where including the drawer menu
-     * @since   Cip version 0.4.0
+     * @since   CipLibrary v0.4.0
      */
-    //  Delete the support.v7 (permette di chiamare .setHomeButtonEnabled() )
     public DrawerLayoutHelper( final Activity activity, int DRAWER_LAYOUT_ID, int DRAWER_LIST_VIEW_ID, final ItemDrawerMenu[] ARRAY_ITEMS_LIST, final Callbacks callbacks ){
 
         setActivity(activity);
         final ActionBar actionBar = activity.getActionBar();
 
-        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setHomeButtonEnabled(true);     //  API min Level 14
+        if( actionBar == null ){
+            Log.e("Cip-Library DrawerLayoutHelper", "ERROR: ActionBar is empty!");
+            return;
+        }
 
-        //  Dati di default dell'action bar
-//        defaultNavigationMode = actionBar.getNavigationMode();
         defaultTitle = actionBar.getTitle();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        if( Build.VERSION.SDK_INT >= 14 ){
+            //  API min Level 14
+            actionBar.setHomeButtonEnabled(true);
+        }
 
         drawerLayout = (DrawerLayout) getActivity().findViewById(DRAWER_LAYOUT_ID);
-        drawerListView = (ListView) getActivity().findViewById(DRAWER_LIST_VIEW_ID);
-
         if( drawerLayout == null ){
             Log.e("Cip-Library DrawerLayoutHelper", "ERROR: Resource for drawer_layout not found!");
             return;
         }
+
+        drawerListView = (ListView) getActivity().findViewById(DRAWER_LIST_VIEW_ID);
         if( drawerListView == null ){
             Log.e("Cip-Library DrawerLayoutHelper", "ERROR: Resource for drawer listView not found!");
             return;
@@ -178,7 +165,7 @@ public class DrawerLayoutHelper {
                 ItemDrawerMenu itemSelected = ARRAY_ITEMS_LIST[ position ];
 
                 if( itemSelected.getClassOfActivity() != null ){
-                    getActivity().startActivity(new Intent(getActivity(), itemSelected.getClassOfActivity()));
+                    getActivity().startActivity( new Intent(getActivity(), itemSelected.getClassOfActivity()) );
                 }else if( itemSelected.getOnClickListener() != null ){
                     itemSelected.getOnClickListener().onClick();
                 }else{
@@ -198,8 +185,6 @@ public class DrawerLayoutHelper {
 
             public void onDrawerOpened(View drawerView) {
                 callbacks.onDrawerOpen(getActivity(), drawerView);
-//                actionBar.setTitle(activity.getString(R.string.title_activity_settings));
-//                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             }
         };
 
@@ -221,7 +206,8 @@ public class DrawerLayoutHelper {
     }
 
 
-    //  Getter and setters
+    /////////////////////////////////////////
+    //  Getters and setters
 
     public Activity getActivity() {
         return activity;
@@ -250,7 +236,7 @@ public class DrawerLayoutHelper {
     //  Callbacks
 
     /**
-     * @since   Cip version 0.2.0
+     * @since   CipLibrary v0.2.0
      */
     public interface Callbacks{
         public void onDrawerOpen( Activity activity, View drawerView );
@@ -258,7 +244,7 @@ public class DrawerLayoutHelper {
     }
 
     /**
-     * @since   Cip version 0.4.2
+     * @since   CipLibrary v0.4.2
      */
     private static class DrawerLogCallbacks implements Callbacks{
         @Override

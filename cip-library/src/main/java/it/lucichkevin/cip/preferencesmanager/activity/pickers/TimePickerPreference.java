@@ -13,24 +13,14 @@ import android.widget.TimePicker;
  */
 public abstract class TimePickerPreference extends DialogPreference {
 
-    private int lastHour=0;
-    private int lastMinute=0;
+    private int hour = 0;
+    private int minute = 0;
     private TimePicker timePicker = null;
 
     public TimePickerPreference(Context context, AttributeSet attrs) {
         super( context, attrs );
         setPositiveButtonText("Set");
         setNegativeButtonText("Cancel");
-    }
-
-    public static int getHour(String time) {
-        String[] pieces=time.split(":");
-        return(Integer.parseInt(pieces[0]));
-    }
-
-    public static int getMinute(String time) {
-        String[] pieces=time.split(":");
-        return(Integer.parseInt(pieces[1]));
     }
 
     @Override
@@ -47,8 +37,8 @@ public abstract class TimePickerPreference extends DialogPreference {
     protected void onBindDialogView(View v) {
         super.onBindDialogView(v);
 
-        timePicker.setCurrentHour(lastHour);
-        timePicker.setCurrentMinute(lastMinute);
+        timePicker.setCurrentHour(hour);
+        timePicker.setCurrentMinute(minute);
     }
 
     @Override
@@ -60,24 +50,20 @@ public abstract class TimePickerPreference extends DialogPreference {
     }
 
     @Override
-    protected Object onGetDefaultValue(TypedArray a, int index) {
-        return(a.getString(index));
+    protected Object onGetDefaultValue( TypedArray a, int index ){
+        return a.getInt(index, 0);
     }
 
     @Override
-    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        String time = null;
-        if( restoreValue ){
-            if( defaultValue == null ){
-                time = getPersistedString("00:00");
-            }else{
-                time = getPersistedString( defaultValue.toString() );
-            }
-        }else{
-            time = defaultValue.toString();
+    protected void onSetInitialValue(boolean restoreValue, Object _defaultValue) {
+        Integer defaultInMillies = (Integer) _defaultValue;
+        hour = 0;
+        minute = 0;
+
+        if( restoreValue && defaultInMillies != null && defaultInMillies != 0 ){
+            hour = (int) defaultInMillies / 3600000;
+            minute = defaultInMillies - (hour * 3600000);
         }
-        lastHour=getHour(time);
-        lastMinute=getMinute(time);
     }
 
 

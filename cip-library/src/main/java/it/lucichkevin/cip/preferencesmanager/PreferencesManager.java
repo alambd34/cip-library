@@ -249,7 +249,6 @@ public class PreferencesManager {
         //  The variable is using as placeholder
         if( is_first_run == null ){
             is_first_run = PreferencesManager.is(KEY_FIRST_RUN_OF_APP, true);
-            Utils.logger("[PREFERENCESMANAGER - isFirstRun()] la variabile is_first_run è NULL -> la popolo con questo valore: "+ String.valueOf(is_first_run), Utils.LOG_DEBUG );
         }
         return is_first_run;
     }

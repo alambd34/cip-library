@@ -18,7 +18,6 @@ import it.lucichkevin.cip.Utils;
     Create a dialog with a two NumberPickers to choose hours and minutes
 
     @author     Kevin Lucich    2014-09-03
-    @version	0.1.0
     @since      0.3.0
  */
 public class TimePickerDialog extends DialogFragment {

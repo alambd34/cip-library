@@ -48,15 +48,6 @@ public class TestMainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_main);
 
-        if( savedInstanceState != null ){
-            return;
-        }
-
-        getFragmentManager().beginTransaction()
-                .addToBackStack( "Main" )
-                .add( R.id.container, new FragmentMainTest() )
-                .commit();
-
         drawerLayoutHelper = new DrawerLayoutHelper( TestMainActivity.this, R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS, new DrawerLayoutHelper.Callbacks() {
             @Override
             public void onDrawerOpen( Activity activity, View drawerView) {
@@ -67,6 +58,16 @@ public class TestMainActivity extends ActionBarActivity {
                 Utils.Toaster( activity, "Drawer closed!");
             }
         });
+
+        if( savedInstanceState != null ){
+            return;
+        }
+
+        getFragmentManager().beginTransaction()
+                .addToBackStack( "Main" )
+                .add( R.id.container, new FragmentMainTest() )
+                .commit();
+
     }
 
     @Override

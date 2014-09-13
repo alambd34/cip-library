@@ -1,6 +1,17 @@
 
+v0.5.2
+    [FIX]   MinutesPickerDialog: fix visibility (hide) of divider
+    [ADD]   Now ItemPreference support the callback onPreferenceChange(Preference,Object) and onPreferenceClick(Preference)
+    [ADD]   ItemPreferences type: ItemPreferences.TYPE_MINUTEPICKER
+
+v0.5.1
+    [FIX]   Clean logic of PreferencesListActivity and PreferencesListFragment
+    [ADD]   ItemPreferences types: ItemPreferences.TYPE_TIMEPICKER and ItemPreferences.TYPE_DATEPICKER
+
 v0.5.0
-    [ADD]   PreferecesListActivity and PreferencesListFragment, used to manager with interface the Preferences
+    [ADD]   PreferencesListActivity and PreferencesListFragment, used to manager with interface the Preferences
+    [ADD]   ItemPreferences type: ItemPreferences.TYPE_SWITCH
+
 
 v0.4.6
     [FIX]   TimePickerDialog and MinutesPickerDialog constructor without param initialize context with Utils.getContext()

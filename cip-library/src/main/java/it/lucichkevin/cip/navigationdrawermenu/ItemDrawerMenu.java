@@ -2,10 +2,9 @@ package it.lucichkevin.cip.navigationdrawermenu;
 
 /**
 
-
     @author     Kevin Lucich (30/05/2014)
     @version	1.0.0
-    @since      Cip v0.2.0
+    @since      CipLibrary v0.2.0
 */
 public class ItemDrawerMenu {
 
@@ -32,6 +31,10 @@ public class ItemDrawerMenu {
         this.classOfActivity = classOfActivity;
         this.onClickListener = onClickListener;
     }
+
+
+    /////////////////////////////////////////
+    //  Getters and setters
 
     public Integer getTitle() {
         return title;
@@ -61,7 +64,11 @@ public class ItemDrawerMenu {
         this.onClickListener = onClickListener;
     }
 
+
+
+    /////////////////////////////////////////
     //  Callback
+
     public static interface OnClickListener{
         public void onClick();
     }
