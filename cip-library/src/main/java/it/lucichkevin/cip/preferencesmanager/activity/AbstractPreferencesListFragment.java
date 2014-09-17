@@ -72,7 +72,7 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
                     preference = new TimePickerPreference(getActivity(), null) {
                         @Override
                         public void onSetTime(int hour, int minute) {
-//                            Utils.logger("onSetTime -> hour = "+ hour +" / minute = "+ minute, Utils.LOG_DEBUG );
+                            //  Do nothing...
                         }
                     };
                     break;
@@ -81,7 +81,7 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
                     preference = new DatePickerPreference(getActivity(), null) {
                         @Override
                         public void onSetDate(Date date) {
-//                            Utils.logger("DatePickerPreference -> onSetDate -> date = "+ date, Utils.LOG_DEBUG );
+                            //  Do nothing...
                         }
                     };
                     break;
@@ -90,7 +90,7 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
                     preference = new MinutePickerPreference(getActivity(), null) {
                         @Override
                         public void onSetTime( int minute ) {
-//                            Utils.logger("MinutePickerPreference -> minute = "+ minute, Utils.LOG_DEBUG );
+                            //  Do nothing...
                         }
                     };
                     break;
@@ -108,7 +108,6 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
             preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange( Preference preference, Object newValue ){
-                    Utils.logger("setOnPreferenceChangeListener -> onPreferenceChange", Utils.LOG_DEBUG);
                     if( item.getOnPreferenceChangeListener() == null ){
                         //  Communicate to Preferences method that new value must be saved
                         return true;

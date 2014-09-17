@@ -153,7 +153,6 @@ public class DrawerLayoutHelper {
         drawerListView.setAdapter(adapter);
 
         // Set the list's click listener
-//        drawerListView.setOnItemClickListener(new DrawerItemClickListener());
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
