@@ -1,20 +1,6 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-def checkVisibilityCredentials(){
-    if( hasProperty('nexusUsername') ){
-        println '\n'+'I can see the nexusUsername!'
-    }else{
-        println '\n'+'I can NOT see the nexusUsername!'
-    }
-    if( hasProperty('nexusPassword') ){
-        println 'I can see the nexusPassword!'+'\n'
-    }else{
-        println 'I can NOT see the nexusPassword!'+'\n'
-    }
-}
-
-checkVisibilityCredentials()
 
 def isAlphaBuild() {
     return android.defaultConfig.versionName.contains("-ALPHA") == true
@@ -52,42 +38,66 @@ def getVersionBuild() {
 
 def getSonatypeRepositoryUrl(){
     def url = ""
+
     if( isReleaseBuild() ){
         url = hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
     } else if( isSnapshotBuild() ){
         url = hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL : "https://oss.sonatype.org/content/repositories/snapshots/"
     }else{
-        url = System.getProperty("user.home") + "/.m2/repository/"
+        url = repositories.mavenLocal().url
     }
-
-    println '\n'+'Checking build type... '+ getVersionBuild() +' (versionName: '+ android.defaultConfig.versionName +')'
 
     return url
 }
 
 
 def getRepositoryUsername() {
-    def user = hasProperty('nexusUsername') ? nexusUsername : ""
-    println 'Getting nexusUsername: '+ user
-    return user
+    return hasProperty('nexusUsername') ? nexusUsername : ""
 }
 
 def getRepositoryPassword() {
-    def pwd = hasProperty('nexusPassword') ? nexusPassword : ""
-    println 'Getting password: '+ pwd +'\n'
-    return pwd
+    return hasProperty('nexusPassword') ? nexusPassword : ""
 }
 
 
+def valueMasked( value ){
+    return value.replaceFirst( value.subSequence( 1, value.length()-1 ),{ match ->
+        return "".padLeft(match.length(),"*")
+    })
+}
+
+def getInfoUpload(){
+
+    println '\n'
+
+    def username = getRepositoryUsername()
+    def password = getRepositoryPassword()
+
+    println 'Getting username: '+ ((username!='') ? username : 'Error to get "nexusUsername" var')
+    println 'Getting password: '+ ((password!='') ? valueMasked(password) : 'Error to get "nexusPassword" var')
+    println 'Build type: '+ getVersionBuild() +' (versionName: '+ android.defaultConfig.versionName +')'
+    println 'Url to upload: '+ getSonatypeRepositoryUrl()
+
+    println ''
+}
+
 afterEvaluate { project ->
     uploadArchives {
+
+        getInfoUpload()
+
         repositories {
             mavenDeployer {
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
                 pom.artifactId = POM_ARTIFACT_ID
-                repository(url: getSonatypeRepositoryUrl()) {
-                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+
+                repository( url: getSonatypeRepositoryUrl() ){
+                    authentication(
+                        userName: getRepositoryUsername(),
+                        password: getRepositoryPassword()
+                    )
                 }
+
                 pom.project {
                     name POM_NAME
                     packaging POM_PACKAGING

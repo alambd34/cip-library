@@ -9,52 +9,35 @@ import it.lucichkevin.cip.R;
 import it.lucichkevin.cip.Utils;
 
 /**
- * Created by kevin on 04/09/14.
+ * @author  Kevin Lucich (04/09/14)
  */
 public class DialogHelper {
 
-    private Context context;
-    private int title;
-    private int message;
-    private int btn_text;
-
     //  Default behavior - Log (if in debug) and close dialog
-    private DialogHelper.Callbacks callbacks = new DialogHelper.EmptyCallbacks(){
+    private static final DialogHelper.Callbacks callbacks = new DialogHelper.EmptyCallbacks(){
         public void onClickButton( DialogInterface dialog, int which ){
             super.onClickButton( dialog, which );
-            Utils.logger("CipLibrary.WelcomeDialog","Callback onClickButton() called!", Utils.LOG_INFO );
+            Utils.logger("CipLibrary.DialogHelper","Callback onClickButton() called!", Utils.LOG_INFO );
         }
     };
 
-    private static final int DEFAULT_TITLE = R.string.welcomedialog_title;
-    private static final int DEFAULT_MESSAGE = R.string.welcomedialog_message;
-    private static final int BTN_TEXT = R.string.welcomedialog_neutral_btn_text;
+//    private static final int DEFAULT_TITLE = R.string.dialoghelper_title;
+    private static final int DEFAULT_MESSAGE = R.string.dialoghelper_message;
+    private static final int BTN_TEXT = R.string.dialoghelper_neutral_btn_text;
 
-    public DialogHelper(){
-        this(Utils.getContext());
+    public static void show( Context context, int title ){
+        show( context, title, DEFAULT_MESSAGE, BTN_TEXT, callbacks );
     }
 
-    public DialogHelper( Context context ){
-        this( Utils.getContext(), DEFAULT_TITLE, DEFAULT_MESSAGE, BTN_TEXT );
+    public static void show( Context context, int title, int message ){
+        show( context, title, message, BTN_TEXT, callbacks );
     }
 
-    public DialogHelper( Context context, int title, int message, int btn_text, Callbacks callbacks ){
-        this(context, title, message, btn_text);
-        setCallbacks(callbacks);
+    public static void show( Context context, int title, int message, int btn_text ){
+        show( context, title, message, btn_text, callbacks );
     }
 
-    public DialogHelper( Context context, int title, int message, int btn_text ){
-        this.context = context;
-        this.title = title;
-        this.message = message;
-        this.btn_text = btn_text;
-    }
-
-    public void setCallbacks( Callbacks callbacks ){
-        this.callbacks = callbacks;
-    }
-
-    public void show(){
+    public static void show( Context context, int title, int message, int btn_text, final Callbacks callbacks ){
         try {
             new AlertDialog.Builder(context)
                 .setTitle(context.getString(title))

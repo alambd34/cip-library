@@ -63,7 +63,7 @@ public class TestMainActivity extends ActionBarActivity {
             return;
         }
 
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .addToBackStack( "Main" )
                 .add( R.id.container, new FragmentMainTest() )
                 .commit();
@@ -81,6 +81,12 @@ public class TestMainActivity extends ActionBarActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.init(TestMainActivity.this);
     }
 
 }

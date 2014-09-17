@@ -1,6 +1,5 @@
 package it.lucichkevin.cip.preferencesmanager.activity;
 
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 
-import it.lucichkevin.cip.ObjectAdapter;
 import it.lucichkevin.cip.Utils;
 import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
 import it.lucichkevin.cip.preferencesmanager.activity.pickers.DatePickerPreference;
@@ -29,7 +27,7 @@ import it.lucichkevin.cip.preferencesmanager.activity.pickers.TimePickerPreferen
  */
 public abstract class AbstractPreferencesListFragment extends PreferenceFragment {
 
-    protected ArrayList<ItemPreference> items;
+    protected ArrayList<ItemPreference> items = new ArrayList<ItemPreference>();
 
     public AbstractPreferencesListFragment() {
 
@@ -38,11 +36,12 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         populatePreferencesList();
         setPreferenceScreen( createPreferenceHierarchy() );
     }
 
-    private PreferenceScreen createPreferenceHierarchy() {
+    protected PreferenceScreen createPreferenceHierarchy() {
 
         PreferenceScreen root = getPreferenceManager().createPreferenceScreen(getActivity());
 
@@ -73,8 +72,7 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
                     preference = new TimePickerPreference(getActivity(), null) {
                         @Override
                         public void onSetTime(int hour, int minute) {
-                            long timeInMillies = (hour * 60 + minute) * 60000;
-                            PreferencesInterface.setPreferences(item.getKey(), timeInMillies);
+//                            Utils.logger("onSetTime -> hour = "+ hour +" / minute = "+ minute, Utils.LOG_DEBUG );
                         }
                     };
                     break;
@@ -83,7 +81,7 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
                     preference = new DatePickerPreference(getActivity(), null) {
                         @Override
                         public void onSetDate(Date date) {
-                            PreferencesInterface.setPreferences(item.getKey(), date.getTime());
+//                            Utils.logger("DatePickerPreference -> onSetDate -> date = "+ date, Utils.LOG_DEBUG );
                         }
                     };
                     break;
@@ -92,14 +90,14 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
                     preference = new MinutePickerPreference(getActivity(), null) {
                         @Override
                         public void onSetTime( int minute ) {
-                            PreferencesInterface.setPreferences( item.getKey(), minute );
+//                            Utils.logger("MinutePickerPreference -> minute = "+ minute, Utils.LOG_DEBUG );
                         }
                     };
                     break;
 
                 default:
                     //  Type not valid, no will be added the preference :)
-                    Utils.logger("[CipLibrary -> createPreferenceHierarchy()] Type preference ("+ item.getType() +") unknow", Utils.LOG_ERROR );
+                    Utils.logger("[CipLibrary -> createPreferenceHierarchy()] Type preference ("+ item.getType() +") unknown", Utils.LOG_ERROR );
                     continue;
             }
 
@@ -110,6 +108,7 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
             preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange( Preference preference, Object newValue ){
+                    Utils.logger("setOnPreferenceChangeListener -> onPreferenceChange", Utils.LOG_DEBUG);
                     if( item.getOnPreferenceChangeListener() == null ){
                         //  Communicate to Preferences method that new value must be saved
                         return true;
@@ -134,7 +133,7 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
         return root;
     }
 
-    private PreferenceCategory newCategory( String title ){
+    protected PreferenceCategory newCategory( String title ){
         PreferenceCategory inlinePrefCat = new PreferenceCategory(getActivity());
         inlinePrefCat.setTitle( title );
         return inlinePrefCat;
@@ -160,27 +159,24 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
 }
 
 
-
-
-
 //  Creata per rendere pubblici i metodi "protetti" nel PreferecesManager
 class PreferencesInterface extends PreferencesManager{
     public static void setPreferences( String key, Boolean value ){
-        setPreferences(key, value);
+        PreferencesManager.setPreferences(key, value);
     }
     public static void setPreferences( String key, int value ){
-        setPreferences(key, value);
+        PreferencesManager.setPreferences(key, value);
     }
     public static void setPreferences( String key, long value ){
-        setPreferences(key, value);
+        PreferencesManager.setPreferences(key, value);
     }
     public static void setPreferences( String key, float value ){
-        setPreferences(key, value);
+        PreferencesManager.setPreferences(key, value);
     }
     public static void setPreferences( String key, String value ){
-        setPreferences(key, value);
+        PreferencesManager.setPreferences(key, value);
     }
     public static void setPreferences( String key, Set<String> value ){
-        setPreferences(key, value);
+        PreferencesManager.setPreferences(key, value);
     }
 }

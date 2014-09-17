@@ -1,6 +1,5 @@
 package it.lucichkevin.cip.preferencesmanager.activity;
 
-import android.content.Context;
 import android.preference.Preference;
 
 import it.lucichkevin.cip.Utils;

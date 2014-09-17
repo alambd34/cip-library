@@ -1,6 +1,7 @@
 package it.lucichkevin.cip.dialogs.pickers;
 
 import android.app.Dialog;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -80,6 +81,9 @@ public class TimePickerDialog extends DialogFragment {
         });
     }
 
+    public void show( FragmentManager fragmentManager ){
+        super.show( fragmentManager, "PickerDialog-" + Math.random()*100 );
+    }
 
     ///////////////////////////////
     //  Getters and Setters

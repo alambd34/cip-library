@@ -1,7 +1,7 @@
 package it.lucichkevin.cip.examples.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import it.lucichkevin.cip.examples.R;
@@ -62,7 +61,7 @@ public class FragmentMainTest extends Fragment {
 
                 Example example = examplesArray[position];
 
-                activity.getFragmentManager().beginTransaction()
+                getFragmentManager().beginTransaction()
                         .addToBackStack( example.title )
                         .replace( R.id.container, example.fragment_instance )
                         .commit();

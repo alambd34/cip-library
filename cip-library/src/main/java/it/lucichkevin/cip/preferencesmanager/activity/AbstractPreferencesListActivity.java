@@ -1,7 +1,6 @@
 package it.lucichkevin.cip.preferencesmanager.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.ViewGroup.LayoutParams;
@@ -28,13 +27,11 @@ import java.util.ArrayList;
 public abstract class AbstractPreferencesListActivity extends Activity {
 
     private AbstractPreferencesListFragment fragment;
-    protected ArrayList<ItemPreference> items;
+    protected ArrayList<ItemPreference> items = new ArrayList<ItemPreference>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        populatePreferencesList();
 
         FrameLayout frame = new FrameLayout( this, null );
         addContentView(frame, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -45,6 +42,8 @@ public abstract class AbstractPreferencesListActivity extends Activity {
                 //  Do nothing :)
             }
         };
+
+        populatePreferencesList();
 
         fragment.setItems(items);
 

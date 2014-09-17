@@ -1,20 +1,22 @@
 package it.lucichkevin.cip.preferencesmanager.activity.pickers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;
-import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.TimePicker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
+import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
+
 /**
- * Created by kevin on 11/09/14.
+ *  @author     Kevin Lucich (11/09/14)
  */
 public abstract class DatePickerPreference extends DialogPreference {
 
@@ -28,50 +30,42 @@ public abstract class DatePickerPreference extends DialogPreference {
 
     @Override
     protected View onCreateDialogView() {
-        Context context = getContext();
-        datePicker = new DatePicker(context);
-        return datePicker;
-    }
+        datePicker = new DatePicker(getContext());
 
-    @Override
-    protected void onBindDialogView( View v ){
-        super.onBindDialogView(v);
+        long millis = PreferencesManager.getPreferences().getLong(getKey(), 0L);
+
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        if( millis != 0 ){
+            c.setTimeInMillis(millis);
+        }
+        datePicker.updateDate( c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH) );
+
+        return datePicker;
     }
 
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, datePicker.getYear());
+        calendar.set(Calendar.MONTH, datePicker.getMonth());
+        calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
         if( positiveResult ){
-            Date dateSelected;
-            try {
-                dateSelected = (new SimpleDateFormat("yyyy-mm-dd")).parse(datePicker.getYear() +"-"+ datePicker.getMonth() +"-"+ datePicker.getDayOfMonth());
-            } catch (ParseException e) {
-                e.printStackTrace();
-                dateSelected = new Date();
-            }
-            onSetDate(dateSelected);
+            SharedPreferences.Editor editor = getEditor();
+            editor.putLong( getKey(), calendar.getTimeInMillis() );
+            editor.commit();
+            onSetDate( calendar.getTime() );
         }
     }
-
-    @Override
-    protected Object onGetDefaultValue(TypedArray a, int index) {
-        return(a.getString(index));
-    }
-
-    @Override
-    protected void onSetInitialValue(boolean restoreValue, Object defaultValue ){
-        String time = null;
-        if( restoreValue ){
-            if( defaultValue == null ){
-                time = getPersistedString("00:00");
-            }else{
-                time = getPersistedString( defaultValue.toString() );
-            }
-        }else{
-            time = defaultValue.toString();
-        }
-    }
-
 
     public abstract void onSetDate( Date date );
 }

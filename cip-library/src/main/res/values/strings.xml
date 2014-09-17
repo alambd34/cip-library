@@ -6,8 +6,8 @@
     <string name="close">Close</string>
     <string name="btn_negative">Close</string>
     <string name="btn_positive">Ok</string>
-    <string name="welcomedialog_neutral_btn_text">Close</string>
-    <string name="welcomedialog_title">Welcome!</string>
-    <string name="welcomedialog_message">Hello world! :)</string>
+    <string name="dialoghelper_neutral_btn_text">Close</string>
+    <string name="dialoghelper_title">Welcome!</string>
+    <string name="dialoghelper_message">Hello world! :)</string>
 
 </resources>

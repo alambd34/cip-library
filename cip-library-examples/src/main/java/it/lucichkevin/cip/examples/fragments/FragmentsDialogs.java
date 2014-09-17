@@ -1,6 +1,6 @@
 package it.lucichkevin.cip.examples.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,7 @@ import it.lucichkevin.cip.dialogs.pickers.TimePickerDialog;
 import it.lucichkevin.cip.examples.R;
 
 /**
- * Created by kevin on 08/09/14.
+ * @author  Kevin Lucich (08/09/14)
  */
 public class FragmentsDialogs extends Fragment{
 
@@ -30,8 +30,7 @@ public class FragmentsDialogs extends Fragment{
         (Utils.findViewById( rootView, R.id.open_dialoghelper )).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogHelper dialog = new DialogHelper();
-                dialog.show();
+                DialogHelper.show( getActivity(), R.string.dialoghelper_title, R.string.dialoghelper_message );
             }
         });
 
@@ -39,7 +38,7 @@ public class FragmentsDialogs extends Fragment{
             @Override
             public void onClick(View v) {
                 TimePickerDialog dialog = new TimePickerDialog();
-//                dialog.show();
+                dialog.show( getFragmentManager(), "TimePickerDialog" );
             }
         });
 
@@ -47,7 +46,7 @@ public class FragmentsDialogs extends Fragment{
             @Override
             public void onClick(View v) {
                 MinutesPickerDialog dialog = new MinutesPickerDialog();
-//                dialog.show();
+                dialog.show( getFragmentManager(), "MinutesPickerDialog" );
             }
         });
 
