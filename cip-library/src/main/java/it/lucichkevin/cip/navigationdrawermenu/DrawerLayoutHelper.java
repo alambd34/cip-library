@@ -166,12 +166,13 @@ public class DrawerLayoutHelper {
 
                 if( itemSelected.getClassOfActivity() != null ){
                     getActivity().startActivity( new Intent(getActivity(), itemSelected.getClassOfActivity()) );
-                }else if( itemSelected.getOnClickListener() != null ){
-                    itemSelected.getOnClickListener().onClick();
-                }else{
-                    Utils.Toaster( getActivity(), "position = "+ position +"\n TITLE: "+ itemSelected.getTitle() );
                 }
 
+                if( itemSelected.getOnClickListener() != null ){
+                    itemSelected.getOnClickListener().onClick();
+                }
+
+                //    Utils.Toaster( getActivity(), "position = "+ position +"\n TITLE: "+ itemSelected.getTitle() );
             }
         });
 

@@ -21,6 +21,10 @@ public class ItemDrawerMenu {
         this( title, null, null, onClickListener );
     }
 
+    public ItemDrawerMenu( Integer title, Class classOfActivity, OnClickListener onClickListener ){
+        this( title, null, classOfActivity, onClickListener );
+    }
+
     public ItemDrawerMenu( Integer title, Integer image, Class classOfActivity ){
         this( title, image, classOfActivity, null );
     }
