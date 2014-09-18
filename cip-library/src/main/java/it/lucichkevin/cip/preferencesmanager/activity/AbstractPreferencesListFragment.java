@@ -11,10 +11,8 @@ import android.preference.SwitchPreference;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 
 import it.lucichkevin.cip.Utils;
-import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
 import it.lucichkevin.cip.preferencesmanager.activity.pickers.DatePickerPreference;
 import it.lucichkevin.cip.preferencesmanager.activity.pickers.MinutePickerPreference;
 import it.lucichkevin.cip.preferencesmanager.activity.pickers.TimePickerPreference;
@@ -37,6 +35,7 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ItemPreference.setContext( getActivity() );
         populatePreferencesList();
         setPreferenceScreen( createPreferenceHierarchy() );
     }
@@ -63,8 +62,14 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
                 case ItemPreference.TYPE_SWITCH:
                     if (Build.VERSION.SDK_INT < 14) {
                         preference = new CheckBoxPreference(getActivity());
+                        if( item.getDefaultValue() != null ) {
+                            ((CheckBoxPreference) preference).setChecked((Boolean) item.getDefaultValue());
+                        }
                     } else {
                         preference = new SwitchPreference(getActivity());
+                        if( item.getDefaultValue() != null ){
+                            ((SwitchPreference) preference).setChecked( (Boolean) item.getDefaultValue() );
+                        }
                     }
                     break;
 
@@ -101,6 +106,9 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
                     continue;
             }
 
+            if( item.getDefaultValue() != null ){
+                preference.setDefaultValue( item.getDefaultValue() );
+            }
             preference.setKey(item.getKey());
             preference.setTitle(item.getTitle());
             preference.setSummary(item.getSummary());
@@ -139,43 +147,48 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
     }
 
     /**
-     *  Populate in this method the ArratList with ItemPreferece
+     *  Populate in this method the ArrayList with ItemPreference
      */
     protected abstract void populatePreferencesList();
 
     protected void populatePreferencesListWithDefault(){
-        items.add(new ItemPreference("DEBUG_LOG", "Debug Log", "Check this if you want debug logging enabled on logcat", ItemPreference.TYPE_SWITCH ));
-        items.add(new ItemPreference("TOASTER_TO_LOGCAT", "Toast vs. Log", "Check this and all toasts will be converted in Info Log", ItemPreference.TYPE_SWITCH ));
+
+        ItemPreference DEBUG_LOG = new ItemPreference("DEBUG_LOG", "Debug Log", "Check this if you want debug logging enabled on log cat", ItemPreference.TYPE_SWITCH, false );
+
+        ItemPreference TOASTER_TO_LOGCAT = new ItemPreference("TOASTER_TO_LOGCAT", "Toast vs. Log", "Check this and all toasts will be converted in Info Log", ItemPreference.TYPE_SWITCH, false );
+
+        items.add(DEBUG_LOG);
+        items.add(TOASTER_TO_LOGCAT);
     }
 
     protected void setItems( ArrayList<ItemPreference> items ){
         this.items = items;
     }
-    protected ArrayList<ItemPreference> getItems(){
-        return items;
-    }
+//    protected ArrayList<ItemPreference> getItems(){
+//        return items;
+//    }
 
 }
 
-
-//  Creata per rendere pubblici i metodi "protetti" nel PreferecesManager
-class PreferencesInterface extends PreferencesManager{
-    public static void setPreferences( String key, Boolean value ){
-        PreferencesManager.setPreferences(key, value);
-    }
-    public static void setPreferences( String key, int value ){
-        PreferencesManager.setPreferences(key, value);
-    }
-    public static void setPreferences( String key, long value ){
-        PreferencesManager.setPreferences(key, value);
-    }
-    public static void setPreferences( String key, float value ){
-        PreferencesManager.setPreferences(key, value);
-    }
-    public static void setPreferences( String key, String value ){
-        PreferencesManager.setPreferences(key, value);
-    }
-    public static void setPreferences( String key, Set<String> value ){
-        PreferencesManager.setPreferences(key, value);
-    }
-}
+//
+////  Creata per rendere pubblici i metodi "protetti" del PreferencesManager
+//class PreferencesInterface extends PreferencesManager{
+//    public static void setPreferences( String key, Boolean value ){
+//        PreferencesManager.setPreferences(key, value);
+//    }
+//    public static void setPreferences( String key, int value ){
+//        PreferencesManager.setPreferences(key, value);
+//    }
+//    public static void setPreferences( String key, long value ){
+//        PreferencesManager.setPreferences(key, value);
+//    }
+//    public static void setPreferences( String key, float value ){
+//        PreferencesManager.setPreferences(key, value);
+//    }
+//    public static void setPreferences( String key, String value ){
+//        PreferencesManager.setPreferences(key, value);
+//    }
+//    public static void setPreferences( String key, Set<String> value ){
+//        PreferencesManager.setPreferences(key, value);
+//    }
+//}

@@ -33,6 +33,8 @@ public abstract class AbstractPreferencesListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ItemPreference.setContext( AbstractPreferencesListActivity.this );
+
         FrameLayout frame = new FrameLayout( this, null );
         addContentView(frame, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 

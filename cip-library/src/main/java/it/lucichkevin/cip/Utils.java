@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 import it.lucichkevin.cip.preferencesmanager.PreferencesManager;

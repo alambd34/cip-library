@@ -15,6 +15,7 @@ import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
  */
 public abstract class TimePickerPreference extends DialogPreference {
 
+    protected Integer default_minute = null;
     protected TimePicker timePicker = null;
 
     public TimePickerPreference(Context context, AttributeSet attrs) {
@@ -26,12 +27,14 @@ public abstract class TimePickerPreference extends DialogPreference {
 
     @Override
     protected View onCreateDialogView() {
-        Context context = getContext();
 
-        timePicker = new TimePicker(context);
-        timePicker.setIs24HourView(DateFormat.is24HourFormat(context));
+        timePicker = new TimePicker(getContext());
+        timePicker.setIs24HourView(DateFormat.is24HourFormat(getContext()));
 
-        int minute = PreferencesManager.getPreferences().getInt(getKey(),0);
+        int minute = 0;
+        if( default_minute != null ){
+            minute = default_minute;
+        }
         int hour = minute / 60;
         minute = minute - (hour * 60);
 
@@ -54,6 +57,15 @@ public abstract class TimePickerPreference extends DialogPreference {
             editor.commit();
 
             onSetTime( hour, minute );
+        }
+    }
+
+    @Override
+    protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
+        if( defaultValue != null ){
+            default_minute = (Integer) defaultValue;
+        }else{
+            default_minute = PreferencesManager.getPreferences().getInt(getKey(), 0);
         }
     }
 

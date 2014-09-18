@@ -1,15 +1,10 @@
 package it.lucichkevin.cip.preferencesmanager.activity.pickers;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.NumberPicker;
-import android.widget.TimePicker;
 
 import java.lang.reflect.Field;
-
-import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
 
 /**
  *  @author     Kevin Lucich (11/09/14)
@@ -21,14 +16,26 @@ public abstract class MinutePickerPreference extends TimePickerPreference {
     }
 
     @Override
-    protected View onCreateDialogView() {
-        return super.onCreateDialogView();
+    protected View onCreateDialogView(){
+        super.onCreateDialogView();
+
+        try {
+            Class<?> classForId = Class.forName("com.android.internal.R$id");
+            Field minute = classForId.getField("hour");
+            Field divider = classForId.getField("divider");
+            (timePicker.findViewById(minute.getInt(null))).setVisibility(View.GONE);
+            (timePicker.findViewById(divider.getInt(null))).setVisibility(View.GONE);
+        }catch( Exception e ){
+            e.printStackTrace();
+        }
+
+        return timePicker;
     }
 
     public abstract void onSetTime( int minute );
 
     @Override
-    public void onSetTime(int hour, int minute) {
+    public void onSetTime( int hour, int minute ){
         onSetTime(minute);
     }
 

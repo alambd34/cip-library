@@ -2,14 +2,11 @@ package it.lucichkevin.cip.preferencesmanager.activity.pickers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.DatePicker;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -20,6 +17,7 @@ import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
  */
 public abstract class DatePickerPreference extends DialogPreference {
 
+    private Long default_millis = null;
     private DatePicker datePicker = null;
 
     public DatePickerPreference( Context context, AttributeSet attrs ){
@@ -32,14 +30,12 @@ public abstract class DatePickerPreference extends DialogPreference {
     protected View onCreateDialogView() {
         datePicker = new DatePicker(getContext());
 
-        long millis = PreferencesManager.getPreferences().getLong(getKey(), 0L);
-
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
-        if( millis != 0 ){
-            c.setTimeInMillis(millis);
+        if( default_millis != null ){
+            c.setTimeInMillis(default_millis);
         }
         datePicker.updateDate( c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH) );
 
@@ -64,6 +60,15 @@ public abstract class DatePickerPreference extends DialogPreference {
             editor.putLong( getKey(), calendar.getTimeInMillis() );
             editor.commit();
             onSetDate( calendar.getTime() );
+        }
+    }
+
+    @Override
+    protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
+        if( defaultValue != null ){
+            default_millis = (Long) defaultValue;
+        }else{
+            default_millis = PreferencesManager.getPreferences().getLong(getKey(), 0 );
         }
     }
 
