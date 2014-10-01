@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/cip.iml" filepath="$PROJECT_DIR$/cip.iml" />
       <module fileurl="file://$PROJECT_DIR$/cip-library/cip-library.iml" filepath="$PROJECT_DIR$/cip-library/cip-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/cip-library-examples/cip-library-examples.iml" filepath="$PROJECT_DIR$/cip-library-examples/cip-library-examples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/greenDaoGeneratorHelper/greenDaoGeneratorHelper.iml" filepath="$PROJECT_DIR$/greenDaoGeneratorHelper/greenDaoGeneratorHelper.iml" />
     </modules>
   </component>
 </project>

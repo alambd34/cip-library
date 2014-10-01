@@ -1,1 +1,1 @@
-include ':cip-library', ':cip-library-examples'
+include ':cip-library', ':cip-library-examples', ':greenDaoGeneratorHelper'

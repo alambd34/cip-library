@@ -2,6 +2,7 @@ package it.lucichkevin.cip;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
@@ -30,16 +31,20 @@ public class Utils {
 
     private static Context context = null;
 
+    private static String ID_DEVICE = null;
     private static String APP_TAG = "";
 
     public static void init( Context context ){
         setContext(context);
         setAppTag();    //  Default: use getPackageName() method
+        setIdDevice();
         PreferencesManager.init(context);
     }
+
     public static void init( Context context, String app_tag ){
         setContext(context);
         setAppTag(app_tag);
+        setIdDevice();
         PreferencesManager.init(context);
     }
 
@@ -63,16 +68,45 @@ public class Utils {
         APP_TAG = app_tag;
     }
 
+    public static String getIdDevice(){
+        return ID_DEVICE;
+    }
+    private static void setIdDevice(){
+        Utils.ID_DEVICE = Utils.getDeviceName() +"-"+ System.currentTimeMillis();
+    }
+
+    public static String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer)) {
+            return capitalize(model);
+        }
+        return capitalize(manufacturer) + " " + model;
+    }
 
     //////////////////////////////////////////////
     //  Methods
 
     public String pad( int c ){
+        return pad(c,1);
+    }
+    public String pad( int c, int n ){
         if( c >= 10 ) {
             return String.valueOf(c);
         }else{
-            return "0"+ String.valueOf(c);
+            return (new String(new char[n]).replace("\0","0")) + String.valueOf(c);
         }
+    }
+
+    public static String capitalize(String s) {
+        if( s == null || s.length() == 0 ){
+            return "";
+        }
+        char first = s.charAt(0);
+        if( Character.isUpperCase(first) ){
+            return s;
+        }
+        return Character.toUpperCase(first) + s.substring(1);
     }
 
     @SuppressWarnings("unchecked")

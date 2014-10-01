@@ -1,6 +1,5 @@
 package it.lucichkevin.cip.examples.fragments;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +10,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import it.lucichkevin.cip.examples.R;
 import it.lucichkevin.cip.ObjectAdapter;
+import it.lucichkevin.cip.examples.fragments.testKalima.FragmentsKalima;
 
 /**
  * Created by Kevin on 27/05/2014.
@@ -24,20 +23,15 @@ public class FragmentMainTest extends Fragment {
     private ArrayList<Example> examplesList = new ArrayList<Example>();
     private Example[] examplesArray = null;
 
-    private HashMap<String, Fragment> fragments = new HashMap<String, Fragment>();
-    private Activity activity;
-
     public FragmentMainTest(){
 
         examplesList.add(new Example( "ObjectAdapter", new FragmentObjectAdapter() ) );
         examplesList.add(new Example( "ExpandablePanel", new FragmentExpandablePanel() ) );
         examplesList.add(new Example( "ExpandableTextView", new FragmentExpandableTextView() ) );
         examplesList.add(new Example( "FragmentsDialogs", new FragmentsDialogs() ) );
+        examplesList.add(new Example( "FragmentsKalima", new FragmentsKalima() ) );
 
         examplesArray = examplesList.toArray( new Example[examplesList.size()] );
-
-//        titles = (fragments.keySet()).toArray( new String[fragments.keySet().size()] );
-//        fragments_instance = (fragments.values()).toArray( new Fragment[(fragments.values()).size()] );
     }
 
     @Override
@@ -70,15 +64,6 @@ public class FragmentMainTest extends Fragment {
 
         return rootView;
     }
-
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = activity;
-    }
-
-
 
 
 
