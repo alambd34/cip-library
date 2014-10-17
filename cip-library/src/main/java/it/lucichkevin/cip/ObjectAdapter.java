@@ -106,7 +106,7 @@ public abstract class ObjectAdapter<T> extends ArrayAdapter<T> {
 
 
     //////////////////////////////////////////
-    //  Getter and Setters
+    //  Getters and Setters
 
     protected View getConvertView(){
 

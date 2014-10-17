@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import java.lang.reflect.Field;
 
@@ -47,9 +48,9 @@ public class MinutesPickerDialog extends TimePickerDialog {
         try {
             Class<?> classForid = Class.forName("com.android.internal.R$id");
             Field minute = classForid.getField("hour");
-            Field divider = classForid.getField("hour");
+            Field divider = classForid.getField("divider");
             ((NumberPicker) timePicker.findViewById(minute.getInt(null))).setVisibility(View.GONE);
-            ((NumberPicker) timePicker.findViewById(divider.getInt(null))).setVisibility(View.GONE);
+            ((TextView) timePicker.findViewById(divider.getInt(null))).setVisibility(View.GONE);
         }catch( Exception e ){
             e.printStackTrace();
         }

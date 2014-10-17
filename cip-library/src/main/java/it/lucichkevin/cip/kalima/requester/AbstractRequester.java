@@ -29,7 +29,28 @@ public abstract class AbstractRequester {
     protected long delay = 0;
     protected int INDEX_CURRENT_REQUEST = 0;
     protected ArrayList<Request> requests = new ArrayList<Request>();
-    protected Request.Callbacks callbacks = new Request.EmptyKalimaCallbacks();
+    protected Request.Callbacks callbacks = new Request.Callbacks() {
+        @Override
+        public void onSend( Request request, String url ){
+            request.callbacks.onSend(request,url);
+        }
+        @Override
+        public void onEnd(Request request, Response response) {
+            request.callbacks.onEnd(request, response);
+        }
+        @Override
+        public void onError(Request request, Exception e) {
+            request.callbacks.onError(request, e);
+        }
+        @Override
+        public void onCancelled(Request request) {
+            request.callbacks.onCancelled(request);
+        }
+        @Override
+        public void onProgressUpdate(Request request, String placeholder) {
+            request.callbacks.onProgressUpdate(request, placeholder);
+        }
+    };
 
     protected int sendingMode = TYPE_SYNCHRONOUS;
 
@@ -112,10 +133,7 @@ public abstract class AbstractRequester {
             return;
         }
 
-        //  Send the request to the server
-        this.callbacks.onSend(request);
-
-        Sender s = new Sender( AbstractRequester.this, getUrl(), getDelay(), getCallbacks() );
+        Sender s = new Sender( AbstractRequester.this, getUrl(), getDelay() );
         s.executeOnExecutor( (getSendingMode()==TYPE_ASYNCHRONOUS)?AsyncTask.THREAD_POOL_EXECUTOR:AsyncTask.SERIAL_EXECUTOR, new RequestAndResponse(request) );
     }
 
@@ -203,14 +221,12 @@ class Sender extends AsyncTask<RequestAndResponse, RequestAndPlaceholder, Reques
     private String url;
     private long delay = 0;
     private AbstractRequester abstractRequester;
-    private Request.Callbacks callbacks;
     private HttpURLConnection conn = null;
 
-    public Sender( AbstractRequester abstractRequester, String url, long delay, Request.Callbacks callbacks ){
+    public Sender( AbstractRequester abstractRequester, String url, long delay ){
         this.abstractRequester = abstractRequester;
         this.url = url;
         this.delay = delay;
-        this.callbacks = callbacks;
     }
 
     @Override
@@ -229,14 +245,15 @@ class Sender extends AsyncTask<RequestAndResponse, RequestAndPlaceholder, Reques
         String url = getUrl();
         Gson gson = new Gson();
 
-//        Response response = null;
-
         try {
             //	Concateno la richiesta convertita in JSON alla URL da contattare
             url += (!url.contains("?") ? "?" : "&") +"q=" + URLEncoder.encode(gson.toJson(CURRENT_REQUEST), "UTF-8");
         }catch( UnsupportedEncodingException e ){
             onErrorTrigger(CURRENT_REQUEST, e);
         }
+
+        //  Send the request to the server
+        abstractRequester.callbacks.onSend(CURRENT_REQUEST,url);
 
         if( this.isCancelled() ){
             return null;
@@ -306,19 +323,19 @@ class Sender extends AsyncTask<RequestAndResponse, RequestAndPlaceholder, Reques
     @Override
     protected void onPostExecute( RequestAndResponse rr ){
         if( rr.response != null ){
-            this.callbacks.onEnd( rr.request, rr.response );
+            this.abstractRequester.callbacks.onEnd( rr.request, rr.response );
         }
         this.abstractRequester.onSenderEnd();
     }
 
     @Override
     protected void onProgressUpdate( RequestAndPlaceholder... rps ){
-        this.callbacks.onProgressUpdate( rps[0].request, rps[0].placeholder );
+        this.abstractRequester.callbacks.onProgressUpdate( rps[0].request, rps[0].placeholder );
     }
 
 
     protected void onErrorTrigger( Request request, Exception e ){
-        callbacks.onError( request, e );
+        this.abstractRequester.callbacks.onError( request, e );
     }
 
 

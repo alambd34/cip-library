@@ -1,4 +1,7 @@
 
+v0.6.1
+    [ADD]   Added MockLocationProvider
+
 v0.5.6
     [FIX]   MinutesPickerDialog: fix visibility (hide) of divider
 

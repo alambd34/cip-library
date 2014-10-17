@@ -262,8 +262,8 @@ public class Request implements Serializable {
              Method called before the AbstractRequester keep the connection with the server, view onPreExecute of AsyncTask
              @see android.os.AsyncTask
         */
-        public void onSend( Request request ){
-            Utils.logger( getPrefixLog(request) +" SEND", Utils.LOG_INFO );
+        public void onSend( Request request, String url ){
+            Utils.logger( getPrefixLog(request) +" SEND"+ ((url!=null)?"\n"+url:""), Utils.LOG_INFO );
         }
 
         /**

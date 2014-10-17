@@ -8,8 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.lang.reflect.Field;
 import java.util.Calendar;
 
 import it.lucichkevin.cip.R;
@@ -70,6 +73,17 @@ public class TimePickerDialog extends DialogFragment {
         ((Button) timePickerDialog.findViewById(BUTTON_POSITIVE)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ){
+
+                try {
+                    Class<?> classForid = Class.forName("com.android.internal.R$id");
+                    Field hour = classForid.getField("hour");
+                    Field minute = classForid.getField("minute");
+                    ((NumberPicker) timePicker.findViewById(hour.getInt(null))).clearFocus();
+                    ((NumberPicker) timePicker.findViewById(minute.getInt(null))).clearFocus();
+                }catch( Exception e ){
+                    e.printStackTrace();
+                }
+
                 callbacks.onButtonPositiveClicked( timePickerDialog, timePicker.getCurrentHour(), timePicker.getCurrentMinute() );
             }
         });
