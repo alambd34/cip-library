@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
 
+import it.lucichkevin.cip.Utils;
 import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
 
 /**
@@ -51,12 +52,14 @@ public abstract class TimePickerPreference extends DialogPreference {
         if( positiveResult ){
             int hour = timePicker.getCurrentHour();
             int minute = timePicker.getCurrentMinute();
+            int value = (hour * 60 + minute);
 
             SharedPreferences.Editor editor = getEditor();
-            editor.putInt( getKey(), (hour * 60 + minute) );
+            editor.putInt( getKey(), value );
             editor.commit();
 
-            onSetTime( hour, minute );
+            onSetTime(hour, minute);
+            getOnPreferenceChangeListener().onPreferenceChange(TimePickerPreference.this, value);
         }
     }
 

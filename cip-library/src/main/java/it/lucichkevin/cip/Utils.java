@@ -2,6 +2,8 @@ package it.lucichkevin.cip;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -120,6 +122,16 @@ public class Utils {
     }
 
     /**
+     *  Get a List of Object of T type, and return an array
+     *  @param      list    The list to convert in array
+     *  @return     array
+     */
+    public static <T> T[] listToArray( List<T> list ){
+        return (T[]) list.toArray();
+    }
+
+
+    /**
         @since 0.0.1
         @see #logger(String, String, int)
     */
@@ -159,33 +171,6 @@ public class Utils {
     //  Toaster
 
     /**
-     *  Create a Toast on the device
-     *  @param  context     The context where display the toast
-     *  @param  msg         The message to display in the toast
-     */
-    public static void Toaster( Context context, String msg ){
-        if( PreferencesManager.isToasterToLogcat() ){
-            Utils.logger( msg , LOG_INFO);
-            return;
-        }
-        Toaster.showToast(context, msg);
-    }
-
-    /**
-     *  Create a Toast on the device
-     *  @param  context     The context where display the toast
-     *  @param  msg         The message to display in the toast
-     *  @param  seconds     The time to view the toast
-     */
-    public static void Toaster( Context context, String msg, int seconds ){
-        if( seconds > 1 ){
-            Toaster.showLongToast(context, msg, seconds);
-        }else{
-            Toaster.showToast(context, msg, seconds);
-        }
-    }
-
-    /**
         @since      Cip v0.0.1
         Utils.Toaster( [context], "test", Utils.Toaster.LENGTH_LONG );
     */
@@ -193,30 +178,6 @@ public class Utils {
 
         public static final int LENGTH_SHORT = Toast.LENGTH_SHORT;
         public static final int LENGTH_LONG = Toast.LENGTH_SHORT;
-
-        /**
-            @deprecated
-            Use Utils.Toaster (not need the "new")
-        */
-        public Toaster( Context context, String msg ){
-            if( PreferencesManager.isToasterToLogcat() ){
-                Utils.logger( msg , LOG_INFO);
-                return;
-            }
-            Toaster.showToast(context, msg);
-        }
-
-        /**
-            @deprecated
-            Use Utils.Toaster (not need the "new")
-        */
-        public Toaster( Context context, String msg, int seconds ){
-            if( seconds > 1 ){
-                Toaster.showLongToast(context, msg, seconds);
-            }else{
-                Toaster.showToast(context, msg, seconds);
-            }
-        }
 
         private static void showToast( Context context, String msg ){
             Toast.makeText( context, msg, Toast.LENGTH_SHORT ).show();
@@ -257,13 +218,58 @@ public class Utils {
     }
 
     /**
-     *  Get a List of Object of T type, and return an array
-     *  @param      list    The list to convert in array
-     *  @return     array
-    */
-    public static <T> T[] listToArray( List<T> list ){
-        return (T[]) list.toArray();
+     *  Create a Toast on the device
+     *  @param  context     The context where display the toast
+     *  @param  msg         The message to display in the toast
+     */
+    public static void Toaster( Context context, String msg ){
+        if( PreferencesManager.isToasterToLogcat() ){
+            Utils.logger( msg , LOG_INFO);
+            return;
+        }
+        Toaster.showToast(context, msg);
     }
+
+    /**
+     *  Create a Toast on the device
+     *  @param  context     The context where display the toast
+     *  @param  msg         The message to display in the toast
+     *  @param  seconds     The time to view the toast
+     */
+    public static void Toaster( Context context, String msg, int seconds ){
+        if( seconds > 1 ){
+            Toaster.showLongToast(context, msg, seconds);
+        }else{
+            Toaster.showToast(context, msg, seconds);
+        }
+    }
+
+
+
+    ///////////////////////////////////////////////////////
+    //  App
+
+    public static class App{
+        public static String getVersionName(){
+            try{
+                PackageInfo packageInfo = Utils.getContext().getPackageManager().getPackageInfo(Utils.getContext().getPackageName(), 0);
+                return packageInfo.versionName;
+            }catch( PackageManager.NameNotFoundException e ){
+                e.printStackTrace();
+                return "";
+            }
+        }
+        public static int getVersionCode(){
+            try{
+                PackageInfo packageInfo = Utils.getContext().getPackageManager().getPackageInfo(Utils.getContext().getPackageName(), 0);
+                return packageInfo.versionCode;
+            }catch( PackageManager.NameNotFoundException e ){
+                e.printStackTrace();
+                return 1;
+            }
+        }
+    }
+
 
 /*
     public static class Database{

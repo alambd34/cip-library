@@ -12,7 +12,6 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.lang.reflect.Field;
 import java.util.Calendar;
 
 import it.lucichkevin.cip.R;
@@ -23,7 +22,7 @@ import it.lucichkevin.cip.Utils;
 
     @author     Kevin Lucich    2014-09-03
     @since      0.3.0
- */
+*/
 public class TimePickerDialog extends DialogFragment {
 
     protected final static int BUTTON_POSITIVE = R.id.btn_positive;
@@ -31,6 +30,7 @@ public class TimePickerDialog extends DialogFragment {
 
     protected Dialog timePickerDialog = null;
     protected TimePicker timePicker = null;
+    protected Holder viewHolder = null;
 
     //  Default behavior - Log (if in debug) and close dialog
     protected Callbacks callbacks = new EmptyCallbacks(){
@@ -61,29 +61,48 @@ public class TimePickerDialog extends DialogFragment {
         timePicker.setCurrentHour(c.get(Calendar.HOUR_OF_DAY));
         timePicker.setCurrentMinute(c.get(Calendar.MINUTE));
         timePicker.setIs24HourView(DateFormat.is24HourFormat(context));
+
+        viewHolder = new Holder(timePicker);
     }
 
     @Override
     public Dialog onCreateDialog( Bundle savedInstanceState ){
+
+        try {
+            (viewHolder.hour).setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange( NumberPicker picker, int oldVal, int newVal ){
+                    timePicker.setCurrentHour(newVal);
+                }
+            });
+
+            (viewHolder.minute).setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange( NumberPicker picker, int oldVal, int newVal ){
+                    timePicker.setCurrentMinute( newVal );
+                }
+            });
+
+        }catch( Exception e ){
+            e.printStackTrace();
+        }
+
         setCallbacksOfButtons();
+
         return timePickerDialog;
     }
 
     protected void setCallbacksOfButtons() {
+
         ((Button) timePickerDialog.findViewById(BUTTON_POSITIVE)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ){
-
-                try {
-                    Class<?> classForid = Class.forName("com.android.internal.R$id");
-                    Field hour = classForid.getField("hour");
-                    Field minute = classForid.getField("minute");
-                    ((NumberPicker) timePicker.findViewById(hour.getInt(null))).clearFocus();
-                    ((NumberPicker) timePicker.findViewById(minute.getInt(null))).clearFocus();
-                }catch( Exception e ){
-                    e.printStackTrace();
+                if( viewHolder.minute != null ){
+                    viewHolder.minute.clearFocus();
                 }
-
+                if( viewHolder.hour != null ){
+                    viewHolder.hour.clearFocus();
+                }
                 callbacks.onButtonPositiveClicked( timePickerDialog, timePicker.getCurrentHour(), timePicker.getCurrentMinute() );
             }
         });
@@ -147,6 +166,32 @@ public class TimePickerDialog extends DialogFragment {
         @Override
         public void onButtonCancelClicked( Dialog dialog, int hour, int minute ){
             dialog.dismiss();
+        }
+    }
+
+
+
+    /**
+     *  Used to hold the elements of TimePicker
+     */
+    protected class Holder {
+
+        public NumberPicker hour = null;
+        public NumberPicker minute = null;
+        public TextView divider = null;
+
+        public Holder( TimePicker timePicker ){
+
+            try {
+                Class<?> classForId = Class.forName("com.android.internal.R$id");
+
+                this.hour = (NumberPicker) timePicker.findViewById( (classForId.getField("hour")).getInt(null) );
+                this.minute = (NumberPicker) timePicker.findViewById( (classForId.getField("minute")).getInt(null) );
+                this.divider = (TextView) timePicker.findViewById( (classForId.getField("divider")).getInt(null) );
+
+            }catch( Exception e ){
+                e.printStackTrace();
+            }
         }
     }
 

@@ -1,11 +1,10 @@
-package it.lucichkevin.cip.navigationdrawermenu;
+package it.lucichkevin.cip.navigationdrawermenu.support.v4;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 import it.lucichkevin.cip.ObjectAdapter;
 import it.lucichkevin.cip.R;
 import it.lucichkevin.cip.Utils;
+import it.lucichkevin.cip.navigationdrawermenu.ItemDrawerMenu;
 
 /**
  *  Create a drawer menu using a drawer layout (DRAWER_LAYOUT_ID) and populating the DRAWER_LIST_VIEW_ID with list of items (array of ItemDrawerMenu object) and attaching a callback to menu
@@ -24,7 +24,9 @@ import it.lucichkevin.cip.Utils;
  *  @author  Kevin Lucich
  *  @author  Marco Zanetti (fixes and new methods)
  *  @version 1.2.0
-*/
+ *
+ *  @deprecated
+ */
 public class DrawerLayoutHelper {
 
     public static final int RESOURCE_ID_MAIN_CONTAINER = R.id.drawer_layout;
@@ -80,7 +82,7 @@ public class DrawerLayoutHelper {
      * @param   activity    The activity where including the drawer menu
      * @since   CipLibrary v0.4.0
      * @see     EmptyCallbacks
-     * @see     #DrawerLayoutHelper(android.app.Activity, int, int, ItemDrawerMenu[], it.lucichkevin.cip.navigationdrawermenu.DrawerLayoutHelper.Callbacks)
+//     * @see     #DrawerLayoutHelper(android.app.Activity, int, int, ItemDrawerMenu[], it.lucichkevin.cip.navigationdrawermenu.DrawerLayoutHelper.Callbacks)
      */
     public DrawerLayoutHelper( final Activity activity, int DRAWER_LAYOUT_ID, int DRAWER_LIST_VIEW_ID, final ItemDrawerMenu[] ARRAY_ITEMS_LIST ){
         this( activity, DRAWER_LAYOUT_ID, DRAWER_LIST_VIEW_ID, ARRAY_ITEMS_LIST, new DrawerLogCallbacks() );
@@ -96,25 +98,13 @@ public class DrawerLayoutHelper {
 
         setActivity(activity);
 
-        if( activity instanceof ActionBarActivity ){
-            android.support.v7.app.ActionBar actionBar = ((ActionBarActivity) activity).getSupportActionBar();
+        ActionBar actionBar = activity.getActionBar();
 
-            if( actionBar != null ) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                if (Build.VERSION.SDK_INT >= 14) {
-                    //  API min Level 14
-                    actionBar.setHomeButtonEnabled(true);
-                }
-            }
-        }else{
-            ActionBar actionBar = activity.getActionBar();
-
-            if( actionBar != null ) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                if (Build.VERSION.SDK_INT >= 14) {
-                    //  API min Level 14
-                    actionBar.setHomeButtonEnabled(true);
-                }
+        if( actionBar != null ) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            if (Build.VERSION.SDK_INT >= 14) {
+                //  API min Level 14
+                actionBar.setHomeButtonEnabled(true);
             }
         }
 
@@ -167,8 +157,7 @@ public class DrawerLayoutHelper {
             }
         });
 
-//        drawerToggle = new ActionBarDrawerToggle( getActivity(), drawerLayout, R.drawable.ic_navigation_drawer, R.string.open, R.string.close ){
-        drawerToggle = new ActionBarDrawerToggle( getActivity(), drawerLayout, R.drawable.ic_navigation_drawer, R.drawable.ic_navigation_drawer ){
+        drawerToggle = new ActionBarDrawerToggle( getActivity(), drawerLayout, R.drawable.ic_navigation_drawer, R.string.open, R.string.close ){
 
             public void onDrawerClosed( View drawerView ){
                 callbacks.onDrawerClose(getActivity(), drawerView);

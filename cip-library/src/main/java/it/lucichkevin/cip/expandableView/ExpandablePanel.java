@@ -30,12 +30,25 @@ public class ExpandablePanel extends LinearLayout {
 
     //  Who clicked
     private int handle_id = 0;
-    private View handle = null;
 
     //  The content animated
     private int contentView_id = 0;
     private View contentView = null;
 
+    private OnClickListener handleOnClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Animation a;
+            if (isExpanded()) {
+                a = new ExpandAnimation(contentHeight, collapsedHeight, contentView);
+            } else {
+                a = new ExpandAnimation(collapsedHeight, contentHeight, contentView);
+            }
+
+            contentView.startAnimation(a);
+            setExpanded(!isExpanded());
+        }
+    };
 
     public ExpandablePanel( Context context ){
         super(context);
@@ -96,26 +109,14 @@ public class ExpandablePanel extends LinearLayout {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
 
+        View handle = null;
         if( handle_id == 0 ){
             handle = this;
         }else{
             handle = findViewById(handle_id);
         }
 
-        handle.setOnClickListener( new OnClickListener(){
-            @Override
-            public void onClick( View view ){
-                Animation a;
-                if( isExpanded() ){
-                    a = new ExpandAnimation( contentHeight, collapsedHeight, contentView );
-                } else {
-                    a = new ExpandAnimation( collapsedHeight, contentHeight, contentView );
-                }
-
-                contentView.startAnimation(a);
-                setExpanded( !isExpanded() );
-            }
-        });
+        handle.setOnClickListener(handleOnClickListener);
     }
 
     @Override

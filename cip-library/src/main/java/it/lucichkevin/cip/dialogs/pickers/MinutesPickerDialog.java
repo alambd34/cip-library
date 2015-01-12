@@ -46,11 +46,8 @@ public class MinutesPickerDialog extends TimePickerDialog {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
         try {
-            Class<?> classForid = Class.forName("com.android.internal.R$id");
-            Field minute = classForid.getField("hour");
-            Field divider = classForid.getField("divider");
-            ((NumberPicker) timePicker.findViewById(minute.getInt(null))).setVisibility(View.GONE);
-            ((TextView) timePicker.findViewById(divider.getInt(null))).setVisibility(View.GONE);
+            viewHolder.hour.setVisibility(View.GONE);
+            viewHolder.divider.setVisibility(View.GONE);
         }catch( Exception e ){
             e.printStackTrace();
         }
@@ -59,6 +56,8 @@ public class MinutesPickerDialog extends TimePickerDialog {
     }
 
     protected void setCallbacksOfButtons() {
+        super.setCallbacksOfButtons();
+
         ((Button) timePickerDialog.findViewById(BUTTON_POSITIVE)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ){

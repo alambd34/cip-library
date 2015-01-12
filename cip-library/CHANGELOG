@@ -1,4 +1,11 @@
 
+v0.6.2
+    [DEPRECATED]   DrawerLayoutHelper use a deprecated API, the library is available in the package "it.lucichkevin.cip.navigationdrawermenu.support.v4.DrawerLayoutHelper".
+    [FIX]   Fixed request status (object instance of Request), created Request.Status
+    [FIX]   Fixed in TimePickerPreference the call of callback onPreferenceChange(preference,newValue)
+    [FIX]   Moved classes: AbstractRequester, Request, Response, ServerDebug from sub-packages to package "it.lucichkevin.cip.kalima"
+    [NEW]   Added alias to get the version (name or code) of the app in execution (Utils.App.getVersionName, Utils.App.getVersionCode)
+
 v0.6.1
     [ADD]   Added MockLocationProvider
 

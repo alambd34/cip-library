@@ -12,14 +12,16 @@ import java.util.List;
 /**
     Adapter for T type object
 
-    <code>
-    ObjectAdapter<MyObject> adapter = new ObjectAdapter<MyObject>(){
-        #@Override
+    <br /><br />
+
+    <pre>
+    ObjectAdapter&lt;MyObject&gt; adapter = new ObjectAdapter&lt;MyObject&gt;(){
+        &#64;Override
         protected void attachItemToLayout( MyObject item, int position ){
             //  Do something...
         }
     };
-    </code>
+    </pre>
 
     @author     Kevin Lucich    14/05/2014
     @version	0.0.2
