@@ -1,7 +1,7 @@
 package it.lucichkevin.cip.examples.fragments.testKalima.response.test;
 
 import it.lucichkevin.cip.Utils;
-import it.lucichkevin.cip.kalima.response.Response;
+import it.lucichkevin.cip.kalima.Response;
 
 
 public class TestResponse extends Response {

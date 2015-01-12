@@ -20,18 +20,18 @@ import it.lucichkevin.cip.examples.fragments.testKalima.FragmentsKalima;
  */
 public class FragmentMainTest extends Fragment {
 
-    private ArrayList<Example> examplesList = new ArrayList<Example>();
     private Example[] examplesArray = null;
 
     public FragmentMainTest(){
 
-        examplesList.add(new Example( "ObjectAdapter", new FragmentObjectAdapter() ) );
-        examplesList.add(new Example( "ExpandablePanel", new FragmentExpandablePanel() ) );
-        examplesList.add(new Example( "ExpandableTextView", new FragmentExpandableTextView() ) );
-        examplesList.add(new Example( "FragmentsDialogs", new FragmentsDialogs() ) );
-        examplesList.add(new Example( "FragmentsKalima", new FragmentsKalima() ) );
+        ArrayList<Example> examplesList = new ArrayList<Example>();
+        examplesList.add(new Example("ObjectAdapter", new FragmentObjectAdapter()));
+        examplesList.add(new Example("ExpandablePanel", new FragmentExpandablePanel()));
+        examplesList.add(new Example("ExpandableTextView", new FragmentExpandableTextView()));
+        examplesList.add(new Example("FragmentsDialogs", new FragmentsDialogs()));
+        examplesList.add(new Example("FragmentsKalima", new FragmentsKalima()));
 
-        examplesArray = examplesList.toArray( new Example[examplesList.size()] );
+        examplesArray = examplesList.toArray(new Example[examplesList.size()]);
     }
 
     @Override
@@ -56,9 +56,9 @@ public class FragmentMainTest extends Fragment {
                 Example example = examplesArray[position];
 
                 getFragmentManager().beginTransaction()
-                        .addToBackStack( example.title )
-                        .replace( R.id.container, example.fragment_instance )
-                        .commit();
+                    .addToBackStack( example.title )
+                    .replace( R.id.container, example.fragment_instance )
+                    .commit();
             }
         });
 

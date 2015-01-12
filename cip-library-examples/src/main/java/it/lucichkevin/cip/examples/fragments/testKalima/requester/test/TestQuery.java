@@ -1,6 +1,6 @@
 package it.lucichkevin.cip.examples.fragments.testKalima.requester.test;
 
-import it.lucichkevin.cip.kalima.requester.Request;
+import it.lucichkevin.cip.kalima.Request;
 
 
 public class TestQuery extends Request.Query{

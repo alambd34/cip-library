@@ -10,9 +10,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import it.lucichkevin.cip.examples.R;
-import it.lucichkevin.cip.kalima.requester.AbstractRequester;
-import it.lucichkevin.cip.kalima.requester.Request;
-import it.lucichkevin.cip.kalima.response.Response;
+import it.lucichkevin.cip.kalima.AbstractRequester;
+import it.lucichkevin.cip.kalima.Request;
+import it.lucichkevin.cip.kalima.Response;
 import it.lucichkevin.cip.examples.fragments.testKalima.requester.test.TestQuery;
 import it.lucichkevin.cip.examples.fragments.testKalima.response.test.TestResponse;
 
@@ -71,9 +71,10 @@ public class FragmentsKalima extends Fragment {
 
 
         requester.setCallbacks(new Request.Callbacks() {
+
             @Override
-            public void onSend( Request request ){
-                super.onSend(request);
+            public void onSend( Request request, String url ){
+                super.onSend(request, url);
                 setSomethingToGreen("request_" + request.getRequestId() + "_STARTED");
             }
 
@@ -112,9 +113,9 @@ public class FragmentsKalima extends Fragment {
     private void start_requests(){
 
         if( ((RadioGroup) rootView.findViewById(R.id.requester_sending_type)).getCheckedRadioButtonId() == R.id.radio_TYPE_ASYNCHRONOUS ){
-            requester.setSendingMode(AbstractRequester.TYPE_ASYNCHRONOUS);
+            requester.setSendingMode(AbstractRequester.SendingMode.ASYNCHRONOUS);
         }else{
-            requester.setSendingMode(AbstractRequester.TYPE_SYNCHRONOUS);
+            requester.setSendingMode(AbstractRequester.SendingMode.SYNCHRONOUS);
         }
 
         requester.send();
