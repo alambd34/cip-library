@@ -23,8 +23,9 @@ android {
 dependencies {
     compile 'com.google.code.gson:gson:2.3@jar'
     compile 'com.android.support:appcompat-v7:21.0.3'
-//    compile 'it.lucichkevin:cip-library:0.6.2@aar'
-    compile 'it.lucichkevin:cip-library:0.6.0.21-ALPHA@aar'
+    compile 'it.lucichkevin:cip-library:0.6.2@aar'
+
+//    compile 'it.lucichkevin:cip-library:0.6.2.1-ALPHA@aar'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

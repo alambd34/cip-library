@@ -1,4 +1,7 @@
 
+v0.6.2.1
+    [FIX]   Fixed and improved the class DialogHelper: is possible to create an instance (no longer just static methods)
+
 v0.6.2
     [DEPRECATED]   DrawerLayoutHelper use a deprecated API, the library is available in the package "it.lucichkevin.cip.navigationdrawermenu.support.v4.DrawerLayoutHelper".
     [FIX]   Fixed request status (object instance of Request), created Request.Status
