@@ -11,7 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/cip-library" />
             <option value="$PROJECT_DIR$/cip-library-examples" />
-            <option value="$PROJECT_DIR$/greenDaoGeneratorHelper" />
+            <option value="$PROJECT_DIR$/cip-library-helpers" />
           </set>
         </option>
       </GradleProjectSettings>

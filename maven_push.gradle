@@ -93,8 +93,8 @@ afterEvaluate { project ->
 
                 repository( url: getSonatypeRepositoryUrl() ){
                     authentication(
-                        userName: getRepositoryUsername(),
-                        password: getRepositoryPassword()
+                            userName: getRepositoryUsername(),
+                            password: getRepositoryPassword()
                     )
                 }
 
