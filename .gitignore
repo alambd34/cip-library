@@ -1,8 +1,9 @@
-.gradle
+/.gradle
+/.DS_Store
 /local.properties
 /.idea
-.DS_Store
 /build
 /cip-library/build/
 /cip-library-examples/build/
 /future_utils
+
