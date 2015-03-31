@@ -1,13 +1,9 @@
 package it.lucichkevin.cip.kalima;
 
-import android.os.AsyncTask;
-
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import it.lucichkevin.cip.Utils;
 
@@ -15,6 +11,7 @@ import it.lucichkevin.cip.Utils;
  *  It implements the struct of request to send to server
  *
  *  @author     Kevin Lucich    19/02/14
+ *  @updated	2015-03-03
  */
 public class Request implements Serializable {
 
@@ -23,6 +20,7 @@ public class Request implements Serializable {
     protected transient Class<? extends Response> classOfResponse;
     protected transient boolean autoHandleData = false;
     protected transient Callbacks callbacks = new EmptyKalimaCallbacks();
+	protected transient AbstractRequester.Sender senderReference = null;
 
     protected String request_id = "";
     protected Request.Header header;
@@ -31,16 +29,10 @@ public class Request implements Serializable {
     protected int status = Status.PENDING;
 
     public Request( String request_id ){
-        this( request_id, null, null, Response.class, false, null );
+        this( request_id, null, null );
     }
     public Request( Header header, Query query ){
         this( null, header, query, Response.class, false, null );
-    }
-    public Request( String request_id, Header header, Query query ){
-        this( request_id, header, query, Response.class, false, null );
-    }
-    public Request( String request_id, Header header, Query query, Class<? extends Response> classOfResponse ){
-        this( request_id, header, query, classOfResponse, false, null );
     }
     public Request( Header header, Query query, Class<? extends Response> classOfResponse ){
         this( null, header, query, classOfResponse, false, null );
@@ -48,9 +40,15 @@ public class Request implements Serializable {
     public Request( Header header, Query query, Class<? extends Response> classOfResponse, boolean autoHandleData ){
         this( null, header, query, classOfResponse, autoHandleData, null );
     }
-    public Request( Header header, Query query, Class<? extends Response> classOfResponse, String url ){
-        this( null, header, query, classOfResponse, false, null );
-    }
+	public Request( Header header, Query query, Class<? extends Response> classOfResponse, boolean autoHandleData, Callbacks callbacks ){
+		this( null, header, query, classOfResponse, autoHandleData, callbacks );
+	}
+	public Request( String request_id, Header header, Query query ){
+		this( request_id, header, query, Response.class, false, null );
+	}
+	public Request( String request_id, Header header, Query query, Class<? extends Response> classOfResponse ){
+		this( request_id, header, query, classOfResponse, false, null );
+	}
     public Request( String request_id, Header header, Query query, Class<? extends Response> classOfResponse, boolean autoHandleData ){
         this(request_id, header, query, classOfResponse, autoHandleData, null );
     }
@@ -63,7 +61,7 @@ public class Request implements Serializable {
      * @param autoHandleData  If TRUE the AbstractRequester called automatically the handleData() method of Respose
      * @param callbacks       The instance of callback called from AbstractRequester Object
      */
-    public Request(String request_id, Header header, Query query, Class<? extends Response> classOfResponse, boolean autoHandleData, Callbacks callbacks) {
+    public Request( String request_id, Header header, Query query, Class<? extends Response> classOfResponse, boolean autoHandleData, Callbacks callbacks ){
         setRequestId(request_id);
         setHeader(header);
         setQuery(query);
@@ -75,7 +73,15 @@ public class Request implements Serializable {
         }
     }
 
-
+	/**
+	 *	When called cancel the request
+	 */
+	public void cancel(){
+		if( this.getSenderReference() != null ){
+			this.getSenderReference().cancel();
+			this.setStatus( Status.CANCELLED );
+		}
+	}
 
 
     ////////////////////////////////////////
@@ -116,12 +122,10 @@ public class Request implements Serializable {
                 sb.append("0123456789ABCDEF".charAt((b & 0x0F)));
             }
             md5 = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        }catch( NoSuchAlgorithmException | UnsupportedEncodingException e ){
             e.printStackTrace();
         }
-        Utils.logger( "md5 = "+ md5, Utils.LOG_DEBUG );
+//		Utils.logger( "md5 = "+ md5, Utils.LOG_DEBUG );
         setRequestId(md5);
     }
 
@@ -177,6 +181,12 @@ public class Request implements Serializable {
         return Status.is( getStatus(), status );
     }
 
+	protected AbstractRequester.Sender getSenderReference() {
+		return senderReference;
+	}
+	protected void setSenderReference( AbstractRequester.Sender senderReference ){
+		this.senderReference = senderReference;
+	}
 
     ////////////////////////////////////////
     //  Equals methods

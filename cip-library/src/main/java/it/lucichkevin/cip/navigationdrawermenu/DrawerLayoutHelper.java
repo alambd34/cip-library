@@ -23,17 +23,19 @@ import it.lucichkevin.cip.Utils;
  *
  *  @author  Kevin Lucich
  *  @author  Marco Zanetti (fixes and new methods)
- *  @version 1.2.0
+ *	@updated 2015-03-24
+ *  @version 1.3.0
 */
 public class DrawerLayoutHelper {
 
     public static final int RESOURCE_ID_MAIN_CONTAINER = R.id.drawer_layout;
     public static final int RESOURCE_ID_DRAWER_LIST_VIEW = R.id.drawer_list_view;
 
-    private Activity activity;
-    private DrawerLayout drawerLayout;
-    private ListView drawerListView;
-    private ActionBarDrawerToggle drawerToggle;
+    protected Activity activity;
+    protected DrawerLayout drawerLayout;
+	protected ListView drawerListView;
+	protected ActionBarDrawerToggle drawerToggle;
+	protected ItemDrawerMenu[] ARRAY_ITEMS_LIST;
 
 
     /**
@@ -120,13 +122,13 @@ public class DrawerLayoutHelper {
 
         drawerLayout = (DrawerLayout) getActivity().findViewById(DRAWER_LAYOUT_ID);
         if( drawerLayout == null ){
-            Log.e("Cip-Library DrawerLayoutHelper", "ERROR: Resource for drawer_layout not found!");
+            Log.e("CipLib DrawerLayoutHlp", "ERROR: Resource for drawer_layout not found!");
             return;
         }
 
         drawerListView = (ListView) getActivity().findViewById(DRAWER_LIST_VIEW_ID);
         if( drawerListView == null ){
-            Log.e("Cip-Library DrawerLayoutHelper", "ERROR: Resource for drawer listView not found!");
+            Log.e("CipLib DrawerLayoutHlp", "ERROR: Resource for drawer listView not found!");
             return;
         }
 
@@ -148,7 +150,7 @@ public class DrawerLayoutHelper {
         // Set the list's click listener
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick( AdapterView<?> parent, View view, int position, long id ){
 
                 // Closing the drawer
                 close();
@@ -160,15 +162,12 @@ public class DrawerLayoutHelper {
                     getActivity().startActivity( new Intent(getActivity(), itemSelected.getClassOfActivity()) );
                 }
 
-                if( itemSelected.getOnClickListener() != null ){
-                    itemSelected.getOnClickListener().onClick();
-                }
-
+				itemSelected.onItemClicked();
             }
         });
 
 //        drawerToggle = new ActionBarDrawerToggle( getActivity(), drawerLayout, R.drawable.ic_navigation_drawer, R.string.open, R.string.close ){
-        drawerToggle = new ActionBarDrawerToggle( getActivity(), drawerLayout, R.drawable.ic_navigation_drawer, R.drawable.ic_navigation_drawer ){
+        drawerToggle = new ActionBarDrawerToggle( getActivity(), drawerLayout, R.string.open, R.string.close ){
 
             public void onDrawerClosed( View drawerView ){
                 callbacks.onDrawerClose(getActivity(), drawerView);
@@ -178,6 +177,7 @@ public class DrawerLayoutHelper {
                 callbacks.onDrawerOpen(getActivity(), drawerView);
             }
         };
+
         drawerToggle.setHomeAsUpIndicator(R.drawable.ic_navigation_drawer);
 
         drawerLayout.setDrawerListener(drawerToggle);
@@ -197,8 +197,19 @@ public class DrawerLayoutHelper {
         }
     }
 
+	/**
+	 *	Notify a possible changes of the menu's voices, calling
+	 *	the "onStatusChanged()" on each item
+	 *	@since	CipLibrary v0.6.5.2
+	 */
+	public void notifyMenuChanged(){
+		for( ItemDrawerMenu item : ARRAY_ITEMS_LIST ){
+			item.onStatusChanged();
+		}
+	}
 
-    /////////////////////////////////////////
+
+	/////////////////////////////////////////
     //  Getters and setters
 
     public Activity getActivity() {
@@ -211,20 +222,25 @@ public class DrawerLayoutHelper {
     public ActionBarDrawerToggle getDrawerToggle() {
         return drawerToggle;
     }
-    public DrawerLayout getDrawerLayout() {
+    public DrawerLayout getDrawerLayout(){
         return drawerLayout;
     }
 
-    public ListView getDrawerListView() {
+    public ListView getDrawerListView(){
         return drawerListView;
     }
-    public void setDrawerListView(ListView drawerListView) {
+    public void setDrawerListView( ListView drawerListView ){
         this.drawerListView = drawerListView;
     }
 
+	public ItemDrawerMenu[] getArrayItemsList(){
+		return ARRAY_ITEMS_LIST;
+	}
+	public void setArrayItemsList( ItemDrawerMenu[] ARRAY_ITEMS_LIST ){
+		this.ARRAY_ITEMS_LIST = ARRAY_ITEMS_LIST;
+	}
 
-
-    /////////////////////////////////////////
+	/////////////////////////////////////////
     //  Callbacks
 
     /**
@@ -238,7 +254,7 @@ public class DrawerLayoutHelper {
     /**
      * @since   CipLibrary v0.4.2
      */
-    private static class DrawerLogCallbacks implements Callbacks{
+    protected static class DrawerLogCallbacks implements Callbacks{
         @Override
         public void onDrawerOpen(Activity activity, View drawerView) {
             Utils.logger("CipLibrary.DrawerLayoutHelper", "Drawer opened!", Utils.LOG_INFO );

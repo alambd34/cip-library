@@ -1,4 +1,16 @@
 
+v0.6.5.2
+    [FIX]   DrawerLayoutHelper call ItemDrawerMenu.onItemClicked method instead onClickListener.onClick
+    [NEW]   DrawerLayoutHelper.notifyMenuChanged notify all items the menu has changed
+    [NEW]   ItemDrawerMenu has two new method:
+                - onItemClicked: called when the item menu will be clicked
+                - onStatusChanged: called when provide a refresh the menu/item
+
+v0.6.5
+    [FIX]   Update SDK
+    [FIX]   Update constructors
+    [FIX]   Backward compatible
+
 v0.6.2.1
     [FIX]   Fixed and improved the class DialogHelper: is possible to create an instance (no longer just static methods)
 
@@ -18,7 +30,10 @@ v0.5.6
 v0.5.5
     [FIX]   ItemPreference support a default value
 
-v0.5.3 && v0.5.4
+v0.5.3
+    [FIX]   Minor fix
+
+v0.5.4
     [FIX]   Minor fix
 
 v0.5.2

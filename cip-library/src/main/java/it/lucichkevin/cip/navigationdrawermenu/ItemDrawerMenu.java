@@ -1,9 +1,11 @@
 package it.lucichkevin.cip.navigationdrawermenu;
 
-/**
+import it.lucichkevin.cip.Utils;
 
-    @author     Kevin Lucich (30/05/2014)
-    @version	1.0.0
+/**
+    @author     Kevin Lucich
+    @version	1.1.0
+ 	@updated	2015-03-24
     @since      CipLibrary v0.2.0
 */
 public class ItemDrawerMenu {
@@ -38,33 +40,52 @@ public class ItemDrawerMenu {
 
 
     /////////////////////////////////////////
+    //  Helper for the ItemDrawer
+
+	public void onItemClicked(){
+		if( this.getOnClickListener() != null ){
+			this.getOnClickListener().onClick();
+		}else{
+			Utils.logger( "[Cip.DrawerMenu.onItemClicked] "+ getTitleString(), Utils.LOG_DEBUG );
+		}
+	}
+
+	//  Quando "qualcosa" succede e deve essere modificato lo stato dell'item
+	public void onStatusChanged(){
+		//	Do nothing...
+	}
+
+    /////////////////////////////////////////
     //  Getters and setters
 
     public Integer getTitle() {
         return title;
     }
-    public void setTitle(Integer title) {
+    public void setTitle( Integer title ){
         this.title = title;
     }
+	public String getTitleString() {
+		return Utils.getContext().getResources().getString(getTitle());
+	}
 
     public Integer getImage() {
         return image;
     }
-    public void setImage(Integer image) {
+    public void setImage( Integer image ){
         this.image = image;
     }
 
     public Class getClassOfActivity() {
         return classOfActivity;
     }
-    public void setClassOfActivity(Class classOfActivity) {
+    public void setClassOfActivity( Class classOfActivity ){
         this.classOfActivity = classOfActivity;
     }
 
     public OnClickListener getOnClickListener() {
         return onClickListener;
     }
-    public void setOnClickListener(OnClickListener onClickListener) {
+    public void setOnClickListener( OnClickListener onClickListener ){
         this.onClickListener = onClickListener;
     }
 

@@ -5,7 +5,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="btn_negative">Close</string>
-    <string name="btn_positive">Ok</string>
+    <string name="btn_positive">OK</string>
     <string name="dialoghelper_neutral_btn_text">Close</string>
     <string name="dialoghelper_title">Welcome!</string>
     <string name="dialoghelper_message">Hello world! :)</string>
