@@ -1,9 +1,12 @@
 /.gradle
+/.idea
 /.DS_Store
 /local.properties
-/.idea
 /build
 /cip-library/build/
 /cip-library-examples/build/
 /future_utils
-
+.idea/.name
+.idea/compiler.xml
+*.xml
+.idea/.name
