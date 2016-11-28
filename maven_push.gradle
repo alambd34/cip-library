@@ -17,7 +17,7 @@ def isReleaseBuild() {
     def alpha = isAlphaBuild()
     def beta = isBetaBuild()
     def snapshot = isSnapshotBuild()
-    return (alpha == false) && (beta == false) && (snapshot == false)
+    return !alpha && !beta && !snapshot
 }
 
 def getVersionBuild() {
