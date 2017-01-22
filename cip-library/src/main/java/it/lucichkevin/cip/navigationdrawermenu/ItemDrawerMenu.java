@@ -1,5 +1,7 @@
 package it.lucichkevin.cip.navigationdrawermenu;
 
+import android.view.View;
+import android.widget.TextView;
 import it.lucichkevin.cip.Utils;
 
 /**
@@ -50,6 +52,17 @@ public class ItemDrawerMenu {
 		}
 	}
 
+	public boolean onItemLongClicked( View view ){
+
+		if( this.getOnClickListener() != null ){
+			return this.getOnClickListener().onLongClick(view);
+		}else{
+			Utils.logger( "[Cip.DrawerMenu.onItemClicked] "+ getTitleString(), Utils.LOG_DEBUG );
+		}
+
+		return false;
+	}
+
 	//  Quando "qualcosa" succede e deve essere modificato lo stato dell'item
 	public void onStatusChanged(){
 		//	Do nothing...
@@ -87,15 +100,23 @@ public class ItemDrawerMenu {
     }
     public void setOnClickListener( OnClickListener onClickListener ){
         this.onClickListener = onClickListener;
-    }
+	}
 
 
 
     /////////////////////////////////////////
     //  Callback
 
-    public static interface OnClickListener{
-        public void onClick();
-    }
+	public static interface OnClickListenerInterface {
+		public void onClick();
+		public boolean onLongClick(View view);
+	}
+
+    public abstract static class OnClickListener implements OnClickListenerInterface {
+        public void onClick(){}
+		public boolean onLongClick( View view ){
+			return false;
+		}
+	}
 
 }

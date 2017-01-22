@@ -157,6 +157,14 @@ public class DrawerLayoutHelper {
 			}
 		});
 
+		drawerListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id ){
+				ItemDrawerMenu itemSelected = ARRAY_ITEMS_LIST[ position ];
+				return itemSelected.onItemLongClicked(view);
+			}
+		});
+
 		drawerToggle = new ActionBarDrawerToggle( getActivity(), drawerLayout, R.string.open, R.string.close ){
 
 			public void onDrawerClosed( View drawerView ){

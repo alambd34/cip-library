@@ -1,4 +1,8 @@
 
+	[NEW]	(DrawerLayoutHelper) Added ItemDrawerMenu.onLongItemClicked method
+	[NEW]	(AbstractRequester) Added two get/set methods: isGZipRequest/setGZipRequest and getMethodOfRequest/setMethodOfRequest
+	[FIX]	Add comment in AbstractRequester code
+
 v0.6.5.2
     [FIX]   DrawerLayoutHelper call ItemDrawerMenu.onItemClicked method instead onClickListener.onClick
     [NEW]   DrawerLayoutHelper.notifyMenuChanged notify all items the menu has changed

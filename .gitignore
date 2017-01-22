@@ -10,3 +10,5 @@
 .idea/compiler.xml
 *.xml
 .idea/.name
+.idea/gradle.xml
+.idea/gradle.xml

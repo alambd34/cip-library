@@ -2,15 +2,14 @@ package it.lucichkevin.cip.examples;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v7.app.AppCompatActivity;
-
 import it.lucichkevin.cip.Utils;
+import it.lucichkevin.cip.examples.fragments.FragmentMainTest;
 import it.lucichkevin.cip.navigationdrawermenu.DrawerLayoutHelper;
 import it.lucichkevin.cip.navigationdrawermenu.ItemDrawerMenu;
 
-import it.lucichkevin.cip.examples.fragments.FragmentMainTest;
 
 public class TestMainActivity extends AppCompatActivity {
 
@@ -35,6 +34,18 @@ public class TestMainActivity extends AppCompatActivity {
 			@Override
 			public void onClick() {
 				Utils.Toaster( TestMainActivity.this, "I'm number 3" );
+			}
+		}),
+
+		new ItemDrawerMenu( R.string.test_drawer_arrayitemnumber4, new ItemDrawerMenu.OnClickListener() {
+			@Override
+			public void onClick(){
+				Utils.Toaster( TestMainActivity.this, "Normal click" );
+			}
+			@Override
+			public boolean onLongClick( View view ){
+				Utils.Toaster( TestMainActivity.this, "Long click" );
+				return true;
 			}
 		}),
 

@@ -69,10 +69,32 @@ import java.util.concurrent.Executor;
 */
 public abstract class AbstractRequester {
 
+	/**
+	 *	The url to contact, to send the request
+	 */
 	protected String url;
+
 	protected long delay = 0;
 	protected int INDEX_CURRENT_REQUEST = 0;
+
+	/**
+	 *	Set if requests synchronous or asynchronous
+	 */
 	protected int sendingMode = SendingMode.SYNCHRONOUS;
+
+	/**
+	 *	Set if the request is gzip of not (default: true)
+	 */
+	protected boolean is_gzip_request = true;
+
+	/**
+	 *	Set the method to use for the request
+	 */
+	protected String method_of_request = "GET";
+
+	/**
+	 *	Array with requests to send
+	 */
 	protected ArrayList<Request> requests = new ArrayList<Request>();
 	protected Request.Callbacks callbacks = new Request.Callbacks() {
 		@Override
@@ -247,6 +269,19 @@ public abstract class AbstractRequester {
 		this.sendingMode = sendingMode;
 	}
 
+	public boolean isGZipRequest(){
+		return this.is_gzip_request;
+	}
+	public void setGZipRequest( boolean is_gzip_request ){
+		this.is_gzip_request = is_gzip_request;
+	}
+
+	public String getMethodOfRequest(){
+		return this.method_of_request;
+	}
+	public void setMethodOfRequest( String method_of_request ){
+		this.method_of_request = method_of_request;
+	}
 
 
 
@@ -321,9 +356,13 @@ public abstract class AbstractRequester {
 
 			try {
 				conn = (HttpURLConnection) (new URL(url)).openConnection();
-				conn.setRequestMethod("GET");
+				conn.setRequestMethod( abstractRequester.getMethodOfRequest() );
 				conn.setConnectTimeout(CURRENT_REQUEST.getTimeout());
 				conn.setRequestProperty("Accept", "application/json");
+
+				if( abstractRequester.isGZipRequest() ){
+					conn.setRequestProperty("Accept-Encoding", "gzip");
+				}
 
 				if( conn.getResponseCode() != 200 ){
 					RuntimeException e = new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode() );
@@ -422,7 +461,6 @@ public abstract class AbstractRequester {
 		public void setDelay(long delay) {
 			this.delay = delay;
 		}
-
 	}
 
 }
