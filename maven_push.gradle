@@ -3,148 +3,154 @@ apply plugin: 'signing'
 
 
 def isAlphaBuild() {
-    return android.defaultConfig.versionName.contains("-ALPHA") == true
+	return android.defaultConfig.versionName.contains("-ALPHA") == true
 }
 
 def isBetaBuild() {
-    return android.defaultConfig.versionName.contains("-BETA") == true
+	return android.defaultConfig.versionName.contains("-BETA") == true
 }
 def isSnapshotBuild() {
-    return android.defaultConfig.versionName.contains("-SNAPSHOT") == true
+	return android.defaultConfig.versionName.contains("-SNAPSHOT") == true
 }
 
 def isReleaseBuild() {
-    def alpha = isAlphaBuild()
-    def beta = isBetaBuild()
-    def snapshot = isSnapshotBuild()
-    return !alpha && !beta && !snapshot
+	def alpha = isAlphaBuild()
+	def beta = isBetaBuild()
+	def snapshot = isSnapshotBuild()
+	return !alpha && !beta && !snapshot
 }
 
 def getVersionBuild() {
-    if( isAlphaBuild() ){
-        return "ALPHA"
-    }
-    if( isBetaBuild() ){
-        return "BETA"
-    }
-    if( isSnapshotBuild() ){
-        return "SNAPSHOT"
-    }
-    if( isReleaseBuild() ){
-        return "RELEASE"
-    }
-    return "unknow"
+	if( isAlphaBuild() ){
+		return "ALPHA"
+	}
+	if( isBetaBuild() ){
+		return "BETA"
+	}
+	if( isSnapshotBuild() ){
+		return "SNAPSHOT"
+	}
+	if( isReleaseBuild() ){
+		return "RELEASE"
+	}
+	return "unknow"
 }
 
-def getSonatypeRepositoryUrl(){
-    def url = ""
+def getRepositoryUrl(){
+	def url = ""
 
-    if( isReleaseBuild() ){
-        url = hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-    } else if( isSnapshotBuild() ){
-        url = hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL : "https://oss.sonatype.org/content/repositories/snapshots/"
-    }else{
-        url = repositories.mavenLocal().url
-    }
+	if( isReleaseBuild() ){
+		url = hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+	} else if( isSnapshotBuild() ){
+		url = hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL : "https://oss.sonatype.org/content/repositories/snapshots/"
+	}else{
+		url = repositories.mavenLocal().url
+	}
 
-    return url
+	return url
 }
 
 
 def getRepositoryUsername() {
-    return hasProperty('nexusUsername') ? nexusUsername : ""
+	return hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ""
 }
 
 def getRepositoryPassword() {
-    return hasProperty('nexusPassword') ? nexusPassword : ""
+	return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
 }
 
 
 def valueMasked( value ){
-    return value.replaceFirst( value.subSequence( 1, value.length()-1 ),{ match ->
-        return "".padLeft(match.length(),"*")
-    })
+	return value.replaceFirst( value.subSequence( 1, value.length()-1 ),{ match ->
+		return "".padLeft(match.length(),"*")
+	})
 }
 
-def getInfoUpload(){
+def printInfoUpload(){
 
-    println '\n'
+	println '\n'
 
-    def username = getRepositoryUsername()
-    def password = getRepositoryPassword()
+	def username = getRepositoryUsername()
+	def password = getRepositoryPassword()
 
-    println 'Getting username: '+ ((username!='') ? username : 'Error to get "nexusUsername" var')
-    println 'Getting password: '+ ((password!='') ? valueMasked(password) : 'Error to get "nexusPassword" var')
-    println 'Build type: '+ getVersionBuild() +' (versionName: '+ android.defaultConfig.versionName +')'
-    println 'Url to upload: '+ getSonatypeRepositoryUrl()
+	println 'Getting username: '+ ((username!='') ? username : 'Error to get "nexusUsername" var')
+	println 'Getting password: '+ ((password!='') ? valueMasked(password) : 'Error to get "nexusPassword" var')
+	println 'Build type: '+ getVersionBuild() +' (versionName: '+ android.defaultConfig.versionName +')'
+	println 'Url to upload: '+ getRepositoryUrl()
 
-    println ''
+	println ''
 }
 
 afterEvaluate { project ->
-    uploadArchives {
+	uploadArchives {
 
-        getInfoUpload()
+		printInfoUpload()
 
-        repositories {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-                pom.artifactId = POM_ARTIFACT_ID
+		repositories {
+			mavenDeployer {
+				beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-                repository( url: getSonatypeRepositoryUrl() ){
-                    authentication(
-                            userName: getRepositoryUsername(),
-                            password: getRepositoryPassword()
-                    )
-                }
+				pom.groupId = GROUP
+				pom.artifactId = POM_ARTIFACT_ID
+				pom.version = VERSION_NAME
 
-                pom.project {
-                    name POM_NAME
-                    packaging POM_PACKAGING
-                    description POM_DESCRIPTION
-                    url POM_URL
-                    scm {
-                        url POM_SCM_URL
-                        connection POM_SCM_CONNECTION
-                        developerConnection POM_SCM_DEV_CONNECTION
-                    }
-                    licenses {
-                        license {
-                            name POM_LICENCE_NAME
-                            url POM_LICENCE_URL
-                            distribution POM_LICENCE_DIST
-                        }
-                    }
-                    developers {
-                        developer {
-                            id POM_DEVELOPER_ID
-                            name POM_DEVELOPER_NAME
-                        }
-                    }
-                }
-            }
-        }
-    }
-    signing {
-        required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-        sign configurations.archives
-    }
+				repository( url: getRepositoryUrl() ){
+					authentication(
+						userName: getRepositoryUsername(),
+						password: getRepositoryPassword()
+					)
+				}
 
-    task androidJavadocs(type: Javadoc) {
-        source = android.sourceSets.main.java.sourceFiles
-    }
-    task androidJavadocsJar(type: Jar) {
-        classifier = 'javadoc'
-//      basename = artifact_id
-        from androidJavadocs.destinationDir
-    }
-    task androidSourcesJar(type: Jar) {
-        classifier = 'sources'
-//      basename = artifact_id
-        from android.sourceSets.main.java.sourceFiles
-    }
-    artifacts {
-        archives androidSourcesJar
-        archives androidJavadocsJar
-    }
+				pom.project {
+					name POM_NAME
+					packaging POM_PACKAGING
+					description POM_DESCRIPTION
+					url POM_URL
+
+					scm {
+						url POM_SCM_URL
+						connection POM_SCM_CONNECTION
+						developerConnection POM_SCM_DEV_CONNECTION
+					}
+
+					licenses {
+						license {
+							name POM_LICENCE_NAME
+							url POM_LICENCE_URL
+							distribution POM_LICENCE_DIST
+						}
+					}
+
+					developers {
+						developer {
+							id POM_DEVELOPER_ID
+							name POM_DEVELOPER_NAME
+						}
+					}
+				}
+			}
+		}
+	}
+
+	signing {
+		required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
+		sign configurations.archives
+	}
+
+	task androidJavadocs(type: Javadoc) {
+		source = android.sourceSets.main.java.sourceFiles
+	}
+	task androidJavadocsJar(type: Jar) {
+		classifier = 'javadoc'
+		from androidJavadocs.destinationDir
+	}
+	task androidSourcesJar(type: Jar) {
+		classifier = 'sources'
+		from android.sourceSets.main.java.sourceFiles
+	}
+
+	artifacts {
+		archives androidSourcesJar
+//		archives androidJavadocsJar
+	}
 }

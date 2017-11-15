@@ -1,6 +1,6 @@
 package it.lucichkevin.cip.examples.fragments;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +15,7 @@ import it.lucichkevin.cip.examples.R;
 /**
  * @author  Kevin Lucich (08/09/14)
  */
-public class FragmentsDialogs extends Fragment{
+public class FragmentsDialogs extends Fragment {
 
     public FragmentsDialogs(){
 

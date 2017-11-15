@@ -1,83 +1,83 @@
 package it.lucichkevin.cip.examples;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import it.lucichkevin.cip.Utils;
 import it.lucichkevin.cip.examples.fragments.FragmentMainTest;
-import it.lucichkevin.cip.navigationdrawermenu.DrawerLayoutHelper;
-import it.lucichkevin.cip.navigationdrawermenu.ItemDrawerMenu;
+import it.lucichkevin.cip.navigationdrawermenu.AbstractActivityWithActionBarMenu;
+import it.lucichkevin.cip.navigationdrawermenu.NavigationItemMenu;
 
 
-public class TestMainActivity extends AppCompatActivity {
+public class TestMainActivity extends AbstractActivityWithActionBarMenu {
 
-	protected DrawerLayoutHelper drawerLayoutHelper = null;
-	protected ItemDrawerMenu[] ARRAY_ITEMS = new ItemDrawerMenu[]{
+//	protected DrawerLayoutHelper drawerLayoutHelper = null;
+	protected NavigationItemMenu[] ARRAY_ITEMS = new NavigationItemMenu[]{
 
-		new ItemDrawerMenu( R.string.test_drawer_arrayitemnumber1, new ItemDrawerMenu.OnClickListener() {
+		new NavigationItemMenu( R.string.test_drawer_arrayitemnumber1, R.drawable.ic_menu_camera, new NavigationItemMenu.OnClickListener() {
 			@Override
 			public void onClick() {
 				Utils.Toaster( TestMainActivity.this, "I'm number 1" );
 			}
 		}),
 
-		new ItemDrawerMenu( R.string.test_drawer_arrayitemnumber2, new ItemDrawerMenu.OnClickListener() {
+		new NavigationItemMenu( R.string.test_drawer_arrayitemnumber2, new NavigationItemMenu.OnClickListener() {
 			@Override
 			public void onClick() {
 				Utils.Toaster( TestMainActivity.this, "I'm number 2" );
 			}
 		}),
 
-		new ItemDrawerMenu( R.string.test_drawer_arrayitemnumber3, new ItemDrawerMenu.OnClickListener() {
+		new NavigationItemMenu( R.string.test_drawer_arrayitemnumber3, new NavigationItemMenu.OnClickListener() {
 			@Override
 			public void onClick() {
 				Utils.Toaster( TestMainActivity.this, "I'm number 3" );
 			}
 		}),
 
-		new ItemDrawerMenu( R.string.test_drawer_arrayitemnumber4, new ItemDrawerMenu.OnClickListener() {
+		new NavigationItemMenu( R.string.test_drawer_arrayitemnumber4, new NavigationItemMenu.OnClickListener() {
 			@Override
 			public void onClick(){
 				Utils.Toaster( TestMainActivity.this, "Normal click" );
 			}
-			@Override
-			public boolean onLongClick( View view ){
-				Utils.Toaster( TestMainActivity.this, "Long click" );
-				return true;
-			}
 		}),
 
-		new ItemDrawerMenu( R.string.show_prefereces, TestPreferencesListActivity.class),
+		new NavigationItemMenu( R.string.show_prefereces, TestPreferencesListActivity.class),
 	};
 
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState ){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_test_main);
 
-		drawerLayoutHelper = new DrawerLayoutHelper( TestMainActivity.this, R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS, new DrawerLayoutHelper.Callbacks() {
-			@Override
-			public void onDrawerOpen( Activity activity, View drawerView) {
-				Utils.Toaster( activity, "Drawer opened!");
-			}
-			@Override
-			public void onDrawerClose( Activity activity, View drawerView) {
-				Utils.Toaster( activity, "Drawer closed!");
-			}
-		});
+		NavigationViewHandling
+				.inflateHeaderView(R.layout.navigation_header)
+				.addItemsMenu(ARRAY_ITEMS);
+
+//		drawerLayoutHelper = new DrawerLayoutHelper( TestMainActivity.this, R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS, new DrawerLayoutHelper.Callbacks() {
+//			@Override
+//			public void onDrawerOpen( Activity activity, View drawerView) {
+//				Utils.Toaster( activity, "Drawer opened!");
+//			}
+//			@Override
+//			public void onDrawerClose( Activity activity, View drawerView) {
+//				Utils.Toaster( activity, "Drawer closed!");
+//			}
+//		});
 
 		if( savedInstanceState != null ){
 			return;
 		}
 
-		getSupportFragmentManager().beginTransaction()
+		getFragmentManager().beginTransaction()
 			.addToBackStack("Main")
 			.add(R.id.container, new FragmentMainTest())
 			.commit();
 
+	}
+
+	@Override
+	protected int getContentActivity() {
+		return R.layout.activity_test_main;
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class TestMainActivity extends AppCompatActivity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch( item.getItemId() ){
 			case android.R.id.home:
-				drawerLayoutHelper.toggle();
+//				drawerLayoutHelper.toggle();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);

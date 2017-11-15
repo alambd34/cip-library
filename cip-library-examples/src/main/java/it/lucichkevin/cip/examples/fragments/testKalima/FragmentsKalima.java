@@ -1,7 +1,7 @@
 package it.lucichkevin.cip.examples.fragments.testKalima;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.Gravity;

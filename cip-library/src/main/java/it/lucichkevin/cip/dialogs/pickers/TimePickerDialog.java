@@ -1,10 +1,10 @@
 package it.lucichkevin.cip.dialogs.pickers;
 
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +14,7 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-import it.lucichkevin.cip.R;
-import it.lucichkevin.cip.Utils;
+import it.lucichkevin.cip.*;
 
 /**
     Create a dialog with a two NumberPickers to choose hours and minutes

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources.NotFoundException;
 
-import it.lucichkevin.cip.R;
+import it.lucichkevin.cip.*;
 import it.lucichkevin.cip.Utils;
 
 /**

@@ -5,10 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.NumberPicker;
-import android.widget.TextView;
-
-import java.lang.reflect.Field;
 
 import it.lucichkevin.cip.Utils;
 

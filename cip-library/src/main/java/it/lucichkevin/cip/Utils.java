@@ -125,7 +125,7 @@ public class Utils {
 
 	/**
 	 *  Get a List of Object of T type, and return an array
-	 *  @param      list    The list to convert in array
+	 *  @param      list    List<T>	The list to convert in array
 	 *  @return     array
 	 */
 	@SuppressWarnings("unchecked")
@@ -135,20 +135,22 @@ public class Utils {
 
 
 	/**
-	 @since 0.0.1
-	 @see #logger(String, String, int)
+	 *	Log a message using a default app tag
+	 *	@param  message     String	Message to log
+	 *	@param  loglevel    int		Level of the log
+	 *	@since 0.0.1
+	 *	@see #logger(String, String, int)
 	 */
 	public static void logger( String message, int loglevel ){
 		Utils.logger( getAppTag(), message, loglevel );
 	}
 
 	/**
-	 Prints log ONLY if PreferencesManager.isDebugLog() it's true.
-
-	 @since  v0.4.0
-	 @param  app_tag     App tag to search the log
-	 @param  message     Message to log
-	 @param  logLevel    Level of the log
+	 *	Prints log ONLY if PreferencesManager.isDebugLog() it's true.
+	 *	@since  v0.4.0
+	 *	@param  app_tag     App tag to search the log
+	 *	@param  message     Message to log
+	 *	@param  logLevel    Level of the log
 	 */
 	public static void logger( String app_tag, String message, int logLevel ){
 		if( PreferencesManager.isDebugLog() ){

@@ -1,4 +1,14 @@
 
+v0.9.0
+	[REMOVE]	Removed AbstractGeneratorHelper
+	[REMOVE]	Removed expandableView package
+	[FIX]		Refactor ObjectAdapter, add new generic layout for "image and text" template
+
+v0.8.0
+	[ADD]	AbstractActivityWithActionBarMenu
+	[RENAMED]	ItemDrawerMenu to NavigationItemMenu
+	[REMOVED]	DrawerLayoutHelper
+
 v0.7.1
 	[NEW]	(DrawerLayoutHelper) Added ItemDrawerMenu.onLongItemClicked method
 	[NEW]	(AbstractRequester) Added two get/set methods: isGZipRequest/setGZipRequest and getMethodOfRequest/setMethodOfRequest

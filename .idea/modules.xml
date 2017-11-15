@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/cip.iml" filepath="$PROJECT_DIR$/cip.iml" />
       <module fileurl="file://$PROJECT_DIR$/cip-library/cip-library.iml" filepath="$PROJECT_DIR$/cip-library/cip-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/cip-library-examples/cip-library-examples.iml" filepath="$PROJECT_DIR$/cip-library-examples/cip-library-examples.iml" />
-      <module fileurl="file://$PROJECT_DIR$/cip-library-helpers/cip-library-helpers.iml" filepath="$PROJECT_DIR$/cip-library-helpers/cip-library-helpers.iml" />
     </modules>
   </component>
 </project>

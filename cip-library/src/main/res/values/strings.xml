@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Cip</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
-    <string name="btn_negative">Close</string>
-    <string name="btn_positive">OK</string>
-    <string name="dialoghelper_neutral_btn_text">Close</string>
-    <string name="dialoghelper_title">Welcome!</string>
-    <string name="dialoghelper_message">Hello world! :)</string>
+	<string name="app_name">Cip</string>
+
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Close navigation drawer</string>
+	
+	<string name="btn_negative">Close</string>
+	<string name="btn_positive">OK</string>
+
+	<string name="dialoghelper_neutral_btn_text">Close</string>
+	<string name="dialoghelper_title">Welcome!</string>
+	<string name="dialoghelper_message">Hello world! :)</string>
 
 </resources>

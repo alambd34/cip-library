@@ -73,7 +73,9 @@ public abstract class TimePickerPreference extends DialogPreference {
     }
 
     /**
-     *  Called when
+     *  Called when a time has benn set
+     *	@param  hour    int     Hour set
+     *	@param  minute  int     Minute set
      */
     public abstract void onSetTime( int hour, int minute );
 }

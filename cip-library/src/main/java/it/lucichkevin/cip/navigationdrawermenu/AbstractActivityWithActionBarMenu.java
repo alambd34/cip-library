@@ -1,15 +1,24 @@
 package it.lucichkevin.cip.navigationdrawermenu;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewStub;
+import it.lucichkevin.cip.R;
 
+/**
+ *	@since   CipLibrary v0.8.0
+ */
 abstract public class AbstractActivityWithActionBarMenu extends AppCompatActivity {
 
 	public _DrawerLayoutHandling DrawerLayoutHandling = null;
@@ -97,9 +106,28 @@ abstract public class AbstractActivityWithActionBarMenu extends AppCompatActivit
 	protected class _NavigationViewHandling {
 
 		NavigationView navigationView = null;
+		SparseArray<NavigationItemMenu> list_items_menu = new SparseArray<>();
 
 		public _NavigationViewHandling(Activity activity ){
 			this.navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
+
+			//	Default click handler :)
+			this.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
+				@Override
+				public boolean onNavigationItemSelected( @NonNull MenuItem item_menu ){
+					NavigationItemMenu item = list_items_menu.get(item_menu.getItemId());
+
+					DrawerLayoutHandling.closeDrawer();
+
+					if( item.getClassOfActivity() != null ){
+						(AbstractActivityWithActionBarMenu.this).startActivity( new Intent( AbstractActivityWithActionBarMenu.this, item.getClassOfActivity()) );
+					}
+
+					item.onItemClicked();
+
+					return false;
+				}
+			});
 		}
 
 		public NavigationView getNavigationView() {
@@ -121,6 +149,32 @@ abstract public class AbstractActivityWithActionBarMenu extends AppCompatActivit
 			return this;
 		}
 
+		public _NavigationViewHandling addItemMenu( NavigationItemMenu item ){
+			final Menu menu = navigationView.getMenu();
+			int item_id = list_items_menu.size() + 1;
+
+			list_items_menu.put( item_id, item);
+			menu.add( Menu.NONE, item_id, Menu.NONE, item.getTitle() );
+
+			if( item.getIcon() != null ){
+				menu.findItem(item_id).setIcon( item.getIcon() );
+			}
+
+			return this;
+		}
+
+		public _NavigationViewHandling addItemsMenu( NavigationItemMenu[] list ){
+
+			for( NavigationItemMenu item : list ){
+				this.addItemMenu(item);
+			}
+
+			return this;
+		}
+
+		public SparseArray<NavigationItemMenu> getItemsMenu(){
+			return this.list_items_menu;
+		}
 	}
 
 	@Override

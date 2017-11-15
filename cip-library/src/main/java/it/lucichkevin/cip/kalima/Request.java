@@ -293,25 +293,28 @@ public class Request implements Serializable {
 		}
 
 		/**
-			 Method called before the AbstractRequester keep the connection with the server, view onPreExecute of AsyncTask
-			 @see android.os.AsyncTask
+		 *	Method called before the AbstractRequester keep the connection with the server, view onPreExecute of AsyncTask
+		 *	@param	request		Request		Reference to the instance of the Request
+		 *	@param	url			String		The response received from the server
+		 *	@see android.os.AsyncTask
 		*/
 		public void onSend( Request request, String url ){
 			Utils.logger( getPrefixLog(request) +" SEND"+ ((url!=null)?"\n"+url:""), Utils.LOG_INFO );
 		}
 
 		/**
-			 Method called after a request has been successful and the response from the server has been correctly interpreted
-			 @param	  request	 Reference to the instance of the Request
-			 @param	  response	The response received from the server
+		 *	Method called after a request has been successful and the response from the server has been correctly interpreted
+		 *	@param	request	Request		Reference to the instance of the Request
+		 *	@param	response	Response	The response received from the server
 		*/
 		public void onEnd( Request request, Response response ){
 			Utils.logger( getPrefixLog(request) +" END", Utils.LOG_INFO );
 		}
 
 		/**
-			 Method called when an error is encountered
-			 @param	  request	 Reference to the instance of the Request
+		 *	Method called when an error is encountered
+		 *	@param	  request	Request 	Reference to the instance of the Request
+		 *	@param	  e			Exception	Reference to the instance of the Request
 		*/
 		public void onError( Request request, Exception e ){
 			e.printStackTrace();
@@ -319,26 +322,26 @@ public class Request implements Serializable {
 		}
 
 		/**
-			 Method called when a request id cancelled calling the method of AbstractRequester "cancel()"
-			 @param	  request	 Reference to the instance of the Request
-			 @see android.os.AsyncTask
+		 *	Method called when a request id cancelled calling the method of AbstractRequester "cancel()"
+		 *	@param	  request	 Request	Reference to the instance of the Request
+		 *	@see android.os.AsyncTask
 		*/
 		public void onCancelled( Request request ){
 			Utils.logger( getPrefixLog(request) +" CANCELLED", Utils.LOG_INFO );
 		}
 
 		/**
-			Method called the AbstractRequester while a request is made. The placeholder indicates the status of the request: <ul>
-			<li> "A" => The request was successfully converted into JSON	</li>
-			<li> "B" => Did you follow the connection with the server	   </li>
-			<li> "C" => You have received a response from the server		</li>
-			<li> "D" => The response has been accessed	  </li>
-			<li> "E" => The response was converted from JSON to the type of class in the method send()   </li>
-			</ul>
-
-			@param	  request		 Reference to the instance of the Request
-			@param	  placeholder	 Indicates the status of the request {@link Request.Status}
-			@see android.os.AsyncTask
+		 *	Method called the AbstractRequester while a request is made. The placeholder indicates the status of the request: <ul>
+		 *	<li> "A" => The request was successfully converted into JSON	</li>
+		 *	<li> "B" => Did you follow the connection with the server	   </li>
+		 *	<li> "C" => You have received a response from the server		</li>
+		 *	<li> "D" => The response has been accessed	  </li>
+		 *	<li> "E" => The response was converted from JSON to the type of class in the method send()   </li>
+		 *	</ul>
+		 *
+		 *	@param	  request		 Reference to the instance of the Request
+		 *	@param	  placeholder	 Indicates the status of the request {@link Request.Status}
+		 *	@see android.os.AsyncTask
 		*/
 		public void onProgressUpdate( Request request, String placeholder ){
 			Utils.logger( getPrefixLog(request) +" onProgressUpdate ==> "+ placeholder, Utils.LOG_INFO );
@@ -417,6 +420,8 @@ public class Request implements Serializable {
 		}
 
 		/**
+		 *  @param  status	The status to convert
+		 *	@return	String	Return the name of status id
 		 *  @see it.lucichkevin.cip.kalima.Request.Status#statusToString(int, boolean)
 		 */
 		public static String statusToString( int status ){
@@ -465,6 +470,8 @@ public class Request implements Serializable {
 
 		/**
 		 *  Returns a description of the status
+		 *	@param	status	int		The status code
+		 *	@return	String	Explain the status code
 		 */
 		public static String explain( int status ){
 

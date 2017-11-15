@@ -1,12 +1,10 @@
 package it.lucichkevin.cip.navigationdrawermenu;
 
-import android.view.View;
-
 /**
-	@author	 Kevin Lucich
+	@author		Kevin Lucich
 	@version	1.0.0
  	@updated	2017-02-12
-	@since	  CipLibrary v0.8.0
+	@since		CipLibrary v0.8.0
 */
 public class NavigationItemMenu {
 
@@ -31,6 +29,10 @@ public class NavigationItemMenu {
 		this( title, icon, classOfActivity, null );
 	}
 
+	public NavigationItemMenu(Integer title, Integer icon, OnClickListener onClickListener ){
+		this( title, icon, null, onClickListener );
+	}
+
 	public NavigationItemMenu(Integer title, Integer icon, Class classOfActivity, OnClickListener onClickListener ){
 		this.title = title;
 		this.icon = icon;
@@ -48,17 +50,6 @@ public class NavigationItemMenu {
 		}else{
 //			Utils.logger( "[Cip.NavigationMenu.onItemClicked] "+ getTitleString(), Utils.LOG_DEBUG );
 		}
-	}
-
-	public boolean onItemLongClicked( View view ){
-
-		if( this.getOnClickListener() != null ){
-			return this.getOnClickListener().onLongClick(view);
-		}else{
-//			Utils.logger( "[Cip.NavigationMenu.onItemClicked] "+ getTitleString(), Utils.LOG_DEBUG );
-		}
-
-		return false;
 	}
 
 	//  Quando "qualcosa" succede e deve essere modificato lo stato dell'item
@@ -107,16 +98,8 @@ public class NavigationItemMenu {
 	/////////////////////////////////////////
 	//  Callback
 
-	public static interface OnClickListenerInterface {
+	public static interface OnClickListener {
 		public void onClick();
-		public boolean onLongClick(View view);
-	}
-
-	public abstract static class OnClickListener implements OnClickListenerInterface {
-		public void onClick(){}
-		public boolean onLongClick( View view ){
-			return false;
-		}
 	}
 
 }

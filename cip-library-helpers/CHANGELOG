@@ -1,6 +1,0 @@
-
-v1.0.0
-    Release into Maven Central Repository
-
-v0.1.0
-    [ADD]   Added the first helper: an abstract class AbstractGeneratorHelper to create a database with greenDao library

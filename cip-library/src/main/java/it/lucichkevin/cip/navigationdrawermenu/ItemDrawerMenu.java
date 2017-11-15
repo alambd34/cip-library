@@ -1,7 +1,6 @@
 package it.lucichkevin.cip.navigationdrawermenu;
 
 import android.view.View;
-import android.widget.TextView;
 import it.lucichkevin.cip.Utils;
 
 /**
