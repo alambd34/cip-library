@@ -28,6 +28,8 @@ abstract public class AbstractActivityWithActionBarMenu extends AppCompatActivit
 	protected void onCreate(Bundle savedInstanceState ){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_content_with_action_bar_menu);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
 
 		this.DrawerLayoutHandling = new _DrawerLayoutHandling(this);
 		this.NavigationViewHandling = new _NavigationViewHandling(this);
@@ -36,10 +38,6 @@ abstract public class AbstractActivityWithActionBarMenu extends AppCompatActivit
 		ViewStub stub = (ViewStub) findViewById(R.id.activity_content);
 		stub.setLayoutResource(getContentActivity());
 		stub.inflate();
-
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
-
 
 		DrawerLayout drawer = DrawerLayoutHandling.getDrawerLayout();
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

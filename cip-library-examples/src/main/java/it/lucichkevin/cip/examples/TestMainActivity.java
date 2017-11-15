@@ -10,7 +10,6 @@ import it.lucichkevin.cip.navigationdrawermenu.NavigationItemMenu;
 
 public class TestMainActivity extends AbstractActivityWithActionBarMenu {
 
-//	protected DrawerLayoutHelper drawerLayoutHelper = null;
 	protected NavigationItemMenu[] ARRAY_ITEMS = new NavigationItemMenu[]{
 
 		new NavigationItemMenu( R.string.test_drawer_arrayitemnumber1, R.drawable.ic_menu_camera, new NavigationItemMenu.OnClickListener() {
@@ -53,16 +52,6 @@ public class TestMainActivity extends AbstractActivityWithActionBarMenu {
 				.inflateHeaderView(R.layout.navigation_header)
 				.addItemsMenu(ARRAY_ITEMS);
 
-//		drawerLayoutHelper = new DrawerLayoutHelper( TestMainActivity.this, R.id.drawer_layout, R.id.drawer_list_view, ARRAY_ITEMS, new DrawerLayoutHelper.Callbacks() {
-//			@Override
-//			public void onDrawerOpen( Activity activity, View drawerView) {
-//				Utils.Toaster( activity, "Drawer opened!");
-//			}
-//			@Override
-//			public void onDrawerClose( Activity activity, View drawerView) {
-//				Utils.Toaster( activity, "Drawer closed!");
-//			}
-//		});
 
 		if( savedInstanceState != null ){
 			return;
