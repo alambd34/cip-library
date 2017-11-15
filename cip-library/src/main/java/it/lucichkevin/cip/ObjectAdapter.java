@@ -1,129 +1,75 @@
 package it.lucichkevin.cip;
 
+
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-/**
-	Adapter for T type object
 
-	<br /><br />
-
-	<pre>
-	ObjectAdapter&lt;MyObject&gt; adapter = new ObjectAdapter&lt;MyObject&gt;(){
-		&#64;Override
-		protected void attachItemToLayout( MyObject item, int position ){
-			//  Do something...
-		}
-	};
-	</pre>
-
-	@author	 Kevin Lucich	14/05/2014
-	@version	0.0.2
-	@since	  Cip version 0.0.1
-*/
 public abstract class ObjectAdapter<T> extends ArrayAdapter<T> {
 
-	protected final static int DEFAULT_RESOURCE_LAYOUT = android.R.layout.simple_list_item_1;
+	public final static int ITEM_LAYOUT_SIMPLE = android.R.layout.simple_list_item_1;
+	public final static int ITEM_LAYOUT_WITH_IMAGE = R.layout.adapter_item_with_image;
+	public final static int DEFAULT_RESOURCE_LAYOUT = ITEM_LAYOUT_SIMPLE;
 
-	protected View convertView = null;
+	protected int layout_id;
+	protected ArrayList<T> items_list;
+	protected LayoutInflater inflater;
+
 	protected Context context = null;
+	protected View item_view = null;
 
-	protected T[] items = null;
-	protected int layout;
-	protected SparseArray<View> viewHolder = null;
-
-	public ObjectAdapter( Context context, T[] items ){
-		this(context, DEFAULT_RESOURCE_LAYOUT, items );
+	/** @deprecated */
+	public ObjectAdapter( Activity context, T[] items_array ){
+		this(context, DEFAULT_RESOURCE_LAYOUT, new ArrayList<T>(Arrays.asList(items_array)) );
+	}
+	/** @deprecated */
+	public ObjectAdapter( Activity context, int layout_id, T[] items_array ){
+		super(context, layout_id, new ArrayList<T>(Arrays.asList(items_array)) );
 	}
 
-	public ObjectAdapter( Context context, List<T> objectsList ){
-		this( context, DEFAULT_RESOURCE_LAYOUT, objectsList );
+	public ObjectAdapter( Activity context, ArrayList<T> items_list ){
+		this(context, DEFAULT_RESOURCE_LAYOUT, items_list);
 	}
 
-	public ObjectAdapter( Context context, int layout, List<T> objectsList ){
-		//  Cast to Array
-		this( context, layout, (T[]) objectsList.toArray() );
-	}
+	public ObjectAdapter( Activity context, int layout_id, ArrayList<T> items_list ){
+		super(context, layout_id, items_list);
 
-	public ObjectAdapter( Context context, int layout, T[] items ){
-		super( context, layout, items );
-		this.layout = layout;
-		this.items = items;
+		this.items_list = items_list;
 		this.context = context;
+		this.layout_id = layout_id;
+		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	@Override
-	public View getView( int position, View convertView, ViewGroup parent ){
+	@NonNull
+	public View getView( int position, View convertView, @NonNull ViewGroup parent ){
 
-		setConvertView(convertView);
-
-		//  The developer has the task of implement the logic of this method
-		attachItemToLayout( getItem(position), position );
-
-		return getConvertView();
-	}
-
-
-	public T[] getItems(){
-		return this.items;
-	}
-
-	/**
-	 *	Attach the info of item to the layout, inside use getViewById method to get the view where attach the info.	<br /><br />
-	 *  
-	 *	<i>CheckedTextView checkedTextView = (CheckedTextView) getViewById((R.id.choice_item_name);</i>	<br /><br />
-	 *	
-	 *	Called for each item into array items
-	 *	@param  item		The item of type <T>
-	 *	@param  position   The position of item into array
-	*/
-	protected abstract void attachItemToLayout( T item, int position );
-
-
-	/**
-	 *	Return the View searched
-	 *	@param  resource_id	Resource_id to search in view
-	 *
-	 */
-	protected View findViewById( int resource_id ){
-
-		viewHolder = (SparseArray<View>) getConvertView().getTag();
-
-		View view = viewHolder.get(resource_id);
-		if( view == null ){
-			view = getConvertView().findViewById(resource_id);
-			viewHolder.put( resource_id, view );
-			getConvertView().setTag( viewHolder );
+		if( this.item_view == null ){
+			item_view = this.inflater.inflate( this.layout_id, parent,false );
 		}
 
-		return view;
+		attachItemToLayout( items_list.get(position), position, item_view );
+
+		return item_view;
 	}
 
+	public View getDropDownView( int position, View convertView, @NonNull ViewGroup parent ){
+		return getView(position, convertView, parent);
+	}
 
 
 	//////////////////////////////////////////
-	//  Getters and Setters
+	//  Abstract
 
-	protected View getConvertView(){
-
-		if( this.convertView == null ){
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			setConvertView( inflater.inflate( layout, null ) );
-			(this.convertView).setTag( new SparseArray<View>() );
-		}
-
-		return this.convertView;
-	}
-
-	protected void setConvertView( View convertView ){
-		this.convertView = convertView;
-	}
+	protected abstract void attachItemToLayout(T T, int position, View view);
 
 }
+
+
