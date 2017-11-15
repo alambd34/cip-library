@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import it.lucichkevin.cip.examples.R;
 import it.lucichkevin.cip.ObjectAdapter;
 
 /**
- * Created by Kevin on 27/05/2014.
+ *	Created by Kevin on 27/05/2014.
+ *	@updated	2017-11-15
  */
 public class FragmentObjectAdapter extends Fragment {
 
@@ -26,15 +29,15 @@ public class FragmentObjectAdapter extends Fragment {
 
         int number = 100;
 
-        MyObject[] myObjects = new MyObject[number];
+        ArrayList<MyObject> myObjects = new ArrayList<>();
         for( int i=0; i<number; i++ ){
-            myObjects[i] = new MyObject( "#"+ i );
+            myObjects.add(new MyObject( "#"+ i ));
         }
 
         ObjectAdapter<MyObject> adapter = new ObjectAdapter<MyObject>( getActivity(), android.R.layout.simple_list_item_1, myObjects ){
             @Override
-            protected void attachItemToLayout(MyObject myObject, int position) {
-                ((TextView) findViewById(android.R.id.text1)).setText( myObject.getName() );
+            protected void attachItemToLayout(MyObject myObject, int position, View view ) {
+                ((TextView) view.findViewById(android.R.id.text1)).setText( myObject.getName() );
             }
         };
 

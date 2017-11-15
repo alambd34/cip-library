@@ -20,18 +20,14 @@ import it.lucichkevin.cip.examples.fragments.testKalima.FragmentsKalima;
  */
 public class FragmentMainTest extends Fragment {
 
-    private Example[] examplesArray = null;
+    private ArrayList<Example> examplesList = null;
 
     public FragmentMainTest(){
 
-        ArrayList<Example> examplesList = new ArrayList<Example>();
+        examplesList = new ArrayList<Example>();
         examplesList.add(new Example("ObjectAdapter", new FragmentObjectAdapter()));
-        examplesList.add(new Example("ExpandablePanel", new FragmentExpandablePanel()));
-        examplesList.add(new Example("ExpandableTextView", new FragmentExpandableTextView()));
         examplesList.add(new Example("FragmentsDialogs", new FragmentsDialogs()));
         examplesList.add(new Example("FragmentsKalima", new FragmentsKalima()));
-
-        examplesArray = examplesList.toArray(new Example[examplesList.size()]);
     }
 
     @Override
@@ -39,10 +35,10 @@ public class FragmentMainTest extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_test_main, container, false);
 
-        ObjectAdapter<Example> adapter = new ObjectAdapter<Example>(getActivity(), android.R.layout.simple_list_item_1, examplesArray ){
+        ObjectAdapter<Example> adapter = new ObjectAdapter<Example>(getActivity(), android.R.layout.simple_list_item_1, examplesList ){
             @Override
-            protected void attachItemToLayout( Example example, int position ){
-                ((TextView) findViewById(android.R.id.text1)).setText( example.title );
+            protected void attachItemToLayout( Example example, int position, View view ){
+                ((TextView) view.findViewById(android.R.id.text1)).setText( example.title );
             }
         };
 
@@ -53,7 +49,7 @@ public class FragmentMainTest extends Fragment {
             @Override
             public void onItemClick( AdapterView<?> parent, View view, int position, long id ){
 
-                Example example = examplesArray[position];
+                Example example = examplesList.get(position);
 
                 getFragmentManager().beginTransaction()
                     .addToBackStack( example.title )
