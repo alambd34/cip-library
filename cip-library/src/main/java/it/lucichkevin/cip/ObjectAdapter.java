@@ -24,7 +24,7 @@ public abstract class ObjectAdapter<T> extends ArrayAdapter<T> {
 	protected LayoutInflater inflater;
 
 	protected Context context = null;
-	protected View item_view = null;
+//	protected View item_view = null;
 
 	/** @deprecated */
 	public ObjectAdapter( Activity context, T[] items_array ){
@@ -51,9 +51,10 @@ public abstract class ObjectAdapter<T> extends ArrayAdapter<T> {
 	@NonNull
 	public View getView( int position, View convertView, @NonNull ViewGroup parent ){
 
-		if( this.item_view == null ){
-			item_view = this.inflater.inflate( this.layout_id, parent,false );
-		}
+		View item_view = this.inflater.inflate( this.layout_id, parent,false );
+//		if( this.item_view == null ){
+//			item_view = this.inflater.inflate( this.layout_id, parent,false );
+//		}
 
 		attachItemToLayout( items_list.get(position), position, item_view );
 
