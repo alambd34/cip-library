@@ -2,6 +2,7 @@
 # Built application files
 *.apk
 *.ap_
+*.iml
 
 # Files for the Dalvik VM
 *.dex
@@ -85,6 +86,7 @@ hs_err_pid*
 **/*.iml
 
 
+/.idea/
 /.gradle
 /.idea
 /.DS_Store
