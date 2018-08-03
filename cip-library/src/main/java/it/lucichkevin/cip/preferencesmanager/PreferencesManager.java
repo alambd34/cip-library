@@ -15,41 +15,41 @@ import java.util.Set;
 import it.lucichkevin.cip.Utils;
 
 /**
- Base utility to manager shared preferences without call the specify native android methods.
- it is recommended to create your own object (which extends PreferencesManager) where you can specify shortcuts for setting keys
+	Base utility to manager shared preferences without call the specify native android methods.
+	it is recommended to create your own object (which extends PreferencesManager) where you can specify shortcuts for setting keys
 
- <code>
+	<code>
 
- class MyPreferences extends PreferencesManager{
+		class MyPreferences extends PreferencesManager{
 
- //  Costant to use memory the key of preference ( the use is optional :) )
- private static final String KEY_NAME = "test_name";
+			//  Costant to use memory the key of preference ( the use is optional :) )
+			private static final String KEY_NAME = "test_name";
 
- //  Your method to save a name of user (it's an it.lucichkevin.cip.examples.examples, you can save all you want!)
- public static void setName( String name ){
- setPreferences( KEY_NAME, name );
- }
+			//  Your method to save a name of user (it's an it.lucichkevin.cip.examples.examples, you can save all you want!)
+			public static void setName( String name ){
+				setPreferences( KEY_NAME, name );
+			}
 
- //  Your method to get the name of the user. NOTE: you must define a "default" value, that it's returned if the key passed don't exists.
- public static String getName( String default_name ){
- return getPreferences().getString(KEY_NAME, default_name);
- }
- //  Alias of the method "getName()" to not define anywhere the default value to return (it.lucichkevin.cip.examples.examples of use)
- public static String getName(){
- return getName("default_name");
- }
- }
+			//  Your method to get the name of the user. NOTE: you must define a "default" value, that it's returned if the key passed don't exists.
+			public static String getName( String default_name ){
+				return getPreferences().getString(KEY_NAME, default_name);
+			}
 
- //  Somewhere else...
- MyView.setText("Is my first run? "+ String.valueOf(MyPreferences.isFirstRun()) );
- MyView.setText("My name is: "+ MyPreferences.getName() );
+			//  Alias of the method "getName()" to not define anywhere the default value to return (it.lucichkevin.cip.examples.examples of use)
+			public static String getName(){
+				return getName("default_name");
+			}
+		}
 
- </code>
+		//  Somewhere else...
+		MyView.setText("Is my first run? "+ String.valueOf(MyPreferences.isFirstRun()) );
+		MyView.setText("My name is: "+ MyPreferences.getName() );
 
- @author     Kevin Lucich    29/08/2014
- @version	1.1.0
- @since      0.3.0
+	</code>
 
+	@author     Kevin Lucich    29/08/2014
+	@version	1.1.0
+	@since      0.3.0
  */
 public class PreferencesManager {
 

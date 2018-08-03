@@ -17,12 +17,11 @@ import java.util.List;
 import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
 
 /**
- @author Kevin Lucich (14/02/14).
- @author  Marco Zanetti - MarKco - method Utils.logger(String,int)
- @since      0.0.1
- @version    1.0.1
-
- Singleton class of utility methods. Instantiate with Utils.init()
+ * @author Kevin Lucich (14/02/14).
+ * @author  Marco Zanetti - MarKco - method Utils.logger(String,int)
+ * @version    1.0.1
+ *
+ * Singleton class of utility methods. Instantiate with Utils.init()
  */
 public class Utils {
 
@@ -33,10 +32,9 @@ public class Utils {
 	public static final int LOG_INFO = 1;
 	public static final int LOG_ERROR = 2;
 
-	private static Context context = null;
-
-	private static String ID_DEVICE = null;
-	private static String APP_TAG = "";
+	protected static Context context = null;
+	protected static String ID_DEVICE = null;
+	protected static String APP_TAG = "";
 
 	public static void init( Context context ){
 		setContext(context);
@@ -65,10 +63,10 @@ public class Utils {
 	public static String getAppTag(){
 		return APP_TAG;
 	}
-	protected static void setAppTag(){
+	private static void setAppTag(){
 		setAppTag(context.getPackageName());
 	}
-	protected static void setAppTag( String app_tag ){
+	private static void setAppTag( String app_tag ){
 		APP_TAG = app_tag;
 	}
 
@@ -82,9 +80,11 @@ public class Utils {
 	public static String getDeviceName() {
 		String manufacturer = Build.MANUFACTURER;
 		String model = Build.MODEL;
-		if (model.startsWith(manufacturer)) {
+
+		if( model.startsWith(manufacturer) ){
 			return capitalize(model);
 		}
+
 		return capitalize(manufacturer) + " " + model;
 	}
 
