@@ -8,13 +8,25 @@ import it.lucichkevin.cip.preferencesmanager.activity.ItemPreference;
  */
 public class TestPreferencesListActivity extends AbstractPreferencesListActivity {
 
-    @Override
-    protected void populatePreferencesList() {
-        super.populatePreferencesListWithDefault();
+	@Override
+	protected void populatePreferencesList() {
+		super.populatePreferencesListWithDefault();
 
-        items.add(new ItemPreference( "TEST_DATEPICKER", R.string.abc_action_mode_done, R.string.abc_action_mode_done, ItemPreference.TYPE_DATEPICKER ));
-        items.add(new ItemPreference( "TEST_TIMEPICKER", R.string.abc_action_mode_done, R.string.abc_action_mode_done, ItemPreference.TYPE_TIMEPICKER ));
-        //  Others items...
-    }
+		items.add(new ItemPreference( "TEST_DATEPICKER", R.string.test_title_first_preference, R.string.test_summary_first_preference, ItemPreference.TYPE_DATEPICKER ));
+
+		items.add(new ItemPreference( "TEST_TIMEPICKER", R.string.test_title_second_preference, R.string.test_summary_second_preference, ItemPreference.TYPE_TIMEPICKER ));
+
+		items.add(new ItemPreference( "TEST_SWITCH", R.string.test_title_third_preference, R.string.test_summary_third_preference, ItemPreference.TYPE_SWITCH, true ));
+
+//		items.add(new ItemPreference( YourSettings.PAUSE_DURATION, R.string.change_break_time, R.string.empty_string, ItemPreference.TYPE_MINUTEPICKER, 15 ));
+//
+//		items.add(new ItemPreference( YourSettings.NOTIFICATIONS_ENABLED, R.string.setting_notifications_enabled, R.string.change_minimum_break_time_desc, ItemPreference.TYPE_SWITCH, true ));
+
+//		items.add(new ItemPreference( YourSettings.MINIMUM_PAUSE_DURATION, R.string.change_minimum_break_time, R.string.change_minimum_break_time_desc, ItemPreference.TYPE_TIMEPICKER, 0 ));
+//
+//		items.add(new ItemPreference( YourSettings.PAUSE_COUNTED_FOR_EXIT, R.string.setting_pauses_count_for_exit, R.string.setting_pauses_count_for_exit_desc, ItemPreference.TYPE_SWITCH, false ));
+
+		//  Others items...
+	}
 
 }

@@ -2,60 +2,64 @@ package it.lucichkevin.cip.examples;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
+
 import it.lucichkevin.cip.Utils;
+import it.lucichkevin.cip.activity_drawer_menu.AbstractActivityWithActionBarMenu;
+import it.lucichkevin.cip.activity_drawer_menu.DrawerItemMenu;
 import it.lucichkevin.cip.examples.fragments.FragmentMainTest;
-import it.lucichkevin.cip.navigationdrawermenu.AbstractActivityWithActionBarMenu;
-import it.lucichkevin.cip.navigationdrawermenu.NavigationItemMenu;
 
 
 public class TestMainActivity extends AbstractActivityWithActionBarMenu {
 
-	protected NavigationItemMenu[] ARRAY_ITEMS = new NavigationItemMenu[]{
 
-		new NavigationItemMenu( R.string.test_drawer_arrayitemnumber1, R.drawable.ic_menu_camera, new NavigationItemMenu.OnClickListener() {
-			@Override
-			public void onClick() {
-				Utils.Toaster( TestMainActivity.this, "I'm number 1" );
-			}
-		}),
+	public TestMainActivity(){
 
-		new NavigationItemMenu( R.string.test_drawer_arrayitemnumber2, new NavigationItemMenu.OnClickListener() {
-			@Override
-			public void onClick() {
-				Utils.Toaster( TestMainActivity.this, "I'm number 2" );
-			}
-		}),
+		items_menu_list = new DrawerItemMenu[]{
 
-		new NavigationItemMenu( R.string.test_drawer_arrayitemnumber3, new NavigationItemMenu.OnClickListener() {
-			@Override
-			public void onClick() {
-				Utils.Toaster( TestMainActivity.this, "I'm number 3" );
-			}
-		}),
+				new DrawerItemMenu( R.string.test_drawer_arrayitemnumber1, R.drawable.ic_menu_camera, new DrawerItemMenu.OnClickListener() {
+					@Override
+					public void onClick() {
+						Utils.Toaster( TestMainActivity.this, "I'm number 1" );
+					}
+				}),
 
-		new NavigationItemMenu( R.string.test_drawer_arrayitemnumber4, new NavigationItemMenu.OnClickListener() {
-			@Override
-			public void onClick(){
-				Utils.Toaster( TestMainActivity.this, "Normal click" );
-			}
-		}),
+				new DrawerItemMenu( R.string.test_drawer_arrayitemnumber2, new DrawerItemMenu.OnClickListener() {
+					@Override
+					public void onClick() {
+						Utils.Toaster( TestMainActivity.this, "I'm number 2" );
+					}
+				}),
 
-		new NavigationItemMenu( R.string.show_prefereces, TestPreferencesListActivity.class),
-	};
+				new DrawerItemMenu( R.string.test_drawer_arrayitemnumber3, new DrawerItemMenu.OnClickListener() {
+					@Override
+					public void onClick() {
+						Utils.Toaster( TestMainActivity.this, "I'm number 3" );
+					}
+				}),
 
+				new DrawerItemMenu( R.string.test_drawer_arrayitemnumber4, new DrawerItemMenu.OnClickListener() {
+					@Override
+					public void onClick(){
+						Utils.Toaster( TestMainActivity.this, "Normal click" );
+					}
+				}),
+
+				new DrawerItemMenu( R.string.show_prefereces, TestPreferencesListActivity.class)
+
+		};
+
+	}
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState ){
 		super.onCreate(savedInstanceState);
 
-		NavigationViewHandling
-				.inflateHeaderView(R.layout.navigation_header)
-				.addItemsMenu(ARRAY_ITEMS);
-
-
 		if( savedInstanceState != null ){
 			return;
 		}
+
+		((TextView) getNavigationHeaderView().findViewById(R.id.nav_header_title)).setText(R.string.app_name);
 
 		getFragmentManager().beginTransaction()
 			.addToBackStack("Main")
@@ -65,15 +69,13 @@ public class TestMainActivity extends AbstractActivityWithActionBarMenu {
 	}
 
 	@Override
-	protected int getContentActivity() {
-		return R.layout.activity_test_main;
+	protected Integer getContentActivity() {
+		return R.layout.activity_with_fragment;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected( MenuItem item ){
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
+
 		switch( item.getItemId() ){
 			case android.R.id.home:
 //				drawerLayoutHelper.toggle();
