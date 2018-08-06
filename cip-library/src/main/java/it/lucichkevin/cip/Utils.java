@@ -272,7 +272,16 @@ public class Utils {
 				return Utils.getContext().getPackageManager().getPackageInfo( Utils.getContext().getPackageName(), 0);
 			}catch( PackageManager.NameNotFoundException e ){
 				e.printStackTrace();
-				return null;
+				PackageInfo PI = new PackageInfo();
+				PI.versionCode = 0;
+				PI.versionName = "N/A";
+				return PI;
+			}catch( NullPointerException e ){
+				e.printStackTrace();
+				PackageInfo PI = new PackageInfo();
+				PI.versionCode = 0;
+				PI.versionName = "N/A";
+				return PI;
 			}
 		}
 		public static String getVersionName(){

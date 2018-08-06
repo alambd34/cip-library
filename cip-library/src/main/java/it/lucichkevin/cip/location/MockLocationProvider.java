@@ -1,12 +1,16 @@
 package it.lucichkevin.cip.location;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +35,7 @@ public class MockLocationProvider {
     public static final int ERROR_PROVIDER_UNAVAILABLE = 1;
     public static final int ERROR_PROVIDER_OUT_OF_SERVICE = 2;
 
-//    public static final String MOCK_PROVIDER_NAME = "MOCK_PROVIDER";
+    //    public static final String MOCK_PROVIDER_NAME = "MOCK_PROVIDER";
     public static final String MOCK_PROVIDER_NAME = LocationManager.GPS_PROVIDER;
 
     private List data = null;
@@ -48,7 +52,7 @@ public class MockLocationProvider {
     private String mockLocationProvider;
 
     public MockLocationProvider() {
-        this( MockLocationProvider.MOCK_PROVIDER_NAME, null );
+        this(MockLocationProvider.MOCK_PROVIDER_NAME, null);
     }
 
     public MockLocationProvider(String mockLocationProvider) {
@@ -56,7 +60,7 @@ public class MockLocationProvider {
     }
 
     public MockLocationProvider(String mockLocationProvider, List data) {
-        this( mockLocationProvider, data, 1000, 120000 );
+        this(mockLocationProvider, data, 1000, 120000);
     }
 
     public MockLocationProvider(String mockLocationProvider, List data, int interval_location_updates, int supply_duration) {
@@ -65,7 +69,7 @@ public class MockLocationProvider {
         setIntervalLocationUpdates(interval_location_updates);
         setSupplyDuration(supply_duration);
 
-        if( data == null ){
+        if (data == null) {
             //  Default start location
             setStartLocation();
         }
@@ -75,11 +79,11 @@ public class MockLocationProvider {
         locationManager.setTestProviderEnabled(mockLocationProvider, true);
     }
 
-    private Location getMockLocation(){
+    private Location getMockLocation() {
 
-        if( data != null ){
+        if (data != null) {
             updateMockLocationByData();
-        }else{
+        } else {
             updateMockLocation();
         }
 
@@ -87,7 +91,7 @@ public class MockLocationProvider {
         // the time on the one in the previous set call, it will be ignored
         LAST_LOCATION.setTime(System.currentTimeMillis());
 
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 ){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             LAST_LOCATION.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
         }
 
@@ -96,9 +100,9 @@ public class MockLocationProvider {
         return LAST_LOCATION;
     }
 
-    private void updateMockLocationByData(){
+    private void updateMockLocationByData() {
 
-        if( data.size() < DATA_INDEX ){
+        if (data.size() < DATA_INDEX) {
             data = null;
             updateMockLocation();
             return;
@@ -116,15 +120,13 @@ public class MockLocationProvider {
         DATA_INDEX++;
     }
 
-    private void updateMockLocation(){
-        LAST_LOCATION.setLatitude( LAST_LOCATION.getLatitude() + 0.000150 );
-        LAST_LOCATION.setLongitude( LAST_LOCATION.getLongitude() + 0.000130 );
+    private void updateMockLocation() {
+        LAST_LOCATION.setLatitude(LAST_LOCATION.getLatitude() + 0.000150);
+        LAST_LOCATION.setLongitude(LAST_LOCATION.getLongitude() + 0.000130);
 //        if( new Random().nextInt(1) == 1 ){
 //            LAST_LOCATION.setAltitude( LAST_LOCATION.getAltitude() + 0.1 );
 //        }
     }
-
-
 
 
     //////////////////////////////////////////////
@@ -133,11 +135,11 @@ public class MockLocationProvider {
     /**
      *  Start the mock location provider
      */
-    public void start(){
-        if( providerTask == null || providerTask.getStatus() == AsyncTask.Status.FINISHED ){
+    public void start() {
+        if (providerTask == null || providerTask.getStatus() == AsyncTask.Status.FINISHED) {
             providerTask = new ProviderTask(locationManager);
         }
-        if( providerTask.getStatus() != AsyncTask.Status.RUNNING ){
+        if (providerTask.getStatus() != AsyncTask.Status.RUNNING) {
             Utils.logger("MockLocationProvider.start()", Utils.LOG_DEBUG);
             providerTask.execute();
         }
@@ -146,7 +148,7 @@ public class MockLocationProvider {
     /**
      *  Stop the mock location provider
      */
-    public void stop(){
+    public void stop() {
         Utils.logger("MockLocationProvider.stop()", Utils.LOG_DEBUG);
         providerTask.cancel(true);
     }
@@ -155,24 +157,26 @@ public class MockLocationProvider {
     //////////////////////////////////////////////
     //  Getters and Setters
 
-    public int getIntervalLocationUpdates(){
+    public int getIntervalLocationUpdates() {
         return this.interval_location_updates;
     }
-    public void setIntervalLocationUpdates( int millis ){
+
+    public void setIntervalLocationUpdates(int millis) {
         this.interval_location_updates = millis;
     }
 
-    public int getSupplyDuration(){
+    public int getSupplyDuration() {
         return this.supply_duration;
     }
-    public void setSupplyDuration( int supply_duration ){
+
+    public void setSupplyDuration(int supply_duration) {
         this.supply_duration = supply_duration;
     }
 
     /**
      *  Set the the starting point
      */
-    protected void setStartLocation(){
+    protected void setStartLocation() {
         Location location = new Location(mockLocationProvider);
         location.setLatitude(45.484116);
         location.setLongitude(12.250984);
@@ -185,13 +189,13 @@ public class MockLocationProvider {
     /**
      *  If you not provide a List of points, use this method to set the starting point
      */
-    public void setStartLocation( Location location ){
+    public void setStartLocation(Location location) {
         LAST_LOCATION = location;
     }
 
     /***
      *  Return the number of listeners
-     *  @return  int     The number of listeners
+     *  @return int     The number of listeners
      */
     public int size() {
         return this.listeners.size();
@@ -201,15 +205,16 @@ public class MockLocationProvider {
      *  Add a new listener
      *  @param  locationListener     Implementation of LocationChanged class
      */
-    public void addListener( String key, LocationListener locationListener) {
-        this.listeners.put( key, locationListener);
+    public void addListener(String key, LocationListener locationListener) {
+        this.listeners.put(key, locationListener);
     }
+
     /**
      *  Add a new listener
      *  @param  locationListener     Implementation of LocationChanged class
      */
-    public void addListener( LocationListener locationListener) {
-        addListener( locationListener.getClass().getSimpleName(), locationListener );
+    public void addListener(LocationListener locationListener) {
+        addListener(locationListener.getClass().getSimpleName(), locationListener);
     }
 
     /**
@@ -217,29 +222,28 @@ public class MockLocationProvider {
      *  @param  locationListener     Implementation of LocationListener class
      *  @see    #removeListener(String)
      */
-    public void removeListener( LocationListener locationListener){
-        removeListener( locationListener.getClass().getSimpleName() );
+    public void removeListener(LocationListener locationListener) {
+        removeListener(locationListener.getClass().getSimpleName());
     }
 
     /**
      *  Remove a listener by the name of class. If the #size() of listeners is 0, the provider will be stopped
      *  @param  class_name     The name of implementation of LocationListener class
      */
-    public void removeListener( String class_name ){
-        if( this.listeners.containsKey(class_name) ){
+    public void removeListener(String class_name) {
+        if (this.listeners.containsKey(class_name)) {
             this.listeners.remove(class_name);
         }
-        if( this.size() == 0 ){
+        if (this.size() == 0) {
             providerTask.cancel(true);
         }
     }
 
-    public void clearListener(){
+    public void clearListener() {
         providerTask.cancel(true);
-        this.listeners = new HashMap<String, LocationListener>();;
+        this.listeners = new HashMap<String, LocationListener>();
+        ;
     }
-
-
 
 
     /**
@@ -253,7 +257,7 @@ public class MockLocationProvider {
          *
          *  @see android.location.LocationListener#onLocationChanged
          */
-        public abstract void onLocationChanged( Location location );
+        public abstract void onLocationChanged(Location location);
 
         /**
          *  Called when an error occurred:
@@ -263,7 +267,7 @@ public class MockLocationProvider {
          *  @see    MockLocationProvider#ERROR_PROVIDER_UNAVAILABLE
          *  @see    MockLocationProvider#ERROR_PROVIDER_OUT_OF_SERVICE
          */
-        public abstract void onLocationFail( int code, String message );
+        public abstract void onLocationFail(int code, String message);
 
         /**
          *  Called when the provider is enabled by the user.
@@ -271,7 +275,8 @@ public class MockLocationProvider {
          *
          *  @see android.location.LocationListener#onProviderEnabled
          */
-        public void onProviderEnabled( String provider ){}
+        public void onProviderEnabled(String provider) {
+        }
 
         /**
          *  Called when the provider is disabled by the user.
@@ -279,79 +284,77 @@ public class MockLocationProvider {
          *
          *  @see android.location.LocationListener#onProviderDisabled
          */
-        public void onProviderDisabled( String provider ){}
+        public void onProviderDisabled(String provider) {
+        }
 
         /**
          *  Called when the provider finished to generate new locations
          *  @param  provider    The name of the location provider associated with this update
          */
-        public void onProviderFinished( String provider ){}
+        public void onProviderFinished(String provider) {
+        }
     }
-
-
-
 
 
     //////////////////////////////////////////////
     //  AsyncTask methods
 
     //  Notify the listeners when Location fails
-    private void notifyLocationFail( int code, String provider_name ){
-        for( LocationListener locationListener : this.listeners.values() ){
+    private void notifyLocationFail(int code, String provider_name) {
+        for (LocationListener locationListener : this.listeners.values()) {
             (locationListener).onLocationFail(code, provider_name);
         }
     }
 
-    private class ProviderTask extends AsyncTask<Void,Void,String>  {
+    private class ProviderTask extends AsyncTask<Void, Void, String> {
 
         private LocationManager locationManager;
 
-        public ProviderTask( LocationManager locationManager ){
+        public ProviderTask(LocationManager locationManager) {
             this.locationManager = locationManager;
         }
 
-        @Override
+        @SuppressLint("MissingPermission")
+		@Override
         protected void onPreExecute() {
 
-            locationManager.requestLocationUpdates( mockLocationProvider, getIntervalLocationUpdates(), 5, new android.location.LocationListener() {
+            locationManager.requestLocationUpdates(mockLocationProvider, getIntervalLocationUpdates(), 5, new android.location.LocationListener() {
 
                 @Override
-                public void onLocationChanged( Location location ){
+                public void onLocationChanged(Location location) {
                     Utils.logger("The location has been updated!", Utils.LOG_INFO);
-                    for( LocationListener locationListener : MockLocationProvider.this.listeners.values() ){
+                    for (LocationListener locationListener : MockLocationProvider.this.listeners.values()) {
                         (locationListener).onLocationChanged(location);
                     }
                 }
 
                 @Override
-                public void onProviderEnabled( String provider ){
+                public void onProviderEnabled(String provider) {
                     Utils.logger("Location provider " + provider + " has been enabled", Utils.LOG_INFO);
-                    for( LocationListener locationListener : MockLocationProvider.this.listeners.values() ){
+                    for (LocationListener locationListener : MockLocationProvider.this.listeners.values()) {
                         (locationListener).onProviderEnabled(provider);
                     }
                 }
 
                 @Override
-                public void onProviderDisabled( String provider ){
+                public void onProviderDisabled(String provider) {
                     Utils.logger("Location provider '" + provider + "' disabled", Utils.LOG_INFO);
-                    for( LocationListener locationListener : MockLocationProvider.this.listeners.values() ){
+                    for (LocationListener locationListener : MockLocationProvider.this.listeners.values()) {
                         (locationListener).onProviderDisabled(provider);
                     }
                 }
 
                 @Override
-                public void onStatusChanged( String provider, int status, Bundle extras ){
+                public void onStatusChanged(String provider, int status, Bundle extras) {
                     Utils.logger("The status of the provider " + provider + " has changed", Utils.LOG_INFO);
-                    if( status == 0 ){
+                    if (status == 0) {
                         Utils.logger(provider + " is OUT OF SERVICE", Utils.LOG_ERROR);
 
                         MockLocationProvider.this.notifyLocationFail(MockLocationProvider.ERROR_PROVIDER_OUT_OF_SERVICE, provider);
-                    }
-                    else if( status == 1){
+                    } else if (status == 1) {
                         Utils.logger(provider + " is TEMPORARILY_UNAVAILABLE", Utils.LOG_ERROR);
                         MockLocationProvider.this.notifyLocationFail(MockLocationProvider.ERROR_PROVIDER_UNAVAILABLE, provider);
-                    }
-                    else{
+                    } else {
                         Utils.logger(provider + " is AVAILABLE", Utils.LOG_INFO);
                     }
                 }
