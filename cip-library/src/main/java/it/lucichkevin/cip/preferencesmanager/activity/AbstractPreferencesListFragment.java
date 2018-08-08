@@ -1,8 +1,7 @@
 package it.lucichkevin.cip.preferencesmanager.activity;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
@@ -11,6 +10,7 @@ import android.preference.SwitchPreference;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import it.lucichkevin.cip.Utils;
 import it.lucichkevin.cip.preferencesmanager.activity.pickers.DatePickerPreference;
@@ -57,19 +57,19 @@ public abstract class AbstractPreferencesListFragment extends PreferenceFragment
 
             Preference preference;
 
-            switch (item.getType()) {
+            switch( item.getType() ){
+
+                case ItemPreference.TYPE_LIST:
+					preference = new ListPreference(getActivity());
+					HashMap<String, String> entries_map = item.getEntriesMap();
+					((ListPreference) preference).setEntries(entries_map.values().toArray(new CharSequence[entries_map.size()]));
+					((ListPreference) preference).setEntryValues(entries_map.keySet().toArray(new CharSequence[entries_map.size()]));
+                    break;
 
                 case ItemPreference.TYPE_SWITCH:
-                    if (Build.VERSION.SDK_INT < 14) {
-                        preference = new CheckBoxPreference(getActivity());
-                        if( item.getDefaultValue() != null ) {
-                            ((CheckBoxPreference) preference).setChecked((Boolean) item.getDefaultValue());
-                        }
-                    } else {
-                        preference = new SwitchPreference(getActivity());
-                        if( item.getDefaultValue() != null ){
-                            ((SwitchPreference) preference).setChecked( (Boolean) item.getDefaultValue() );
-                        }
+                    preference = new SwitchPreference(getActivity());
+                    if( item.getDefaultValue() != null ){
+                        ((SwitchPreference) preference).setChecked( (Boolean) item.getDefaultValue() );
                     }
                     break;
 
