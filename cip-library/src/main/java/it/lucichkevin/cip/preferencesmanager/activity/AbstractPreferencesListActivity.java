@@ -1,34 +1,45 @@
 package it.lucichkevin.cip.preferencesmanager.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
+
+import it.lucichkevin.cip.R;
+import it.lucichkevin.cip.Utils;
 
 
 /**
  *  Create a base Activity with inside a Fragment (instance of AbstractPreferencesListFragment) with the list of Preferences
  *
  *  <code>
- *	  public class MyPreferencesListActivity extends PreferencesListActivity {
- *		  protected void addItems() {
- *			  //  Add your keys here... :)
- *			  //  items.add(new ItemPreference("KEY", R.string.KEY_TITLE, R.string.KEY_SUMMARY, ItemPreference.TYPE_X ));
- *		  }
- *	  }
+ *		public class MyPreferencesListActivity extends PreferencesListActivity {
+ *			//@Override
+ *			public void populatePreferencesList() {
+ *				//  Add your keys here... :)
+ *				//  addItem(new ItemPreference("KEY", R.string.KEY_TITLE, R.string.KEY_SUMMARY, ItemPreference.TYPE_X ));
+ *			}
+ *		}
  *  </code>
  *
- *  @author	 Kevin Lucich	11/09/2014
- *  @since	  CipLibrary v0.5.0
+ *  @author			Kevin Lucich
+ *  @creation_date	2014-09-11
+ *  @version 		2.0.0
+ *  @since			CipLibrary v0.5.0
+ *  @update
+ *  	2.0.0 [2018-08-13]
+ *  		Refactoring AbstractPreferencesListActivity and PreferencesListFragment
+ *  		[REMOVE] Removed  AbstractPreferencesListFragment
+ *
  */
-public abstract class AbstractPreferencesListActivity extends Activity {
+public abstract class AbstractPreferencesListActivity extends AppCompatActivity {
 
-	protected AbstractPreferencesListFragment fragment;
-	protected ArrayList<ItemPreference> items = new ArrayList<ItemPreference>();
+	protected PreferencesListFragment fragment;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,29 +47,13 @@ public abstract class AbstractPreferencesListActivity extends Activity {
 
 		ItemPreference.setContext( AbstractPreferencesListActivity.this );
 
-		FrameLayout frame = new FrameLayout( this, null );
-		addContentView(frame, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-
-		fragment = new AbstractPreferencesListFragment() {
-			@Override
-			protected void populatePreferencesList() {
-				//  Do nothing :)
-			}
-		};
+		fragment = new PreferencesListFragment();
 
 		populatePreferencesList();
 
-		fragment.setItems(items);
-
-		// Display the fragment as the main content.
 		getFragmentManager().beginTransaction()
-			.replace(android.R.id.content, fragment )
+			.replace( android.R.id.content,fragment)
 			.commit();
-
-		ActionBar actionBar = getActionBar();
-		if( actionBar != null ){
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-		}
 	}
 
 	@Override
@@ -71,7 +66,10 @@ public abstract class AbstractPreferencesListActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	protected abstract void populatePreferencesList();
+	/**
+	 *  Populate in this method the ArrayList with ItemPreference
+	 */
+	public abstract void populatePreferencesList();
 
 	/**
 	 *  Alias to call the method populatePreferencesListWithDefault() to AbstractPreferencesListFragment
@@ -80,20 +78,14 @@ public abstract class AbstractPreferencesListActivity extends Activity {
 		fragment.populatePreferencesListWithDefault();
 	}
 
+	public void addItem( ItemPreference item ){
+		fragment.addItem(item);
+	}
 
 
 	/////////////////////////////////////////
 	//  Getters and setters
 
-	/**
-	 *  Public method to get the instance of AbstractPreferencesListFragment created
-	 */
-	public AbstractPreferencesListFragment getFragment(){
-		return fragment;
-	}
 
-	public ArrayList<ItemPreference> getItems(){
-		return items;
-	}
 
 }
