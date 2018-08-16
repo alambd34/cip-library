@@ -11,7 +11,12 @@ import it.lucichkevin.cip.Utils;
  *  It implements the struct of request to send to server
  *
  *  @author	 Kevin Lucich	19/02/14
- *  @updated	2015-03-03
+ *
+ *  @updated
+ *  	2018-08-16
+ *  		- Remove EmptyKalimaCallbacks in favour of an empty implementation: "new Callbacks(){}"
+ *  		- By default a Callbacks object do nothing, use SpeakingCallbacks to see logs in Logcat
+ *  	2015-03-03
  */
 public class Request implements Serializable {
 
@@ -19,7 +24,7 @@ public class Request implements Serializable {
 	protected transient int timeout = 20000;
 	protected transient Class<? extends Response> classOfResponse;
 	protected transient boolean autoHandleData = false;
-	protected transient Callbacks callbacks = new EmptyKalimaCallbacks();
+	protected transient Callbacks callbacks = new Callbacks(){};
 	protected transient AbstractRequester.Sender senderReference = null;
 
 	protected String request_id = "";
@@ -283,7 +288,7 @@ public class Request implements Serializable {
 		 This his abstract class structure functions that the object AbstractRequester called when an action is performed (before a req onStart, etc ...)
 		 @author	 Kevin Lucich
 	*/
-	public static abstract class Callbacks{
+	public static abstract class Callbacks {
 
 		public static String getPrefixLog( Request request ){
 			return getPrefixLog( request.getClassNameResponse(), request.getRequestId() );
@@ -291,6 +296,56 @@ public class Request implements Serializable {
 		protected static String getPrefixLog( String simple_name, String request_id ){
 			return "["+ simple_name +" "+ request_id +"]";
 		}
+
+		/**
+		 *	Method called before the AbstractRequester keep the connection with the server, view onPreExecute of AsyncTask
+		 *	@param	request		Request		Reference to the instance of the Request
+		 *	@param	url			String		The response received from the server
+		 *	@see android.os.AsyncTask
+		*/
+		public void onSend( Request request, String url ){ };
+
+		/**
+		 *	Method called after a request has been successful and the response from the server has been correctly interpreted
+		 *	@param	request	Request		Reference to the instance of the Request
+		 *	@param	response	Response	The response received from the server
+		*/
+		public void onEnd( Request request, Response response ){ }
+
+		/**
+		 *	Method called when an error is encountered
+		 *	@param	  request	Request 	Reference to the instance of the Request
+		 *	@param	  e			Exception	Reference to the instance of the Request
+		*/
+		public void onError( Request request, Exception e ){ }
+
+		/**
+		 *	Method called when a request id cancelled calling the method of AbstractRequester "cancel()"
+		 *	@param	  request	 Request	Reference to the instance of the Request
+		 *	@see android.os.AsyncTask
+		*/
+		public void onCancelled( Request request ){ }
+
+		/**
+		 *	Method called the AbstractRequester while a request is made. The placeholder indicates the status of the request: <ul>
+		 *	<li> "A" => The request was successfully converted into JSON	</li>
+		 *	<li> "B" => Did you follow the connection with the server	   </li>
+		 *	<li> "C" => You have received a response from the server		</li>
+		 *	<li> "D" => The response has been accessed	  </li>
+		 *	<li> "E" => The response was converted from JSON to the type of class in the method send()   </li>
+		 *	</ul>
+		 *
+		 *	@param	  request		 Reference to the instance of the Request
+		 *	@param	  placeholder	 Indicates the status of the request {@link Request.Status}
+		 *	@see android.os.AsyncTask
+		*/
+		public void onProgressUpdate( Request request, String placeholder ){ }
+	}
+
+	/**
+	 *	Each callbacks write a log in Logcat
+	 */
+	public static class SpeakingCallbacks extends Callbacks {
 
 		/**
 		 *	Method called before the AbstractRequester keep the connection with the server, view onPreExecute of AsyncTask
@@ -341,17 +396,11 @@ public class Request implements Serializable {
 		 *
 		 *	@param	  request		 Reference to the instance of the Request
 		 *	@param	  placeholder	 Indicates the status of the request {@link Request.Status}
-		 *	@see android.os.AsyncTask
 		*/
 		public void onProgressUpdate( Request request, String placeholder ){
 			Utils.logger( getPrefixLog(request) +" onProgressUpdate ==> "+ placeholder, Utils.LOG_INFO );
 		}
 	}
-
-	/**
-		Implements a empty callback: does nothing. The AbstractRequester will only call the method handleData() of the Response (if set it)
-	*/
-	public static class EmptyKalimaCallbacks extends Callbacks{}
 
 
 
