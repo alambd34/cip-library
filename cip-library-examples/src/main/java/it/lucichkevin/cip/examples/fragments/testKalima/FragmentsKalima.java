@@ -3,13 +3,10 @@ package it.lucichkevin.cip.examples.fragments.testKalima;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -62,7 +59,7 @@ public class FragmentsKalima extends Fragment {
 		requester = new AbstractRequester() {
 			@Override
 			protected String getServerUrl() {
-				return "http://www.vogaepara.it/_project/WhereAreYou/kalima/call.php";
+				return "https://www.lucichkevin.it/_project/where_are_you/kalima/call.php";
 			}
 		};
 
@@ -120,6 +117,12 @@ public class FragmentsKalima extends Fragment {
 			requester.setSendingMode(AbstractRequester.SendingMode.ASYNCHRONOUS);
 		}else{
 			requester.setSendingMode(AbstractRequester.SendingMode.SYNCHRONOUS);
+		}
+
+		if( ((RadioGroup) rootView.findViewById(R.id.requester_request_method)).getCheckedRadioButtonId() == R.id.radio_request_method_GET){
+			requester.setRequestMethod(AbstractRequester.RequestMethod.GET);
+		}else{
+			requester.setRequestMethod(AbstractRequester.RequestMethod.POST);
 		}
 
 		requester.send();

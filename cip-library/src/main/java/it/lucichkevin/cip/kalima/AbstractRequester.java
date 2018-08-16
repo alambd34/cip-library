@@ -5,7 +5,10 @@ import android.os.AsyncTask;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
@@ -55,8 +58,10 @@ import java.util.concurrent.Executor;
 		}
 	});
 
-	//  requester.setSendingMode(AbstractRequester.TYPE_ASYNCHRONOUS);
-	//  requester.setSendingMode(AbstractRequester.TYPE_SYNCHRONOUS);
+	//  requester.setSendingMode(AbstractRequester.SendingMode.ASYNCHRONOUS);
+	//  requester.setSendingMode(AbstractRequester.SendingMode.SYNCHRONOUS);
+
+	//  requester.setRequestMethod(AbstractRequester.RequestMethod.POST);
 
 	requester.send();
 
@@ -64,8 +69,11 @@ import java.util.concurrent.Executor;
 
 
 	@author	 Kevin Lucich	04/03/2014.
-	@see		android.os.AsyncTask
-	@see		AbstractRequester.SendingMode
+	@update
+		v2.0.0 - 2018-08-16
+ 			[ADD] Added possibly to change the request method (GET or POST)
+	@see	android.os.AsyncTask
+	@see	AbstractRequester.SendingMode
 */
 public abstract class AbstractRequester {
 
@@ -90,7 +98,7 @@ public abstract class AbstractRequester {
 	/**
 	 *	Set the method to use for the request
 	 */
-	protected String method_of_request = "GET";
+	protected int request_method = AbstractRequester.RequestMethod.GET;
 
 	/**
 	 *	Array with requests to send
@@ -276,11 +284,11 @@ public abstract class AbstractRequester {
 		this.is_gzip_request = is_gzip_request;
 	}
 
-	public String getMethodOfRequest(){
-		return this.method_of_request;
+	public int getRequestMethod(){
+		return this.request_method;
 	}
-	public void setMethodOfRequest( String method_of_request ){
-		this.method_of_request = method_of_request;
+	public void setRequestMethod( int request_method ){
+		this.request_method = request_method;
 	}
 
 
@@ -291,6 +299,14 @@ public abstract class AbstractRequester {
 	public static class SendingMode {
 		public static final int SYNCHRONOUS = 1;
 		public static final int ASYNCHRONOUS = 2;
+	}
+
+	/**
+	 *  Indicates the mode how to requests will be sending
+	 */
+	public static class RequestMethod {
+		public static final int GET = 1;
+		public static final int POST = 2;
 	}
 
 	protected class RequestAndResponse{
@@ -322,6 +338,8 @@ public abstract class AbstractRequester {
 		@Override
 		protected RequestAndResponse doInBackground( RequestAndResponse... rr ) {
 
+			final boolean connection_POST_method = getRequestMethod() == AbstractRequester.RequestMethod.POST;
+
 			RequestAndResponse requestAndResponse = rr[0];
 
 			Request CURRENT_REQUEST = (requestAndResponse).request;
@@ -336,12 +354,17 @@ public abstract class AbstractRequester {
 
 			String url = getUrl();
 			Gson gson = new Gson();
+			String encoded_query = "";
 
 			try {
-				//	Concateno la richiesta convertita in JSON alla URL da contattare
-				url += (!url.contains("?") ? "?" : "&") +"q=" + URLEncoder.encode(gson.toJson(CURRENT_REQUEST), "UTF-8");
+				encoded_query = URLEncoder.encode(gson.toJson(CURRENT_REQUEST), "UTF-8");
 			}catch( UnsupportedEncodingException e ){
 				onErrorTrigger(CURRENT_REQUEST, e);
+			}
+
+			if( !connection_POST_method ){
+				//	Concateno la richiesta convertita in JSON alla URL da contattare
+				url += (!url.contains("?") ? "?" : "&") +"q=" + encoded_query;
 			}
 
 			//  Send the request to the server
@@ -355,13 +378,27 @@ public abstract class AbstractRequester {
 			onProgressUpdate(CURRENT_REQUEST);
 
 			try {
+
 				conn = (HttpURLConnection) (new URL(url)).openConnection();
-				conn.setRequestMethod( abstractRequester.getMethodOfRequest() );
+				conn.setRequestMethod( connection_POST_method ? "POST" : "GET" );
 				conn.setConnectTimeout(CURRENT_REQUEST.getTimeout());
 				conn.setRequestProperty("Accept", "application/json");
 
 				if( abstractRequester.isGZipRequest() ){
 					conn.setRequestProperty("Accept-Encoding", "gzip");
+				}
+
+				if( connection_POST_method ){
+					conn.setReadTimeout(10000);
+					conn.setDoInput(true);
+					conn.setDoOutput(true);
+
+					OutputStream os = conn.getOutputStream();
+					BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+					writer.write("q="+ encoded_query );
+					writer.flush();
+					writer.close();
+					os.close();
 				}
 
 				if( conn.getResponseCode() != 200 ){

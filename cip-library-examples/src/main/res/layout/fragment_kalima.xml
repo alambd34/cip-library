@@ -14,6 +14,28 @@
 		android:orientation="vertical">
 
 		<RadioGroup
+			android:id="@+id/requester_request_method"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:orientation="horizontal">
+
+			<RadioButton
+				android:id="@+id/radio_request_method_GET"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:text="GET"
+				android:checked="true" />
+
+			<RadioButton
+				android:id="@+id/radio_request_method_POST"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:text="POST" />
+
+		</RadioGroup>
+
+		<RadioGroup
 			android:id="@+id/requester_sending_type"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
