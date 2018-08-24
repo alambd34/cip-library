@@ -4,19 +4,17 @@ import java.io.Serializable;
 
 import it.lucichkevin.cip.Utils;
 
-public class Response implements Serializable{
+public abstract class Response implements Serializable {
 
 	protected Request request;
 //	protected Object data;	//	Implemented into subclass
     protected String error;
     protected int timestamp;
     protected float time;
-    protected ServerDebug[] debugs;
 
     public void handleData(){
-        Utils.logger( Request.Callbacks.getPrefixLog(request) + " handleData() CALLED", Utils.LOG_INFO);
-        //  Do something... normaly this is the method that overwrite a Response Implementation
-    }
+		Utils.logger( Request.Callbacks.getPrefixLog(request) + " handleData() CALLED", Utils.LOG_INFO);
+	}
 
 	////////////////////////////////////////
 	//	Getter and Setter
@@ -52,12 +50,5 @@ public class Response implements Serializable{
 	public void setTime(float time) {
 		this.time = time;
 	}
-
-    public ServerDebug[] getDebugs() {
-        return debugs;
-    }
-    public void setDebugs( ServerDebug[] debugs ) {
-        this.debugs = debugs;
-    }
 
 }

@@ -11,6 +11,7 @@ import android.util.Log;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import it.lucichkevin.cip.Utils;
 
@@ -59,12 +60,18 @@ public class PreferencesManager {
 	private static Context context = null;
 
 	public static void init( Context context ){
+
 		if( PreferencesManager.isInitialized() ){
-			Utils.logger("CIP.PreferencesManager", "PreferencesManager is already initialized :)", Utils.LOG_INFO );
+//			Utils.logger("CIP.PreferencesManager", "PreferencesManager is already initialized :)", Utils.LOG_INFO );
 			return;
 		}
+
 		PreferencesManager.initialized = true;
 		setContext(context);
+
+		if( PreferencesManager.getDeviceId() == null ){
+			PreferencesManager.setDeviceId();
+		}
 
 		if( PreferencesManager.isFirstRun() ){
 			PreferencesManager.setFirstRun(false,false);
@@ -96,7 +103,8 @@ public class PreferencesManager {
 	protected static final String KEY_FIRST_RUN_OF_APP = "FIRST_RUN_OF_APP";
 	protected static final String KEY_DEBUG_LOG = "DEBUG_LOG";
 	protected static final String KEY_TOASTER_TO_LOGCAT = "TOASTER_TO_LOGCAT";
-	protected static final String APP_VERSION_AT_LAST_ACCESS = "app_version_at_last_access";
+	protected static final String APP_VERSION_AT_LAST_ACCESS = "APP_VERSION_AT_LAST_ACCESS";
+	protected static final String KEY_DEVICE_ID = "DEVICE_ID";
 
 	///////////////////////////////////////
 	//  Helper
@@ -301,6 +309,18 @@ public class PreferencesManager {
 		setPreferences( APP_VERSION_AT_LAST_ACCESS, Utils.App.getVersionCode() );
 	}
 
+	/**
+	 * Get the device id generated at the first run of app
+	 */
+	public static String getDeviceId(){
+		return PreferencesManager.getPreferences().getString( KEY_DEVICE_ID, null );
+	}
+	/**
+	 * Generate a device id and save it into preferences
+	 */
+	protected static void setDeviceId(){
+		PreferencesManager.setPreferences( KEY_DEVICE_ID, UUID.randomUUID().toString() );
+	}
 
 
 	///////////////////////////////////////

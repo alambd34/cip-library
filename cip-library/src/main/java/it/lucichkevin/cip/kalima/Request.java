@@ -211,9 +211,9 @@ public class Request implements Serializable {
 	 *  Defines a structure to be passed to a Request that represents the "product" and "type" to call
 	 *  @author Kevin Lucich
 	 */
-	static public class Header {
+	public static class Header {
 
-		private String ID_DEVICE = Utils.getIdDevice();
+		private String device_id;
 		private String version;
 		private String product;
 		private String method;
@@ -234,6 +234,18 @@ public class Request implements Serializable {
 		 *  @param  version	The version of product to use
 		 */
 		public Header( String product, String method, String version ){
+			this( Utils.getDeviceId(), product, method, version );
+		}
+
+		/**
+		 *  Defines a structure to be passed to a Request that represents the "product" and "type" to call
+		 *  @param	device_id	The device id to use in the request to identify the device
+		 *  @param  product		The product to use for the request
+		 *  @param  method		The method of the product to call
+		 *  @param  version		The version of product to use
+		 */
+		public Header( String device_id, String product, String method, String version ){
+			this.setDeviceId(device_id);
 			this.setProduct(product);
 			this.setMethod(method);
 			this.setVersion(version);
@@ -242,6 +254,13 @@ public class Request implements Serializable {
 
 		////////////////////////////////////////
 		//	Getter and Setter
+
+		public String getDeviceId() {
+			return device_id;
+		}
+		public void setDeviceId( String device_id ){
+			this.device_id = device_id;
+		}
 
 		public String getVersion() {
 			return version;

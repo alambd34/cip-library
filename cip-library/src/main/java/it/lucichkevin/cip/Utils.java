@@ -17,9 +17,13 @@ import java.util.List;
 import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
 
 /**
- * @author Kevin Lucich (14/02/14).
- * @author  Marco Zanetti - MarKco - method Utils.logger(String,int)
- * @version    1.0.1
+ * @author	Kevin Lucich (14/02/14).
+ * @author	Marco Zanetti - MarKco - method Utils.logger(String,int)
+ * @version	1.1.0
+ *
+ * @update
+ * 	v1.1.0 (2018-08-24)
+ * 		Fix Utils.getDeviceId();
  *
  * Singleton class of utility methods. Instantiate with Utils.init()
  */
@@ -33,20 +37,18 @@ public class Utils {
 	public static final int LOG_ERROR = 2;
 
 	protected static Context context = null;
-	protected static String ID_DEVICE = null;
+	protected static String device_id = null;
 	protected static String APP_TAG = "";
 
-	public static void init( Context context ){
+	public static void init(Context context) {
 		setContext(context);
 		setAppTag();    //  Default: use getPackageName() method
-		setIdDevice();
 		PreferencesManager.init(context);
 	}
 
-	public static void init( Context context, String app_tag ){
+	public static void init(Context context, String app_tag) {
 		setContext(context);
 		setAppTag(app_tag);
-		setIdDevice();
 		PreferencesManager.init(context);
 	}
 
@@ -56,28 +58,29 @@ public class Utils {
 	public static Context getContext() {
 		return context;
 	}
-	protected static void setContext( Context _context ) {
+	protected static void setContext( Context _context ){
 		context = _context;
 	}
 
 	public static String getAppTag(){
 		return APP_TAG;
 	}
-	private static void setAppTag(){
+	protected static void setAppTag(){
 		setAppTag(context.getPackageName());
 	}
-	private static void setAppTag( String app_tag ){
+
+	protected static void setAppTag(String app_tag){
 		APP_TAG = app_tag;
 	}
 
-	public static String getIdDevice(){
-		return ID_DEVICE;
-	}
-	private static void setIdDevice(){
-		Utils.ID_DEVICE = Utils.getDeviceName() +"-"+ System.currentTimeMillis();
+	public static String getDeviceId(){
+		if( device_id == null ){
+			device_id = PreferencesManager.getDeviceId();
+		}
+		return device_id;
 	}
 
-	public static String getDeviceName() {
+	public static String getDeviceName(){
 		String manufacturer = Build.MANUFACTURER;
 		String model = Build.MODEL;
 
@@ -270,13 +273,7 @@ public class Utils {
 		public static PackageInfo getPackageInfo(){
 			try {
 				return Utils.getContext().getPackageManager().getPackageInfo( Utils.getContext().getPackageName(), 0);
-			}catch( PackageManager.NameNotFoundException e ){
-				e.printStackTrace();
-				PackageInfo PI = new PackageInfo();
-				PI.versionCode = 0;
-				PI.versionName = "N/A";
-				return PI;
-			}catch( NullPointerException e ){
+			}catch( PackageManager.NameNotFoundException | NullPointerException e ){
 				e.printStackTrace();
 				PackageInfo PI = new PackageInfo();
 				PI.versionCode = 0;
@@ -294,9 +291,6 @@ public class Utils {
 
 		@Override
 		protected Boolean doInBackground( Boolean... objects ) {
-
-//            Utils.logger( "App.getVersionCode() = "+ App.getVersionCode(), Utils.LOG_INFO );
-//            Utils.logger( "appVersion = "+ App.getPreferences().getInt("appVersion",0), Utils.LOG_INFO );
 
 			if( PreferencesManager.getAppVersionAtLastAccess() >= App.getVersionCode() ) {
 				return false;
@@ -325,48 +319,7 @@ public class Utils {
 		public static abstract class Callbacks{
 			public abstract void onUpdate();
 			public abstract void onEnd( boolean is_version_updated );
-//            public void onError(){};
 		}
 	}
-
-
-/*
-    public static class Database{
-
-        private static SQLiteDatabase db = null;
-        private static DaoSession daoSession = null;
-
-        public static SQLiteDatabase getDatabase(){
-            if( db == null ){
-                DaoMaster.OpenHelper helper = new DaoMaster.OpenHelper(context, "workitout", null) {
-                    @Override
-                    public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ){
-                        //  Do nothing...
-                    }
-                };
-                // Access the database using the helper
-                db = helper.getWritableDatabase();
-            }
-            return db;
-        }
-
-
-        public static DaoSession getDaoSession(){
-            return getDaoSession(false);
-        }
-
-        public static DaoSession getDaoSession( boolean reliable_session ){
-
-            if( daoSession == null || reliable_session ){
-                // Construct the DaoMaster which brokers DAOs for the Domain Objects
-                DaoMaster daoMaster = new DaoMaster( getDatabase() );
-                daoSession = daoMaster.newSession();
-            }
-
-            return daoSession;
-        }
-
-    }
-*/
 
 }

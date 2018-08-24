@@ -60,6 +60,7 @@ public class TestMainActivity extends AbstractActivityWithActionBarMenu {
 		}
 
 		((TextView) getNavigationHeaderView().findViewById(R.id.nav_header_title)).setText(R.string.app_name);
+		((TextView) getNavigationHeaderView().findViewById(R.id.device_id)).setText(Utils.getDeviceId());
 
 		getFragmentManager().beginTransaction()
 			.addToBackStack("Main")
