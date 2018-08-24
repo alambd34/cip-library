@@ -1,16 +1,8 @@
 package it.lucichkevin.cip.preferencesmanager.activity;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.Toolbar;
-
-import java.util.ArrayList;
-
-import it.lucichkevin.cip.R;
-import it.lucichkevin.cip.Utils;
 
 
 /**

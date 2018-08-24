@@ -3,7 +3,8 @@ package it.lucichkevin.cip.preferencesmanager.activity;
 import android.content.Context;
 import android.preference.Preference;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+
 
 /**
  *  Describe a item of preferences list
@@ -21,7 +22,7 @@ public class ItemPreference {
 	public static final int TYPE_MINUTEPICKER = 12;	//  MinutePicker
 
 	protected String key;
-	protected HashMap<String,String> entries_map = new HashMap<String,String>();
+	protected ArrayList<PreferenceListEntry> entries_list = new ArrayList<>();
 	protected String title;
 	protected String summary;
 	protected int type;
@@ -97,15 +98,15 @@ public class ItemPreference {
 		this.type = type;
 	}
 
-	public HashMap<String, String> getEntriesMap() {
-		return entries_map;
+	public ArrayList<PreferenceListEntry> getEntriesList() {
+		return entries_list;
 	}
 	// Add an entry into the list of ListPreference
-	public void addEntry( String value, String label ){
-		this.entries_map.put(value, label);
+	public void addEntry( PreferenceListEntry entry ){
+		this.entries_list.add(entry);
 	}
-	public void setEntriesMap( HashMap<String, String> entries_map ){
-		this.entries_map = entries_map;
+	public void setEntriesList( ArrayList<PreferenceListEntry> entries_list ){
+		this.entries_list = entries_list;
 	}
 
 	public Preference.OnPreferenceChangeListener getOnPreferenceChangeListener() {
@@ -133,4 +134,31 @@ public class ItemPreference {
 		context = _context;
 	}
 
+
+
+
+
+	public static class PreferenceListEntry {
+
+		protected String label;
+		protected String value;
+
+		public PreferenceListEntry( String label, String value ){
+			this.label = label;
+			this.value = value;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+		public void setLabel(String label) {
+			this.label = label;
+		}
+		public String getValue() {
+			return value;
+		}
+		public void setValue(String value) {
+			this.value = value;
+		}
+	}
 }

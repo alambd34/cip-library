@@ -10,7 +10,6 @@ import android.preference.SwitchPreference;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 import it.lucichkevin.cip.Utils;
 import it.lucichkevin.cip.preferencesmanager.activity.pickers.DatePickerPreference;
@@ -59,9 +58,19 @@ public class PreferencesListFragment extends PreferenceFragment {
 
 				case ItemPreference.TYPE_LIST:
 					preference = new ListPreference(getActivity());
-					HashMap<String, String> entries_map = item.getEntriesMap();
-					((ListPreference) preference).setEntries(entries_map.values().toArray(new CharSequence[entries_map.size()]));
-					((ListPreference) preference).setEntryValues(entries_map.keySet().toArray(new CharSequence[entries_map.size()]));
+					ArrayList<ItemPreference.PreferenceListEntry> entries_list = item.getEntriesList();
+
+					String[] entry_keys = new String[entries_list.size()];
+					String[] entry_values = new String[entries_list.size()];
+
+					for( int i=0; i<entries_list.size(); i++ ){
+						ItemPreference.PreferenceListEntry entry = entries_list.get(i);
+						entry_keys[i] = entry.getValue();
+						entry_values[i] = entry.getLabel();
+					}
+
+					((ListPreference) preference).setEntries(entry_keys);
+					((ListPreference) preference).setEntryValues(entry_values);
 					break;
 
 				case ItemPreference.TYPE_SWITCH:
@@ -157,7 +166,7 @@ public class PreferencesListFragment extends PreferenceFragment {
 	protected void setItems( ArrayList<ItemPreference> items ){
 		this.items = items;
 	}
-	
+
 	public void addItem( ItemPreference item ){
 		items.add(item);
 	}
