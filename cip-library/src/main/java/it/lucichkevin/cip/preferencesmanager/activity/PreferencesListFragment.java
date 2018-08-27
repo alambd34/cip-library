@@ -11,7 +11,6 @@ import android.preference.SwitchPreference;
 import java.util.ArrayList;
 import java.util.Date;
 
-import it.lucichkevin.cip.Utils;
 import it.lucichkevin.cip.preferencesmanager.activity.pickers.DatePickerPreference;
 import it.lucichkevin.cip.preferencesmanager.activity.pickers.MinutePickerPreference;
 import it.lucichkevin.cip.preferencesmanager.activity.pickers.TimePickerPreference;
@@ -25,6 +24,7 @@ import it.lucichkevin.cip.preferencesmanager.activity.pickers.TimePickerPreferen
 public class PreferencesListFragment extends PreferenceFragment {
 
 	protected ArrayList<ItemPreference> items = new ArrayList<ItemPreference>();
+	protected ArrayList<CategoryPreference> categories = new ArrayList<CategoryPreference>();
 
 	public PreferencesListFragment() {
 
@@ -41,126 +41,126 @@ public class PreferencesListFragment extends PreferenceFragment {
 
 		PreferenceScreen root = getPreferenceManager().createPreferenceScreen(getActivity());
 
-//		PreferenceCategory category = newCategory("Test category");
-//		root.addPreference(category);
-
-		int size = items.size();
-
-		if( size == 0 ){
+		if( (items.size() == 0) && (categories.size() == 0) ){
 			populatePreferencesListWithDefault();
 		}
 
-		for( final ItemPreference item : items ){
+		for( ItemPreference item : items ){
+			root.addPreference(createPreference(item));
+		}
 
-			Preference preference;
+		for( CategoryPreference category : categories ){
 
-			switch( item.getType() ){
+			PreferenceCategory preferenceCategory = new PreferenceCategory(getActivity());
+			preferenceCategory.setTitle( category.getName() );
+			root.addPreference(preferenceCategory);
 
-				case ItemPreference.TYPE_LIST:
-					preference = new ListPreference(getActivity());
-					ArrayList<ItemPreference.PreferenceListEntry> entries_list = item.getEntriesList();
-
-					String[] entry_keys = new String[entries_list.size()];
-					String[] entry_values = new String[entries_list.size()];
-
-					for( int i=0; i<entries_list.size(); i++ ){
-						ItemPreference.PreferenceListEntry entry = entries_list.get(i);
-						entry_keys[i] = entry.getValue();
-						entry_values[i] = entry.getLabel();
-					}
-
-					((ListPreference) preference).setEntries(entry_keys);
-					((ListPreference) preference).setEntryValues(entry_values);
-					break;
-
-				case ItemPreference.TYPE_SWITCH:
-					preference = new SwitchPreference(getActivity());
-					if( item.getDefaultValue() != null ){
-						((SwitchPreference) preference).setChecked( (Boolean) item.getDefaultValue() );
-					}
-					break;
-
-				case ItemPreference.TYPE_TIMEPICKER:
-					preference = new TimePickerPreference(getActivity(), null) {
-						@Override
-						public void onSetTime(int hour, int minute) {
-							//  Do nothing...
-						}
-					};
-					break;
-
-				case ItemPreference.TYPE_DATEPICKER:
-					preference = new DatePickerPreference(getActivity(), null) {
-						@Override
-						public void onSetDate(Date date) {
-							//  Do nothing...
-						}
-					};
-					break;
-
-				case ItemPreference.TYPE_MINUTEPICKER:
-					preference = new MinutePickerPreference(getActivity(), null) {
-						@Override
-						public void onSetTime( int minute ) {
-							//  Do nothing...
-						}
-					};
-					break;
-
-				default:
-					//  Type not valid, no will be added the preference :)
-					Utils.logger("[CipLibrary -> createPreferenceHierarchy()] Type preference ("+ item.getType() +") unknown", Utils.LOG_ERROR );
-					continue;
+			for( ItemPreference item : category.getItems() ){
+				preferenceCategory.addPreference(createPreference(item));
 			}
-
-			if( item.getDefaultValue() != null ){
-				preference.setDefaultValue( item.getDefaultValue() );
-			}
-			preference.setKey(item.getKey());
-			preference.setTitle(item.getTitle());
-			preference.setSummary(item.getSummary());
-
-			preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-				@Override
-				public boolean onPreferenceChange( Preference preference, Object newValue ){
-					if( item.getOnPreferenceChangeListener() == null ){
-						//  Communicate to Preferences method that new value must be saved
-						return true;
-					}
-					return item.getOnPreferenceChangeListener().onPreferenceChange( preference, newValue );
-				}
-			});
-			preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-				@Override
-				public boolean onPreferenceClick( Preference preference ){
-					if( item.getOnPreferenceClickListener() == null ){
-						//  Communicate to Preferences method that click event is not handled
-						return false;
-					}
-					return item.getOnPreferenceClickListener().onPreferenceClick( preference );
-				}
-			});
-
-			root.addPreference(preference);
 		}
 
 		return root;
 	}
 
-	protected PreferenceCategory newCategory( String title ){
-		PreferenceCategory inlinePrefCat = new PreferenceCategory(getActivity());
-		inlinePrefCat.setTitle( title );
-		return inlinePrefCat;
+	protected Preference createPreference( final ItemPreference item ){
+
+		Preference preference;
+
+		switch( item.getType() ){
+
+			case ItemPreference.TYPE_LIST:
+				preference = new ListPreference(getActivity());
+				ArrayList<ItemPreference.PreferenceListEntry> entries_list = item.getEntriesList();
+
+				String[] entry_keys = new String[entries_list.size()];
+				String[] entry_values = new String[entries_list.size()];
+
+				for( int i=0; i<entries_list.size(); i++ ){
+					ItemPreference.PreferenceListEntry entry = entries_list.get(i);
+					entry_keys[i] = entry.getValue();
+					entry_values[i] = entry.getLabel();
+				}
+
+				((ListPreference) preference).setEntries(entry_keys);
+				((ListPreference) preference).setEntryValues(entry_values);
+				break;
+
+			case ItemPreference.TYPE_SWITCH:
+				preference = new SwitchPreference(getActivity());
+				if( item.getDefaultValue() != null ){
+					((SwitchPreference) preference).setChecked( (Boolean) item.getDefaultValue() );
+				}
+				break;
+
+			case ItemPreference.TYPE_TIMEPICKER:
+				preference = new TimePickerPreference(getActivity(), null) {
+					@Override
+					public void onSetTime(int hour, int minute) {
+						//  Do nothing...
+					}
+				};
+				break;
+
+			case ItemPreference.TYPE_DATEPICKER:
+				preference = new DatePickerPreference(getActivity(), null) {
+					@Override
+					public void onSetDate(Date date) {
+						//  Do nothing...
+					}
+				};
+				break;
+
+			case ItemPreference.TYPE_MINUTEPICKER:
+				preference = new MinutePickerPreference(getActivity(), null) {
+					@Override
+					public void onSetTime( int minute ) {
+						//  Do nothing...
+					}
+				};
+				break;
+
+			default:
+//				//  Type not valid, no will be added the preference :)
+				throw new IllegalArgumentException("[CipLibrary -> createPreferenceHierarchy()] Type preference ("+ item.getType() +") unknown");
+		}
+
+		if( item.getDefaultValue() != null ){
+			preference.setDefaultValue( item.getDefaultValue() );
+		}
+		preference.setKey(item.getKey());
+		preference.setTitle(item.getTitle());
+		preference.setSummary(item.getSummary());
+
+		preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange( Preference preference, Object newValue ) {
+				//  Communicate to Preferences method that new value must be saved
+				return (item.getOnPreferenceChangeListener() == null) || item.getOnPreferenceChangeListener().onPreferenceChange(preference, newValue);
+			}
+		});
+		preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick( Preference preference ) {
+				//  Communicate to Preferences method that click event is not handled
+				return (item.getOnPreferenceClickListener() != null) && item.getOnPreferenceClickListener().onPreferenceClick(preference);
+			}
+		});
+
+		return preference;
 	}
 
 	protected void populatePreferencesListWithDefault(){
 
+		ArrayList<ItemPreference> debug_items = new ArrayList<ItemPreference>();
+
 		ItemPreference DEBUG_LOG = new ItemPreference("DEBUG_LOG", "Debug Log", "Check this if you want debug logging enabled on log cat", ItemPreference.TYPE_SWITCH, false );
+		debug_items.add(DEBUG_LOG);
 
 		ItemPreference TOASTER_TO_LOGCAT = new ItemPreference("TOASTER_TO_LOGCAT", "Toast vs. Log", "Check this and all toasts will be converted in Info Log", ItemPreference.TYPE_SWITCH, false );
+		debug_items.add(TOASTER_TO_LOGCAT);
 
-		items.add(DEBUG_LOG);
-		items.add(TOASTER_TO_LOGCAT);
+		addCategory(new CategoryPreference("Debug", debug_items ));
 	}
 
 	protected void setItems( ArrayList<ItemPreference> items ){
@@ -169,6 +169,10 @@ public class PreferencesListFragment extends PreferenceFragment {
 
 	public void addItem( ItemPreference item ){
 		items.add(item);
+	}
+
+	public void addCategory( CategoryPreference category ){
+		categories.add(category);
 	}
 
 }

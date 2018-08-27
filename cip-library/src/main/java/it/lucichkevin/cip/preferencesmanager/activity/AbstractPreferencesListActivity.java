@@ -74,6 +74,9 @@ public abstract class AbstractPreferencesListActivity extends AppCompatActivity 
 		fragment.addItem(item);
 	}
 
+	public void addCategory( CategoryPreference category ){
+		fragment.addCategory(category);
+	}
 
 	/////////////////////////////////////////
 	//  Getters and setters
