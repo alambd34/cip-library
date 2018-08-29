@@ -19,7 +19,7 @@ import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
 /**
  * @author	Kevin Lucich (14/02/14).
  * @author	Marco Zanetti - MarKco - method Utils.logger(String,int)
- * @version	1.1.0
+ * @version	1.1.0 (2018-08-24)
  *
  * @update
  * 	v1.1.0 (2018-08-24)

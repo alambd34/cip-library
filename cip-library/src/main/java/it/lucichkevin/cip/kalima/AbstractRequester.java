@@ -23,6 +23,7 @@ import java.util.concurrent.Executor;
 	This object allows you to send one or more requests to a server. Calling the "send ()",
 	the object sends all requests stored, the mode is determined by the "sendingMode" (a value
 	declared by one of the constants:
+
 	<ul>
 		<li>AbstractRequester.SendingMode.SYNCHRONOUS</li>
 		<li>AbstractRequester.SendingMode.ASYNCHRONOUS</li>
@@ -68,7 +69,9 @@ import java.util.concurrent.Executor;
 	</pre>
 
 
-	@author	 Kevin Lucich	04/03/2014.
+ @author  Kevin Lucich (2014-03-04)
+ @version 2.0.0 (2018-08-16)
+
 	@update
 		v2.0.0 - 2018-08-16
  			[ADD] Added possibly to change the request method (GET or POST)

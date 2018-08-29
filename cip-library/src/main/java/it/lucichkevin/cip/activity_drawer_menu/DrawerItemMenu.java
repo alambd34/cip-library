@@ -5,8 +5,7 @@ import android.view.View;
 
 /**
  * @author	Kevin Lucich
- * @version	1.1.0
- * @updated	2018-08-06
+ * @version	1.1.0 (2018-08-06)
  * @since	CipLibrary v1.0.0
 */
 public class DrawerItemMenu {

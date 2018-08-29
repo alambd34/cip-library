@@ -18,10 +18,9 @@ import android.view.MenuItem;
  *		}
  *  </code>
  *
- *  @author			Kevin Lucich
- *  @creation_date	2014-09-11
- *  @version 		2.0.0
- *  @since			CipLibrary v0.5.0
+ *  @author		Kevin Lucich
+ *  @creation	2014-09-11
+ *  @version 	2.0.0 (2018-08-13)
  *  @update
  *  	2.0.0 [2018-08-13]
  *  		Refactoring AbstractPreferencesListActivity and PreferencesListFragment

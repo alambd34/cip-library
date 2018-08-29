@@ -10,11 +10,10 @@ import java.util.ArrayList;
  *  Describe a item of preferences list
  *
  *  @author	Kevin Lucich 11/09/2014
- *  @since	CipLibrary v0.5.0
- *  @update	2018-08-08
- *
- *  2018-08-24
- *  	Fix for ListPreferenc: add PreferenceListEntry to keep value and label and keep the order entries list
+ *  @version 2.0.0 (2018-08-24)
+ *  @update
+ *  	2018-08-24
+ *  		Fix for ListPreferenc: add PreferenceListEntry to keep value and label and keep the order entries list
  */
 public class ItemPreference {
 
