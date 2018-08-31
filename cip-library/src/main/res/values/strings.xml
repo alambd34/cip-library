@@ -10,5 +10,7 @@
 	<string name="dialoghelper_neutral_btn_text">Close</string>
 	<string name="dialoghelper_title">Welcome!</string>
 	<string name="dialoghelper_message">Hello world! :)</string>
+	<string name="should_be_log_to_logcat_title">Abilita il log di debug</string>
+	<string name="should_be_log_to_logcat_desc">Se attivo abbilita i log su Logcat</string>
 
 </resources>

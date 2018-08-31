@@ -1,8 +1,12 @@
-package it.lucichkevin.cip.preferencesmanager.activity;
+package it.lucichkevin.cip.preferences.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
+import it.lucichkevin.cip.preferences.AbstractPreference;
+import it.lucichkevin.cip.preferences.CategoryPreference;
+import it.lucichkevin.cip.preferences.ListPreference;
 
 
 /**
@@ -18,8 +22,7 @@ import android.view.MenuItem;
  *		}
  *  </code>
  *
- *  @author		Kevin Lucich
- *  @creation	2014-09-11
+ *  @author		Kevin Lucich (2014-09-11)
  *  @version 	2.0.0 (2018-08-13)
  *  @update
  *  	2.0.0 [2018-08-13]
@@ -35,8 +38,6 @@ public abstract class AbstractPreferencesListActivity extends AppCompatActivity 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		ItemPreference.setContext( AbstractPreferencesListActivity.this );
 
 		fragment = new PreferencesListFragment();
 
@@ -69,7 +70,7 @@ public abstract class AbstractPreferencesListActivity extends AppCompatActivity 
 		fragment.populatePreferencesListWithDefault();
 	}
 
-	public void addItem( ItemPreference item ){
+	public void addItem( AbstractPreference item ){
 		fragment.addItem(item);
 	}
 

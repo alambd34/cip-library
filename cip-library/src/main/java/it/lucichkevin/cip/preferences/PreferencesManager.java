@@ -1,4 +1,4 @@
-package it.lucichkevin.cip.preferencesmanager;
+package it.lucichkevin.cip.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -99,10 +99,10 @@ public class PreferencesManager {
 	///////////////////////////////////////
 	//  Costants
 
+	public static final String SHOULD_BE_LOG_TO_LOGCAT = "SHOULD_BE_LOG_TO_LOGCAT";
+
 	protected static final String STRING_LOG = "PREFERENCESMANAGER";
 	protected static final String KEY_FIRST_RUN_OF_APP = "FIRST_RUN_OF_APP";
-	protected static final String KEY_DEBUG_LOG = "DEBUG_LOG";
-	protected static final String KEY_TOASTER_TO_LOGCAT = "TOASTER_TO_LOGCAT";
 	protected static final String APP_VERSION_AT_LAST_ACCESS = "APP_VERSION_AT_LAST_ACCESS";
 	protected static final String KEY_DEVICE_ID = "DEVICE_ID";
 
@@ -113,8 +113,7 @@ public class PreferencesManager {
 	 Set the default of shared preferences
 	 */
 	public static void setDefaultPreferences(){
-		PreferencesManager.setDebugLog(true);
-		PreferencesManager.setToasterToLogcat(false);
+		PreferencesManager.setShouldBeLogToLogcat(true);
 	}
 
 	/**
@@ -235,18 +234,28 @@ public class PreferencesManager {
 
 	////////////////////////////////////////////////
 
-	public static boolean isToasterToLogcat(){
-		return PreferencesManager.is(KEY_TOASTER_TO_LOGCAT);
+
+
+	public static boolean shouldBeLogToLogcat(){
+		return PreferencesManager.is(SHOULD_BE_LOG_TO_LOGCAT);
 	}
-	public static void setToasterToLogcat( boolean b ){
-		PreferencesManager.setPreferences( KEY_TOASTER_TO_LOGCAT, b );
+	public static void setShouldBeLogToLogcat( boolean b ){
+		PreferencesManager.setPreferences( SHOULD_BE_LOG_TO_LOGCAT, b );
 	}
 
+	/**
+	 * @deprecated
+	 * @see #shouldBeLogToLogcat()
+	 * */
 	public static boolean isDebugLog(){
-		return PreferencesManager.is(KEY_DEBUG_LOG);
+		return shouldBeLogToLogcat();
 	}
+	/**
+	 * @deprecated
+	 * @see #setShouldBeLogToLogcat(boolean)
+	 */
 	public static void setDebugLog( boolean b ){
-		PreferencesManager.setPreferences( KEY_DEBUG_LOG, b );
+		setShouldBeLogToLogcat(b);
 	}
 
 	/**

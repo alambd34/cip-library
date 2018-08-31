@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import it.lucichkevin.cip.preferencesmanager.PreferencesManager;
+import it.lucichkevin.cip.preferences.PreferencesManager;
 
 /**
  * @author	Kevin Lucich (14/02/14).
@@ -156,7 +156,7 @@ public class Utils {
 	 *	@param  logLevel    Level of the log
 	 */
 	public static void logger( String app_tag, String message, int logLevel ){
-		if( PreferencesManager.isDebugLog() ){
+		if( PreferencesManager.shouldBeLogToLogcat() ){
 			switch( logLevel ) {
 				case LOG_DEBUG:
 					Log.d( app_tag, message );
@@ -231,10 +231,6 @@ public class Utils {
 	 *  @param  msg         The message to display in the toast
 	 */
 	public static void Toaster( Context context, String msg ){
-		if( PreferencesManager.isToasterToLogcat() ){
-			Utils.logger( msg , LOG_INFO);
-			return;
-		}
 		Toaster.showToast(context, msg);
 	}
 

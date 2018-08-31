@@ -17,35 +17,35 @@ public class TestMainActivity extends AbstractActivityWithActionBarMenu {
 
 		items_menu_list = new DrawerItemMenu[]{
 
-				new DrawerItemMenu( R.string.test_drawer_arrayitemnumber1, R.drawable.ic_menu_camera, new DrawerItemMenu.OnClickListener() {
-					@Override
-					public void onClick() {
-						Utils.Toaster( TestMainActivity.this, "I'm number 1" );
-					}
-				}),
+			new DrawerItemMenu( R.string.test_drawer_arrayitemnumber1, R.drawable.ic_menu_camera, new DrawerItemMenu.OnClickListener() {
+				@Override
+				public void onClick() {
+					Utils.Toaster( TestMainActivity.this, "I'm number 1" );
+				}
+			}),
 
-				new DrawerItemMenu( R.string.test_drawer_arrayitemnumber2, new DrawerItemMenu.OnClickListener() {
-					@Override
-					public void onClick() {
-						Utils.Toaster( TestMainActivity.this, "I'm number 2" );
-					}
-				}),
+			new DrawerItemMenu( R.string.test_drawer_arrayitemnumber2, new DrawerItemMenu.OnClickListener() {
+				@Override
+				public void onClick() {
+					Utils.Toaster( TestMainActivity.this, "I'm number 2" );
+				}
+			}),
 
-				new DrawerItemMenu( R.string.test_drawer_arrayitemnumber3, new DrawerItemMenu.OnClickListener() {
-					@Override
-					public void onClick() {
-						Utils.Toaster( TestMainActivity.this, "I'm number 3" );
-					}
-				}),
+			new DrawerItemMenu( R.string.test_drawer_arrayitemnumber3, new DrawerItemMenu.OnClickListener() {
+				@Override
+				public void onClick() {
+					Utils.Toaster( TestMainActivity.this, "I'm number 3" );
+				}
+			}),
 
-				new DrawerItemMenu( R.string.test_drawer_arrayitemnumber4, new DrawerItemMenu.OnClickListener() {
-					@Override
-					public void onClick(){
-						Utils.Toaster( TestMainActivity.this, "Normal click" );
-					}
-				}),
+			new DrawerItemMenu( R.string.test_drawer_arrayitemnumber4, new DrawerItemMenu.OnClickListener() {
+				@Override
+				public void onClick(){
+					Utils.Toaster( TestMainActivity.this, "Normal click" );
+				}
+			}),
 
-				new DrawerItemMenu( R.string.show_prefereces, TestPreferencesListActivity.class)
+			new DrawerItemMenu( R.string.show_prefereces, TestPreferencesListActivity.class)
 
 		};
 

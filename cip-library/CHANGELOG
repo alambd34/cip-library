@@ -1,4 +1,7 @@
 
+v2.6.0
+	Refactoring using of Preference and PreferencesListActivity
+
 v0.9.1
 	[FIX]	Remove the holder variable item_view in ObjectAdapter
 	[FIX]	Fix version of com.google.code.gson
