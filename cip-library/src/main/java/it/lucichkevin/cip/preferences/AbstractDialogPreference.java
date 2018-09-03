@@ -32,4 +32,8 @@ public abstract class AbstractDialogPreference extends DialogPreference implemen
 		setDefaultValue(default_value);
 	}
 
+	@Override
+	public Object getDefaultValue() {
+		return null;
+	}
 }

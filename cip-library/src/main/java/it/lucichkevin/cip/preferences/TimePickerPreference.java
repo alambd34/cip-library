@@ -2,7 +2,6 @@ package it.lucichkevin.cip.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.Preference;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.TimePicker;
@@ -13,7 +12,6 @@ import android.widget.TimePicker;
  */
 public class TimePickerPreference extends AbstractDialogPreference {
 
-	protected Integer default_minute = null;
 	protected TimePicker timePicker = null;
 	private OnTimePickerPreferenceChangeListener onTimePickerPreferenceChangeListener = null;
 
@@ -23,11 +21,13 @@ public class TimePickerPreference extends AbstractDialogPreference {
 	public TimePickerPreference(Context context, String key, int title, int summary, Object default_value) {
 		super(context, key, title, summary, default_value);
 	}
-	public TimePickerPreference(Context context, String key, int title, int summary, OnPreferenceChangeListener changeListener, OnPreferenceClickListener clickListener) {
-		super(context, key, title, summary, changeListener, clickListener);
+	public TimePickerPreference(Context context, String key, int title, int summary, OnTimePickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener) {
+		super(context, key, title, summary, null, clickListener);
+		setOnPreferenceChangeListener(changeListener);
 	}
-	protected TimePickerPreference(Context context, String key, String title, String summary, OnPreferenceChangeListener changeListener, OnPreferenceClickListener clickListener, Object default_value) {
-		super(context, key, title, summary, changeListener, clickListener, default_value);
+	protected TimePickerPreference(Context context, String key, String title, String summary, OnTimePickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener, Object default_value) {
+		super(context, key, title, summary, null, clickListener, default_value);
+		setOnPreferenceChangeListener(changeListener);
 	}
 
 
@@ -38,12 +38,13 @@ public class TimePickerPreference extends AbstractDialogPreference {
 		timePicker.setIs24HourView(DateFormat.is24HourFormat(getContext()));
 
 		int minute = 0;
-		if( default_minute != null ){
-			minute = default_minute;
-		}
+		int hour = 0;
 
-		int hour = minute / 60;
-		minute = minute - (hour * 60);
+		int minutes_to_set = PreferencesManager.getPreferences().getInt( getKey(), 0 );
+		if( minutes_to_set != 0 ){
+			hour = minutes_to_set / 60;
+			minute = minutes_to_set - (hour * 60);
+		}
 
 		timePicker.setHour(hour);
 		timePicker.setMinute(minute);
@@ -56,50 +57,36 @@ public class TimePickerPreference extends AbstractDialogPreference {
 		super.onDialogClosed(positiveResult);
 
 		if( positiveResult ){
+
 			int hour = timePicker.getHour();
 			int minute = timePicker.getMinute();
 			int value = (hour * 60 + minute);
 
-			SharedPreferences.Editor editor = getEditor();
-			editor.putInt( getKey(), value );
-			editor.commit();
-
-			if( getOnDatePickerPreferenceChangeListener() != null ){
-				getOnDatePickerPreferenceChangeListener().onPreferenceChange( TimePickerPreference.this, value );
+			if( getOnTimePickerPreferenceChangeListener() != null ){
+				if( getOnTimePickerPreferenceChangeListener().onTimePickerPreferenceChange(this, hour, minute) ){
+					savePreferenceValue(value);
+				}
+			}else{
+				savePreferenceValue(value);
 			}
 		}
 	}
 
-	@Override
-	protected void onSetInitialValue( boolean restorePersistedValue, Object defaultValue ){
-		if( defaultValue != null ){
-			default_minute = (Integer) defaultValue;
-		}else{
-			default_minute = PreferencesManager.getPreferences().getInt(getKey(), 0);
-		}
+	protected void savePreferenceValue( int minutes_to_save ){
+		SharedPreferences.Editor editor = getEditor();
+		editor.putInt( getKey(), minutes_to_save );
+		editor.commit();
 	}
 
-	@Override
-	public Object getDefaultValue() {
-		return null;
-	}
-
-
-	public OnTimePickerPreferenceChangeListener getOnDatePickerPreferenceChangeListener(){
+	public OnTimePickerPreferenceChangeListener getOnTimePickerPreferenceChangeListener(){
 		return onTimePickerPreferenceChangeListener;
 	}
 	public void setOnPreferenceChangeListener( OnTimePickerPreferenceChangeListener onTimePickerPreferenceChangeListener ){
 		this.onTimePickerPreferenceChangeListener = onTimePickerPreferenceChangeListener;
 	}
 
-	public static abstract class OnTimePickerPreferenceChangeListener implements Preference.OnPreferenceChangeListener {
-
-		public abstract boolean onPreferenceChange( Preference preference, Integer minutes );
-
-		@Override
-		public boolean onPreferenceChange(Preference preference, Object newValue) {
-			return onPreferenceChange(preference, (Integer) newValue );
-		}
+	public static abstract class OnTimePickerPreferenceChangeListener {
+		public abstract boolean onTimePickerPreferenceChange( android.preference.Preference preference, int hours, int minutes );
 	}
 
 }

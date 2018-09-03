@@ -7,9 +7,6 @@ import it.lucichkevin.cip.Utils;
 
 public class SwitchPreference extends AbstractPreference {
 
-	protected OnSwitchPreferenceChangeListener onSwitchPreferenceChangeListener;
-
-
 	public SwitchPreference( String key, int title, int summary ) {
 		super( key, title, summary );
 	}
@@ -17,11 +14,11 @@ public class SwitchPreference extends AbstractPreference {
 		super( key, title, summary, default_value );
 	}
 	public SwitchPreference( String key, int title, int summary, OnSwitchPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener ){
-		this( key, Utils.getContext().getString(title), Utils.getContext().getString(summary), changeListener, clickListener, false );
+		this( key, Utils.getContext().getString(title), Utils.getContext().getString(summary), null, clickListener, false );
+		onPreferenceChangeListener = changeListener;
 	}
 	public SwitchPreference(String key, String title, String summary, final OnSwitchPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener, Boolean default_value) {
 		super( key, title, summary, null, clickListener, default_value );
-
 		onPreferenceChangeListener = changeListener;
 	}
 
@@ -39,11 +36,11 @@ public class SwitchPreference extends AbstractPreference {
 
 	public static abstract class OnSwitchPreferenceChangeListener implements Preference.OnPreferenceChangeListener {
 
-		public abstract boolean onPreferenceChange( Preference preference, Boolean newValue );
+		public abstract boolean onSwitchPreferenceChange( android.preference.Preference preference, Boolean newValue );
 
 		@Override
-		public boolean onPreferenceChange(Preference preference, Object newValue) {
-			return onPreferenceChange(preference, (Boolean) newValue );
+		public boolean onPreferenceChange( android.preference.Preference preference, Object newValue) {
+			return onSwitchPreferenceChange( preference, (Boolean) newValue );
 		}
 	}
 

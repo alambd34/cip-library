@@ -83,8 +83,15 @@ public class ListPreference extends AbstractPreference {
 		}
 	}
 
-	public interface OnListPreferenceChangeListener extends Preference.OnPreferenceChangeListener {
-		boolean onPreferenceChange(Preference preference, String newValue );
+
+	public static abstract class OnListPreferenceChangeListener implements Preference.OnPreferenceChangeListener {
+
+		public abstract boolean onListPreferenceChange( android.preference.Preference preference, String newValue );
+
+		@Override
+		public boolean onPreferenceChange( android.preference.Preference preference, Object newValue ){
+			return onListPreferenceChange( preference, (String) newValue );
+		}
 	}
 
 }

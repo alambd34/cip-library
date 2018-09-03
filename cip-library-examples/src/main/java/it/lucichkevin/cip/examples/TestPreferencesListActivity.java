@@ -16,36 +16,36 @@ import it.lucichkevin.cip.preferences.CategoryPreference;
 public class TestPreferencesListActivity extends AbstractPreferencesListActivity {
 
 	@Override
-	public void populatePreferencesList() {
+	public void populatePreferencesList(){
 		super.populatePreferencesListWithDefault();
 
 		ArrayList<Preference> test_category = new ArrayList<>();
 
 		DatePickerPreference dpp = new DatePickerPreference( this, "TEST_DATEPICKER", R.string.test_title_first_preference, R.string.test_summary_first_preference);
-		dpp.setOnPreferenceChangeListener(new DatePickerPreference.OnDatePickerPreferenceChangeListener() {
+		dpp.setOnPreferenceChangeListener(new DatePickerPreference.OnDatePickerPreferenceChangeListener(){
 			@Override
-			public boolean onPreferenceChange(android.preference.Preference preference, Date date ){
-				Utils.logger( "DatePickerPreference.OnDatePickerPreferenceChangeListener => "+ String.valueOf(date), Utils.LOG_DEBUG );
+			public boolean onDatePickerPreferenceChange(android.preference.Preference preference, Date date ){
+				Utils.logger( "DatePickerPreference.onDatePickerPreferenceChange => "+ String.valueOf(date), Utils.LOG_DEBUG );
 				return true;
 			}
 		});
 		test_category.add(dpp);
 
 		TimePickerPreference tpp = new TimePickerPreference( this,"TEST_TIMEPICKER", R.string.test_title_second_preference, R.string.test_summary_second_preference);
-		tpp.setOnPreferenceChangeListener(new TimePickerPreference.OnTimePickerPreferenceChangeListener() {
+		tpp.setOnPreferenceChangeListener(new TimePickerPreference.OnTimePickerPreferenceChangeListener(){
 			@Override
-			public boolean onPreferenceChange(android.preference.Preference preference, Integer minutes ){
-				Utils.logger( "TimePickerPreference.OnTimePickerPreferenceChangeListener => "+ String.valueOf(minutes), Utils.LOG_DEBUG );
+			public boolean onTimePickerPreferenceChange( android.preference.Preference preference, int hours, int minutes ){
+				Utils.logger( "TimePickerPreference.onTimePickerPreferenceChange => h="+ String.valueOf(hours) +" / m="+ String.valueOf(minutes), Utils.LOG_DEBUG );
 				return true;
 			}
 		});
 		test_category.add(tpp);
 
 		SwitchPreference sp = new SwitchPreference( "TEST_SWITCH", R.string.test_title_third_preference, R.string.test_summary_third_preference);
-		sp.setOnPreferenceChangeListener(new SwitchPreference.OnSwitchPreferenceChangeListener() {
+		sp.setOnPreferenceChangeListener(new SwitchPreference.OnSwitchPreferenceChangeListener(){
 			@Override
-			public boolean onPreferenceChange(android.preference.Preference preference, Boolean newValue) {
-				Utils.logger( "SwitchPreference.OnSwitchPreferenceChangeListener => "+ newValue, Utils.LOG_DEBUG );
+			public boolean onSwitchPreferenceChange( android.preference.Preference preference, Boolean newValue ){
+				Utils.logger( "SwitchPreference.onSwitchPreferenceChange => "+ newValue, Utils.LOG_DEBUG );
 				return true;
 			}
 		});
@@ -55,9 +55,9 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 
 		ListPreference ip = new ListPreference( "TEST LIST OPTIONS", R.string.test_title_fourth_preference, R.string.test_summary_fourth_preference );
 		ip.setEntriesList(getHowOftenOptions());
-		ip.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+		ip.setOnPreferenceChangeListener(new ListPreference.OnListPreferenceChangeListener(){
 			@Override
-			public boolean onPreferenceChange( android.preference.Preference preference, Object newValue ){
+			public boolean onListPreferenceChange( android.preference.Preference preference, String newValue ){
 				Utils.logger( "ListPreference.onPreferenceChange => "+ newValue, Utils.LOG_DEBUG );
 				return false;
 			}

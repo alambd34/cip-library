@@ -2,9 +2,6 @@ package it.lucichkevin.cip.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.DialogPreference;
-import android.preference.Preference;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.DatePicker;
 
@@ -16,7 +13,6 @@ import java.util.Date;
  */
 public class DatePickerPreference extends AbstractDialogPreference {
 
-	private Long default_millis = null;
 	private DatePicker datePicker = null;
 	private OnDatePickerPreferenceChangeListener onDatePickerPreferenceChangeListener = null;
 
@@ -26,11 +22,13 @@ public class DatePickerPreference extends AbstractDialogPreference {
 	public DatePickerPreference(Context context, String key, int title, int summary, Object default_value) {
 		super(context, key, title, summary, default_value);
 	}
-	public DatePickerPreference(Context context, String key, int title, int summary, OnPreferenceChangeListener changeListener, OnPreferenceClickListener clickListener) {
-		super(context, key, title, summary, changeListener, clickListener);
+	public DatePickerPreference(Context context, String key, int title, int summary, Preference.OnPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener) {
+		super(context, key, title, summary, null);
+		setOnPreferenceChangeListener(changeListener);
 	}
-	protected DatePickerPreference(Context context, String key, String title, String summary, OnPreferenceChangeListener changeListener, OnPreferenceClickListener clickListener, Object default_value) {
-		super(context, key, title, summary, changeListener, clickListener, default_value);
+	protected DatePickerPreference(Context context, String key, String title, String summary, OnDatePickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener, Object default_value) {
+		super(context, key, title, summary, null, clickListener, default_value);
+		setOnPreferenceChangeListener(changeListener);
 	}
 
 
@@ -42,7 +40,9 @@ public class DatePickerPreference extends AbstractDialogPreference {
 		c.set(Calendar.HOUR_OF_DAY, 0);
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.SECOND, 0);
-		if( default_millis != null ){
+
+		long default_millis = PreferencesManager.getPreferences().getLong( getKey(), 0 );
+		if( default_millis != 0 ){
 			c.setTimeInMillis(default_millis);
 		}
 		datePicker.updateDate( c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH) );
@@ -63,46 +63,32 @@ public class DatePickerPreference extends AbstractDialogPreference {
 		calendar.set(Calendar.SECOND, 0);
 
 		if( positiveResult ){
-			SharedPreferences.Editor editor = getEditor();
-			editor.putLong( getKey(), calendar.getTimeInMillis() );
-			editor.commit();
-
 			if( getOnDatePickerPreferenceChangeListener() != null ){
-				getOnDatePickerPreferenceChangeListener().onPreferenceChange(DatePickerPreference.this, calendar.getTime() );
+				if( getOnDatePickerPreferenceChangeListener().onDatePickerPreferenceChange(this, calendar.getTime()) ){
+					savePreferenceValue(calendar.getTimeInMillis());
+				}
+			}else{
+				savePreferenceValue(calendar.getTimeInMillis());
 			}
 		}
 	}
 
-	@Override
-	protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
-		if( defaultValue != null ){
-			default_millis = (Long) defaultValue;
-		}else{
-			default_millis = PreferencesManager.getPreferences().getLong(getKey(), 0 );
-		}
-	}
-
-	@Override
-	public Object getDefaultValue() {
-		return null;
+	protected void savePreferenceValue( long millis_to_save ){
+		SharedPreferences.Editor editor = getEditor();
+		editor.putLong( getKey(), millis_to_save );
+		editor.commit();
 	}
 
 
 	public OnDatePickerPreferenceChangeListener getOnDatePickerPreferenceChangeListener() {
 		return onDatePickerPreferenceChangeListener;
 	}
-	public void setOnPreferenceChangeListener(OnDatePickerPreferenceChangeListener onDatePickerPreferenceChangeListener ){
+	public void setOnPreferenceChangeListener( OnDatePickerPreferenceChangeListener onDatePickerPreferenceChangeListener ){
 		this.onDatePickerPreferenceChangeListener = onDatePickerPreferenceChangeListener;
 	}
 
-	public static abstract class OnDatePickerPreferenceChangeListener implements Preference.OnPreferenceChangeListener {
-
-		public abstract boolean onPreferenceChange( Preference preference, Date date );
-
-		@Override
-		public boolean onPreferenceChange(Preference preference, Object newValue) {
-			return onPreferenceChange(preference, (Date) newValue );
-		}
+	public static abstract class OnDatePickerPreferenceChangeListener {
+		public abstract boolean onDatePickerPreferenceChange( android.preference.Preference preference, Date date );
 	}
 
 }
