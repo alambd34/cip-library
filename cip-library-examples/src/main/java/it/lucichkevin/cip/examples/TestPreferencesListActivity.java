@@ -19,7 +19,7 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 	public void populatePreferencesList() {
 		super.populatePreferencesListWithDefault();
 
-		ArrayList<Preference> test_category = new ArrayList<Preference>();
+		ArrayList<Preference> test_category = new ArrayList<>();
 
 		DatePickerPreference dpp = new DatePickerPreference( this, "TEST_DATEPICKER", R.string.test_title_first_preference, R.string.test_summary_first_preference);
 		dpp.setOnPreferenceChangeListener(new DatePickerPreference.OnDatePickerPreferenceChangeListener() {
@@ -55,6 +55,13 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 
 		ListPreference ip = new ListPreference( "TEST LIST OPTIONS", R.string.test_title_fourth_preference, R.string.test_summary_fourth_preference );
 		ip.setEntriesList(getHowOftenOptions());
+		ip.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange( android.preference.Preference preference, Object newValue ){
+				Utils.logger( "ListPreference.onPreferenceChange => "+ newValue, Utils.LOG_DEBUG );
+				return false;
+			}
+		});
 		addItem(ip);
 
 		//  Others items...
@@ -64,7 +71,7 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 
 	private ArrayList<ListPreference.Entry> getHowOftenOptions(){
 
-		ArrayList<ListPreference.Entry> entries = new ArrayList<ListPreference.Entry>();
+		ArrayList<ListPreference.Entry> entries = new ArrayList<>();
 
 		entries.add(new ListPreference.Entry("10", "10 secondi") );
 		entries.add(new ListPreference.Entry( "20", "20 secondi") );

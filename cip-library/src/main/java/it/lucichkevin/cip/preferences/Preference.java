@@ -11,4 +11,10 @@ public interface Preference {
 
 	android.preference.Preference.OnPreferenceChangeListener getOnPreferenceChangeListener();
 	android.preference.Preference.OnPreferenceClickListener getOnPreferenceClickListener();
+
+
+	//	Simplify writing code :)
+	interface OnPreferenceChangeListener extends android.preference.Preference.OnPreferenceChangeListener {}
+	interface OnPreferenceClickListener extends android.preference.Preference.OnPreferenceClickListener {}
+
 }
