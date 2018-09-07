@@ -59,8 +59,6 @@ public abstract class AbstractActivityWithActionBarMenu extends AppCompatActivit
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem item_menu ){
 
-				Utils.logger("item_menu.getItemId() = "+ String.valueOf(item_menu.getItemId()), Utils.LOG_DEBUG );
-
 				DrawerItemMenu item = items_menu_list[ item_menu.getItemId() ];
 
 				drawer.closeDrawer(GravityCompat.START);

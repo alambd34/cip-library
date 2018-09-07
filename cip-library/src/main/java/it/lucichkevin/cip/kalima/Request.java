@@ -130,7 +130,7 @@ public class Request implements Serializable {
 		}catch( NoSuchAlgorithmException | UnsupportedEncodingException e ){
 			e.printStackTrace();
 		}
-//		Utils.logger( "md5 = "+ md5, Utils.LOG_DEBUG );
+
 		setRequestId(md5);
 	}
 

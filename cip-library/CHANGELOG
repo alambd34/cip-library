@@ -1,4 +1,13 @@
 
+v2.6.2
+	Remove useless log
+	Remove DialogHelper
+	Add AlertDialogHelper and ProgressAlertDialog
+	Add Utils.loggerDebug (alias of Utils.logger(message,Utils.LOG_DEBUG) )
+
+v2.6.1
+	Fix Toolbar in AbstractActivityWithActionBarMenu
+
 v2.6.0
 	Refactoring using of Preference and PreferencesListActivity
 

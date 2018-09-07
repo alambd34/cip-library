@@ -2,11 +2,12 @@ package it.lucichkevin.cip.preferences.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import it.lucichkevin.cip.R;
 import it.lucichkevin.cip.preferences.AbstractPreference;
 import it.lucichkevin.cip.preferences.CategoryPreference;
-import it.lucichkevin.cip.preferences.ListPreference;
 
 
 /**
@@ -32,19 +33,24 @@ import it.lucichkevin.cip.preferences.ListPreference;
  */
 public abstract class AbstractPreferencesListActivity extends AppCompatActivity {
 
-	protected PreferencesListFragment fragment;
+	protected PreferencesListFragment fragment = new PreferencesListFragment();
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		fragment = new PreferencesListFragment();
+		setContentView(R.layout.activity_abstract_preferences_list);
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 		populatePreferencesList();
 
 		getFragmentManager().beginTransaction()
-			.replace( android.R.id.content,fragment)
+			.replace( R.id.preferences_fragment_list, fragment )
 			.commit();
 	}
 
@@ -52,11 +58,12 @@ public abstract class AbstractPreferencesListActivity extends AppCompatActivity 
 	public boolean onOptionsItemSelected( MenuItem item ){
 		switch( item.getItemId() ){
 			case android.R.id.home:
-				this.finish();
+				finish();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 
 	/**
 	 *  Populate in this method the ArrayList with ItemPreference

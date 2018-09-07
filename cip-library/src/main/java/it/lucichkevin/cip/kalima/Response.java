@@ -13,7 +13,7 @@ public abstract class Response implements Serializable {
     protected float time;
 
     public void handleData(){
-		Utils.logger( Request.Callbacks.getPrefixLog(request) + " handleData() CALLED", Utils.LOG_INFO);
+//		Utils.logger( Request.Callbacks.getPrefixLog(request) + " handleData() CALLED", Utils.LOG_INFO);
 	}
 
 	////////////////////////////////////////

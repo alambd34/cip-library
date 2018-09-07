@@ -49,21 +49,8 @@ public class DrawerItemMenu {
 	public void onItemClicked(){
 		if( this.getOnClickListener() != null ){
 			this.getOnClickListener().onClick();
-		}else{
-//			Snackbar.make( this, "[Cip.DrawerMenu.onItemClicked] "+ getTitleString(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
 		}
 	}
-
-//	public boolean onItemLongClicked( View view ){
-//
-//		if( this.getOnClickListener() != null ){
-//			return this.getOnClickListener().onLongClick(view);
-//		}else{
-////			Utils.logger( "[Cip.DrawerMenu.onItemClicked] "+ getTitleString(), Utils.LOG_DEBUG );
-//		}
-//
-//		return false;
-//	}
 
 	//  Quando "qualcosa" succede e deve essere modificato lo stato dell'item
 	public void onStatusChanged(){
@@ -79,10 +66,6 @@ public class DrawerItemMenu {
     public void setTitle( Integer title ){
         this.title = title;
     }
-	public String getTitleString() {
-//		return Utils.getContext().getResources().getString(getTitle());
-		return "";
-	}
 
     public Integer getImage() {
         return image;

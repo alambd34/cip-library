@@ -62,7 +62,6 @@ public class PreferencesManager {
 	public static void init( Context context ){
 
 		if( PreferencesManager.isInitialized() ){
-//			Utils.logger("CIP.PreferencesManager", "PreferencesManager is already initialized :)", Utils.LOG_INFO );
 			return;
 		}
 

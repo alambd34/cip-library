@@ -7,50 +7,45 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.lucichkevin.cip.Utils;
-import it.lucichkevin.cip.dialogs.DialogHelper;
+import it.lucichkevin.cip.dialogs.AlertDialogHelper;
 import it.lucichkevin.cip.dialogs.pickers.MinutesPickerDialog;
 import it.lucichkevin.cip.dialogs.pickers.TimePickerDialog;
 import it.lucichkevin.cip.examples.R;
 
-/**
- * @author  Kevin Lucich (08/09/14)
- */
+
 public class FragmentsDialogs extends Fragment {
 
-    public FragmentsDialogs(){
+	public FragmentsDialogs(){
 
-    }
+	}
 
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_dialogs, container, false);
 
-        View rootView = inflater.inflate(R.layout.fragment_dialogs, container, false);
+		(Utils.findViewById( rootView, R.id.open_dialoghelper )).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick( View v ){
+				AlertDialogHelper.create(getActivity()).setTitle(R.string.dialoghelper_title);
+			}
+		});
 
-        (Utils.findViewById( rootView, R.id.open_dialoghelper )).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogHelper.show( getActivity(), R.string.dialoghelper_title, R.string.dialoghelper_message );
-            }
-        });
+		(Utils.findViewById( rootView, R.id.open_timepickerdialog )).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick( View v ){
+				(new TimePickerDialog()).show( getFragmentManager(), "TimePickerDialog" );
+			}
+		});
 
-        (Utils.findViewById( rootView, R.id.open_timepickerdialog )).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog dialog = new TimePickerDialog();
-                dialog.show( getFragmentManager(), "TimePickerDialog" );
-            }
-        });
+		(Utils.findViewById( rootView, R.id.open_minutespickerdialog )).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick( View v ){
+				(new MinutesPickerDialog()).show( getFragmentManager(), "MinutesPickerDialog" );
+			}
+		});
 
-        (Utils.findViewById( rootView, R.id.open_minutespickerdialog )).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MinutesPickerDialog dialog = new MinutesPickerDialog();
-                dialog.show( getFragmentManager(), "MinutesPickerDialog" );
-            }
-        });
-
-        return rootView;
-    }
+		return rootView;
+	}
 
 }

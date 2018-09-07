@@ -35,11 +35,11 @@ public class TimePickerDialog extends DialogFragment {
     protected Callbacks callbacks = new EmptyCallbacks(){
         public void onButtonPositiveClicked( Dialog dialog, int hour, int minute ){
             super.onButtonPositiveClicked( dialog, hour, minute );
-            Utils.logger("Cip.TimePickerDialog", "Callback onButtonPositiveClicked( Button, "+ String.valueOf(hour) +", "+ String.valueOf(minute) +" ) called!", Utils.LOG_INFO);
+//            Utils.logger("Cip.TimePickerDialog", "Callback onButtonPositiveClicked( Button, "+ String.valueOf(hour) +", "+ String.valueOf(minute) +" ) called!", Utils.LOG_INFO);
         }
         public void onButtonCancelClicked( Dialog dialog, int hour, int minute ){
             super.onButtonCancelClicked( dialog, hour, minute );
-            Utils.logger("Cip.TimePickerDialog", "Callback onButtonCancelClicked( Button, "+ String.valueOf(hour) +", "+ String.valueOf(minute) +" ) called!", Utils.LOG_INFO);
+//            Utils.logger("Cip.TimePickerDialog", "Callback onButtonCancelClicked( Button, "+ String.valueOf(hour) +", "+ String.valueOf(minute) +" ) called!", Utils.LOG_INFO);
         }
     };
 
@@ -57,8 +57,8 @@ public class TimePickerDialog extends DialogFragment {
         timePicker = ((TimePicker) timePickerDialog.findViewById(R.id.timepicker));
 
         final Calendar c = Calendar.getInstance();
-        timePicker.setCurrentHour(c.get(Calendar.HOUR_OF_DAY));
-        timePicker.setCurrentMinute(c.get(Calendar.MINUTE));
+        timePicker.setHour(c.get(Calendar.HOUR_OF_DAY));
+        timePicker.setMinute(c.get(Calendar.MINUTE));
         timePicker.setIs24HourView(DateFormat.is24HourFormat(context));
 
         viewHolder = new Holder(timePicker);

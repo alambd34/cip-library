@@ -11,7 +11,7 @@ public class TestResponse extends Response {
     public void handleData(){
         super.handleData();
 
-        Utils.logger("["+ request.getRequestId() +"] hello => "+ data.getHello(), Utils.LOG_DEBUG );
+        Utils.loggerDebug("["+ request.getRequestId() +"] hello => "+ data.getHello());
 
         //  Do something...
     }

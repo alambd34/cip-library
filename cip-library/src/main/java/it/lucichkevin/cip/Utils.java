@@ -140,12 +140,20 @@ public class Utils {
 	/**
 	 *	Log a message using a default app tag
 	 *	@param  message     String	Message to log
-	 *	@param  loglevel    int		Level of the log
+	 *	@param  logLevel    int		Level of the log
 	 *	@since 0.0.1
 	 *	@see #logger(String, String, int)
 	 */
-	public static void logger( String message, int loglevel ){
-		Utils.logger( getAppTag(), message, loglevel );
+	public static void logger( String message, int logLevel ){
+		Utils.logger( getAppTag(), message, logLevel );
+	}
+
+	/**
+	 *	Log a debug message using a default app tag
+	 *	@param  message	String	Message to log
+	 */
+	public static void loggerDebug( String message ){
+		Utils.logger( getAppTag(), message, Utils.LOG_DEBUG );
 	}
 
 	/**
@@ -161,12 +169,10 @@ public class Utils {
 				case LOG_DEBUG:
 					Log.d( app_tag, message );
 					break;
-				case LOG_INFO:
-					Log.i( app_tag, message );
-					break;
 				case LOG_ERROR:
 					Log.e( app_tag, message );
 					break;
+				case LOG_INFO:
 				default:
 					Log.i( app_tag, message );
 					break;

@@ -25,7 +25,7 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 		dpp.setOnPreferenceChangeListener(new DatePickerPreference.OnDatePickerPreferenceChangeListener(){
 			@Override
 			public boolean onDatePickerPreferenceChange(android.preference.Preference preference, Date date ){
-				Utils.logger( "DatePickerPreference.onDatePickerPreferenceChange => "+ String.valueOf(date), Utils.LOG_DEBUG );
+				Utils.loggerDebug("DatePickerPreference.onDatePickerPreferenceChange => "+ String.valueOf(date));
 				return true;
 			}
 		});
@@ -35,7 +35,7 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 		tpp.setOnPreferenceChangeListener(new TimePickerPreference.OnTimePickerPreferenceChangeListener(){
 			@Override
 			public boolean onTimePickerPreferenceChange( android.preference.Preference preference, int hours, int minutes ){
-				Utils.logger( "TimePickerPreference.onTimePickerPreferenceChange => h="+ String.valueOf(hours) +" / m="+ String.valueOf(minutes), Utils.LOG_DEBUG );
+				Utils.loggerDebug("TimePickerPreference.onTimePickerPreferenceChange => h="+ String.valueOf(hours) +" / m="+ String.valueOf(minutes));
 				return true;
 			}
 		});
@@ -45,7 +45,7 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 		sp.setOnPreferenceChangeListener(new SwitchPreference.OnSwitchPreferenceChangeListener(){
 			@Override
 			public boolean onSwitchPreferenceChange( android.preference.Preference preference, Boolean newValue ){
-				Utils.logger( "SwitchPreference.onSwitchPreferenceChange => "+ newValue, Utils.LOG_DEBUG );
+				Utils.loggerDebug("SwitchPreference.onSwitchPreferenceChange => "+ newValue);
 				return true;
 			}
 		});
@@ -58,7 +58,7 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 		ip.setOnPreferenceChangeListener(new ListPreference.OnListPreferenceChangeListener(){
 			@Override
 			public boolean onListPreferenceChange( android.preference.Preference preference, String newValue ){
-				Utils.logger( "ListPreference.onPreferenceChange => "+ newValue, Utils.LOG_DEBUG );
+				Utils.loggerDebug("ListPreference.onPreferenceChange => "+ newValue);
 				return false;
 			}
 		});

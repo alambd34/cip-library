@@ -21,11 +21,11 @@ public class MinutesPickerDialog extends TimePickerDialog {
     protected MinutesPickerDialog.Callbacks callbacks = new MinutesPickerDialog.EmptyCallbacks(){
         public void onButtonPositiveClicked( Dialog dialog, int minute ){
             super.onButtonPositiveClicked( dialog, minute );
-            Utils.logger("Cip.MinutesPickerDialog", "Callback onButtonCancelClicked( Button, " + String.valueOf(minute) + " ) called!", Utils.LOG_INFO);
+//            Utils.logger("Cip.MinutesPickerDialog", "Callback onButtonCancelClicked( Button, " + String.valueOf(minute) + " ) called!", Utils.LOG_INFO);
         }
         public void onButtonCancelClicked( Dialog dialog, int minute ){
             super.onButtonCancelClicked( dialog, minute );
-            Utils.logger("Cip.MinutesPickerDialog", "Callback onButtonCancelClicked( Button, " + String.valueOf(minute) + " ) called!", Utils.LOG_INFO);
+//            Utils.logger("Cip.MinutesPickerDialog", "Callback onButtonCancelClicked( Button, " + String.valueOf(minute) + " ) called!", Utils.LOG_INFO);
         }
     };
 
