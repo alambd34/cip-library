@@ -98,7 +98,6 @@ hs_err_pid*
 /future_utils
 .idea/.name
 .idea/compiler.xml
-*.xml
 .idea/gradle.xml
 libs/
 _maven_push.gradle
