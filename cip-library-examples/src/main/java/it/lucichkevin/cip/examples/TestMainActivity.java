@@ -8,6 +8,7 @@ import it.lucichkevin.cip.Utils;
 import it.lucichkevin.cip.activity_drawer_menu.AbstractActivityWithActionBarMenu;
 import it.lucichkevin.cip.activity_drawer_menu.DrawerItemMenu;
 import it.lucichkevin.cip.examples.fragments.FragmentMainTest;
+import it.lucichkevin.cip.kalima.RequesterStatisticsActivity;
 
 
 public class TestMainActivity extends AbstractActivityWithActionBarMenu {
@@ -44,6 +45,8 @@ public class TestMainActivity extends AbstractActivityWithActionBarMenu {
 					Utils.Toaster( TestMainActivity.this, "Normal click" );
 				}
 			}),
+
+			new DrawerItemMenu( R.string.open_requester_statistics, RequesterStatisticsActivity.class ),
 
 			new DrawerItemMenu( R.string.show_prefereces, TestPreferencesListActivity.class)
 

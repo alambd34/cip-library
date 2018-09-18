@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Locale;
 
 import it.lucichkevin.cip.preferences.PreferencesManager;
 
@@ -50,6 +51,29 @@ public class Utils {
 		setContext(context);
 		setAppTag(app_tag);
 		PreferencesManager.init(context);
+	}
+
+	/**
+	 * Return a string with a human readable bytes count
+	 * @param	bytes	The number bytes that user will read
+	 * @param	si		True to use the International System of Units (SI)
+	 */
+	public static String humanReadableByteCount( long bytes, boolean si ){
+		int unit = si ? 1000 : 1024;
+		if( bytes < unit ){
+			return bytes + " B";
+		}
+		int exp = (int) (Math.log(bytes) / Math.log(unit));
+		String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
+		return String.format( Locale.ITALIAN, "%.2f %sB", bytes / Math.pow(unit, exp), pre );
+	}
+
+	/***
+	 * Return a string with a human readable bytes count - using the International System of Units (SI)
+	 * @see #humanReadableByteCount(long, boolean)
+	 */
+	public static String humanReadableByteCount( long bytes ){
+		return humanReadableByteCount(bytes,true);
 	}
 
 	//////////////////////////////////////////////

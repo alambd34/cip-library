@@ -377,6 +377,8 @@ public abstract class AbstractRequester {
 				return null;
 			}
 
+			RequesterStatistics.increaseNumberOfRequestsSent();
+
 			CURRENT_REQUEST.setStatus(Request.Status.RUNNING_B);
 			onProgressUpdate(CURRENT_REQUEST);
 
@@ -404,6 +406,9 @@ public abstract class AbstractRequester {
 					os.close();
 				}
 
+				RequesterStatistics.increaseNumberOfResponsesByStatus(conn.getResponseCode());
+				RequesterStatistics.increaseSizeOfRequestsSent( encoded_query.length() );
+
 				if( conn.getResponseCode() != 200 ){
 					RuntimeException e = new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode() );
 					onErrorTrigger(CURRENT_REQUEST, e);
@@ -430,6 +435,7 @@ public abstract class AbstractRequester {
 				onProgressUpdate(CURRENT_REQUEST);
 
 				try{
+					RequesterStatistics.increaseSizeOfResponsesReceived( sb.toString().length() );
 					requestAndResponse.response = CURRENT_REQUEST.getClassOfResponse().cast( gson.fromJson(sb.toString(), CURRENT_REQUEST.getClassOfResponse()) );
 					if( CURRENT_REQUEST.isAutoHandleData() ){
 						requestAndResponse.response.handleData();

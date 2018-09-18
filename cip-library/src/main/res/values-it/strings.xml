@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Chiudi menu</string>
+	<string name="btn_positive">Ok</string>
+	<string name="dialoghelper_title">Benvenuto!</string>
+	<string name="please_wait_this_may_take_a_moment">Attendere: questo potrebbe richiedere un momento.</string>
+	<string name="requests">%d richieste</string>
+	<string name="responses">%d risposte</string>
+	<string name="should_be_log_to_logcat_desc">Se attivo abilita i log su Logcat</string>
+	<string name="should_be_log_to_logcat_title">Abilita il log di debug</string>
+</resources>
