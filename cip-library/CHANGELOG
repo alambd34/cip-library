@@ -1,4 +1,10 @@
 
+v2.7.0
+	[ADD] Add statistics for requests sent with AbstractRequester (of extended classes)
+	[ADD] Add RequesterStatisticsActivity to show requester statistics
+	[ADD] Add Utils.humanReadableByteCount(bytes,si) and Utils.humanReadableByteCount(bytes)
+	[FIX] Fixed strings resourses
+
 v2.6.2
 	Remove useless log
 	Remove DialogHelper
