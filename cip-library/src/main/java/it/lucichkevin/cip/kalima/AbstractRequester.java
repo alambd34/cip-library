@@ -3,6 +3,7 @@ package it.lucichkevin.cip.kalima;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -158,6 +159,19 @@ public abstract class AbstractRequester {
 	}
 
 	protected abstract String getServerUrl();
+
+	/**
+	 * Return a Gson instance - Inside this method you can use a GsonBuilder, too.
+	 */
+	protected GsonBuilder getGsonParser(){
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.setDateFormat(getJsonDateFormat());
+		return gsonBuilder;
+	}
+
+	protected String getJsonDateFormat(){
+		return "yyyy-MM-dd HH:mm:ss";
+	}
 
 	/**
 	 *  Send the request to the server
@@ -356,7 +370,7 @@ public abstract class AbstractRequester {
 			}
 
 			String url = getUrl();
-			Gson gson = new Gson();
+			Gson gson = getGsonParser().create();
 			String encoded_query = "";
 
 			try {

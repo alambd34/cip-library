@@ -1,4 +1,8 @@
 
+v2.7.1
+	[ADD] AbstractRequester.getGsonParser method
+	[ADD] AbstractRequester.getJsonDateFormat method
+
 v2.7.0
 	[ADD] Add statistics for requests sent with AbstractRequester (of extended classes)
 	[ADD] Add RequesterStatisticsActivity to show requester statistics
