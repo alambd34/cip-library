@@ -131,18 +131,40 @@ public class TimePickerDialog extends DialogFragment {
 	///////////////////////////////
 	//  Getters and Setters
 
+	@SuppressWarnings("deprecation")
 	public int getHour(){
-		return timePicker.getCurrentHour();
-	}
-	public void setHour( int hour ){
-		timePicker.setCurrentHour(hour);
+		if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
+			return timePicker.getHour();
+		}else{
+			return timePicker.getCurrentHour();
+		}
 	}
 
-	public int getMinute(){
-		return timePicker.getCurrentMinute();
+	@SuppressWarnings("deprecation")
+	public void setHour( int hour ){
+		if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
+			timePicker.setHour(hour);
+		}else{
+			timePicker.setCurrentHour(hour);
+		}
 	}
+
+	@SuppressWarnings("deprecation")
+	public int getMinute(){
+		if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
+			return timePicker.getMinute();
+		}else{
+			return timePicker.getCurrentMinute();
+		}
+	}
+
+	@SuppressWarnings("deprecation")
 	public void setMinute( int minute ){
-		timePicker.setCurrentMinute(minute);
+		if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
+			timePicker.setMinute(minute);
+		}else{
+			timePicker.setCurrentMinute(minute);
+		}
 	}
 
 	public void setCallbacks( Callbacks callbacks ){
