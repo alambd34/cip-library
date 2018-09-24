@@ -37,8 +37,8 @@ public class FragmentsKalima extends Fragment {
 
 		rootView = inflater.inflate(R.layout.fragment_kalima, container, false);
 
-		COLOR_GREEN = ContextCompat.getColor( getContext(), R.color.green);
-		COLOR_RED = ContextCompat.getColor( getContext(), R.color.red);
+		COLOR_GREEN = ContextCompat.getColor( getActivity(), R.color.green);
+		COLOR_RED = ContextCompat.getColor( getActivity(), R.color.red);
 
 		((Button) rootView.findViewById(R.id.btn_start_requests)).setOnClickListener(new View.OnClickListener() {
 			@Override

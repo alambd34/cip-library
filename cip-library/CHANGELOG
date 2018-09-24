@@ -1,4 +1,7 @@
 
+v2.7.2
+	[FIX] Compatible with Android API 22 (Lollipop)
+
 v2.7.1
 	[ADD] AbstractRequester.getGsonParser method
 	[ADD] AbstractRequester.getJsonDateFormat method

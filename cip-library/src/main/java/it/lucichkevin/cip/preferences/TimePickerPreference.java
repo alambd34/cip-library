@@ -2,6 +2,7 @@ package it.lucichkevin.cip.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.TimePicker;
@@ -46,8 +47,13 @@ public class TimePickerPreference extends AbstractDialogPreference {
 			minute = minutes_to_set - (hour * 60);
 		}
 
-		timePicker.setHour(hour);
-		timePicker.setMinute(minute);
+		if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
+			timePicker.setHour(hour);
+			timePicker.setMinute(minute);
+		}else{
+			timePicker.setCurrentHour(hour);
+			timePicker.setCurrentMinute(minute);
+		}
 
 		return timePicker;
 	}
@@ -58,8 +64,17 @@ public class TimePickerPreference extends AbstractDialogPreference {
 
 		if( positiveResult ){
 
-			int hour = timePicker.getHour();
-			int minute = timePicker.getMinute();
+			int hour;
+			int minute;
+
+			if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
+				hour = timePicker.getHour();
+				minute = timePicker.getMinute();
+			}else{
+				hour = timePicker.getCurrentHour();
+				minute = timePicker.getCurrentMinute();
+			}
+
 			int value = (hour * 60 + minute);
 
 			if( getOnTimePickerPreferenceChangeListener() != null ){
