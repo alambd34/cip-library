@@ -17,16 +17,9 @@
 		android:text="Open DialogHelper" />
 
 	<Button
-		android:id="@+id/open_timepickerdialog"
+		android:id="@+id/open_number_picker_dialog"
 		android:layout_width="match_parent"
 		android:layout_height="50dp"
-		android:layout_marginBottom="30dp"
-		android:text="Open TimePickerDialog" />
-
-	<Button
-		android:id="@+id/open_minutespickerdialog"
-		android:layout_width="match_parent"
-		android:layout_height="50dp"
-		android:text="Open MinutesPickerDialog" />
+		android:text="Open NumberPickerDialog" />
 
 </LinearLayout>
