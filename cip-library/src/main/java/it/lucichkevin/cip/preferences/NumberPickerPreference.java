@@ -1,69 +1,91 @@
 package it.lucichkevin.cip.preferences;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.preference.DialogPreference;
-import android.util.AttributeSet;
+import android.content.SharedPreferences;
+import android.support.annotation.StringRes;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 
 
-public class NumberPickerPreference extends DialogPreference {
+public class NumberPickerPreference extends AbstractDialogPreference implements Preference {
 
-	private NumberPicker mPicker;
+	private NumberPicker number_picker;
+	private OnNumberPickerPreferenceChangeListener onNumberPickerPreferenceChangeListener = null;
 
-	private int mNumber = 0;
 	private int min_value = 0;
 	private int max_value = 10;
 
-	public NumberPickerPreference(Context context, AttributeSet attrs ){
-		this(context, attrs, 0);
-	}
 
-	public NumberPickerPreference(Context context, AttributeSet attrs, int defStyle ){
-		super(context, attrs, defStyle);
-		setPositiveButtonText(android.R.string.ok);
-		setNegativeButtonText(android.R.string.cancel);
+	public NumberPickerPreference( Context context, String key, @StringRes int title, @StringRes int summary ){
+		this( context, key, title, summary, null, null, null );
+	}
+	public NumberPickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, Object default_value ){
+		this( context, key, title, summary, null, null, default_value );
+	}
+	public NumberPickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, OnNumberPickerPreferenceChangeListener changeListener, Object default_value ){
+		this( context, key, title, summary, changeListener, null, default_value );
+	}
+	public NumberPickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, OnNumberPickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener ){
+		this( context, key, title, summary, changeListener, clickListener, null );
+	}
+	protected NumberPickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, OnNumberPickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener, Object default_value ){
+		super( context, key, title, summary, null, clickListener, default_value );
+		setOnPreferenceChangeListener(changeListener);
 	}
 
 	@Override
 	protected View onCreateDialogView() {
-		mPicker = new NumberPicker(getContext());
-		mPicker.setMinValue( min_value );
-		mPicker.setMaxValue( max_value );
-		mPicker.setValue(mNumber);
-		return mPicker;
+
+		LinearLayout linearLayout = new LinearLayout(getContext());
+		linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+			LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
+		));
+		linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+
+		number_picker = new NumberPicker(getContext());
+		number_picker.setGravity(Gravity.CENTER);
+		number_picker.setMinValue( min_value );
+		number_picker.setMaxValue( max_value );
+
+		int default_number = PreferencesManager.getPreferences().getInt( getKey(), min_value );
+		if( default_number != min_value ){
+			number_picker.setValue(default_number);
+		}
+
+		linearLayout.addView(number_picker);
+
+		return linearLayout;
 	}
 
 	@Override
-	protected void onDialogClosed(boolean positiveResult) {
-		if (positiveResult) {
-			mPicker.clearFocus();
-			setValue(mPicker.getValue());
+	protected void onDialogClosed( boolean positiveResult ){
+
+		if( !positiveResult ){
+			return;
+		}
+
+		number_picker.clearFocus();
+
+		if( getOnNumberPickerPreferenceChangeListener() != null ){
+			if( getOnNumberPickerPreferenceChangeListener().onNumberPickerPreferenceChange(this, number_picker.getValue()) ){
+				savePreferenceValue(number_picker.getValue());
+			}
+		}else{
+			savePreferenceValue(number_picker.getValue());
 		}
 	}
 
-	@Override
-	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-		setValue(restoreValue ? getPersistedInt(mNumber) : (Integer) defaultValue);
-	}
-
-	@Override
-	protected Object onGetDefaultValue(TypedArray a, int index) {
-		return a.getInt(index, 0);
+	protected void savePreferenceValue( int number_to_save ){
+		SharedPreferences.Editor editor = getEditor();
+		editor.putInt( getKey(), number_to_save );
+		editor.commit();
 	}
 
 
-	public void setValue(int value) {
-		if (shouldPersist()) {
-			persistInt(value);
-		}
-
-		if (value != mNumber) {
-			mNumber = value;
-			notifyChanged();
-		}
-	}
+	////////////////////////////////////////
+	//	Getter and Setter
 
 	public int getMaxValue(){
 		return this.max_value;
@@ -79,4 +101,23 @@ public class NumberPickerPreference extends DialogPreference {
 		this.min_value = min_value;
 	}
 
+	public void setIntervalValues( int min_value, @StringRes int max_value ){
+		setMinValue(min_value);
+		setMaxValue(max_value);
+	}
+
+
+
+
+	public OnNumberPickerPreferenceChangeListener getOnNumberPickerPreferenceChangeListener() {
+		return onNumberPickerPreferenceChangeListener;
+	}
+	public void setOnPreferenceChangeListener( OnNumberPickerPreferenceChangeListener onNumberPickerPreferenceChangeListener ){
+		this.onNumberPickerPreferenceChangeListener = onNumberPickerPreferenceChangeListener;
+	}
+
+
+	public static abstract class OnNumberPickerPreferenceChangeListener {
+		public abstract boolean onNumberPickerPreferenceChange( android.preference.Preference preference, @StringRes int number );
+	}
 }

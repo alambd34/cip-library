@@ -1,96 +1,84 @@
 package it.lucichkevin.cip.preferences;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
-import android.text.format.DateFormat;
-import android.view.View;
+import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.widget.TimePicker;
+
+import org.threeten.bp.LocalTime;
+
+import it.lucichkevin.cip.dialogs.PickerDialogBuilder;
 
 
 /**
- *  @author	 Kevin Lucich (11/09/14)
+ * @author	 Kevin Lucich 2014-09-11
+ *
+ * @version 2.0.0 (2018-10-11)
  */
-public class TimePickerPreference extends AbstractDialogPreference {
+public class TimePickerPreference extends AbstractDialogPreference implements Preference {
 
-	protected TimePicker timePicker = null;
 	private OnTimePickerPreferenceChangeListener onTimePickerPreferenceChangeListener = null;
 
-	public TimePickerPreference(Context context, String key, int title, int summary) {
-		super(context, key, title, summary);
+
+	public TimePickerPreference( Context context, String key, @StringRes int title, @StringRes int summary ){
+		this( context, key, title, summary, null, null, null );
 	}
-	public TimePickerPreference(Context context, String key, int title, int summary, Object default_value) {
-		super(context, key, title, summary, default_value);
+	public TimePickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, LocalTime default_value ){
+		this( context, key, title, summary, null, null, default_value);
 	}
-	public TimePickerPreference(Context context, String key, int title, int summary, OnTimePickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener) {
-		super(context, key, title, summary, null, clickListener);
-		setOnPreferenceChangeListener(changeListener);
+	public TimePickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, OnTimePickerPreferenceChangeListener changeListener, LocalTime default_value ){
+		this( context, key, title, summary, changeListener, null, default_value );
 	}
-	protected TimePickerPreference(Context context, String key, String title, String summary, OnTimePickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener, Object default_value) {
-		super(context, key, title, summary, null, clickListener, default_value);
-		setOnPreferenceChangeListener(changeListener);
+	public TimePickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, OnTimePickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener ){
+		this( context, key, title, summary, changeListener, clickListener, null );
 	}
+	public TimePickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, OnTimePickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener, LocalTime default_value ){
+		super( context, key, title, summary, null, clickListener, default_value );
 
-
-	@Override
-	protected View onCreateDialogView() {
-
-		timePicker = new TimePicker(getContext());
-		timePicker.setIs24HourView(DateFormat.is24HourFormat(getContext()));
-
-		int minute = 0;
-		int hour = 0;
-
-		int minutes_to_set = PreferencesManager.getPreferences().getInt( getKey(), 0 );
-		if( minutes_to_set != 0 ){
-			hour = minutes_to_set / 60;
-			minute = minutes_to_set - (hour * 60);
+		if( default_value == null ){
+			default_value = LocalTime.now();
 		}
+		setDefaultValue(default_value);
 
-		if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
-			timePicker.setHour(hour);
-			timePicker.setMinute(minute);
-		}else{
-			timePicker.setCurrentHour(hour);
-			timePicker.setCurrentMinute(minute);
-		}
-
-		return timePicker;
+		setOnPreferenceChangeListener(changeListener);
+		setDialogLayoutResource(android.R.style.Theme_Holo_Light_Dialog);
 	}
 
-	@Override
-	protected void onDialogClosed( boolean positiveResult ){
-		super.onDialogClosed(positiveResult);
+	protected void showDialog( Bundle state ){
 
-		if( positiveResult ){
+		LocalTime time_selected = getDefaultValue();
+		long minutes_to_set = PreferencesManager.getPreferences().getLong( getKey(), -1 );
+		if( minutes_to_set > -1 ){
+			time_selected = LocalTime.ofSecondOfDay(minutes_to_set*60);
+		}
+		PickerDialogBuilder.TimePickerDialog.show(getContext(), time_selected, new TimePickerDialog.OnTimeSetListener() {
+			@Override
+			public void onTimeSet( TimePicker view, int hour, int minute ){
 
-			int hour;
-			int minute;
+				int minutes_to_save = (hour * 60 + minute);
+				LocalTime time_selected = LocalTime.of(hour, minute);
 
-			if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
-				hour = timePicker.getHour();
-				minute = timePicker.getMinute();
-			}else{
-				hour = timePicker.getCurrentHour();
-				minute = timePicker.getCurrentMinute();
-			}
-
-			int value = (hour * 60 + minute);
-
-			if( getOnTimePickerPreferenceChangeListener() != null ){
-				if( getOnTimePickerPreferenceChangeListener().onTimePickerPreferenceChange(this, hour, minute) ){
-					savePreferenceValue(value);
+				if( getOnTimePickerPreferenceChangeListener() != null ){
+					if( getOnTimePickerPreferenceChangeListener().onTimePickerPreferenceChange(TimePickerPreference.this,time_selected) ){
+						savePreferenceValue(minutes_to_save);
+					}
+				}else{
+					savePreferenceValue(minutes_to_save);
 				}
-			}else{
-				savePreferenceValue(value);
 			}
-		}
+		});
 	}
 
 	protected void savePreferenceValue( int minutes_to_save ){
 		SharedPreferences.Editor editor = getEditor();
 		editor.putInt( getKey(), minutes_to_save );
 		editor.commit();
+	}
+
+	public LocalTime getDefaultValue() {
+		return (LocalTime) super.getDefaultValue();
 	}
 
 	public OnTimePickerPreferenceChangeListener getOnTimePickerPreferenceChangeListener(){
@@ -101,7 +89,7 @@ public class TimePickerPreference extends AbstractDialogPreference {
 	}
 
 	public static abstract class OnTimePickerPreferenceChangeListener {
-		public abstract boolean onTimePickerPreferenceChange( android.preference.Preference preference, int hours, int minutes );
+		public abstract boolean onTimePickerPreferenceChange( android.preference.Preference preference, LocalTime time );
 	}
 
 }

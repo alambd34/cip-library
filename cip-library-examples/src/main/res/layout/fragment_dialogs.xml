@@ -17,6 +17,20 @@
 		android:text="Open DialogHelper" />
 
 	<Button
+		android:id="@+id/open_date_picker_dialog"
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:layout_marginBottom="30dp"
+		android:text="@string/open_date_picker_dialog" />
+
+	<Button
+		android:id="@+id/open_time_picker_dialog"
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:layout_marginBottom="30dp"
+		android:text="@string/open_time_picker_dialog" />
+
+	<Button
 		android:id="@+id/open_number_picker_dialog"
 		android:layout_width="match_parent"
 		android:layout_height="50dp"

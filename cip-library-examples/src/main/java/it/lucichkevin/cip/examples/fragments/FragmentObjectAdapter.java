@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import it.lucichkevin.cip.examples.R;
-import it.lucichkevin.cip.ObjectAdapter;
+import it.lucichkevin.cip.adapters.ObjectAdapter;
 
 /**
  *	Created by Kevin on 27/05/2014.

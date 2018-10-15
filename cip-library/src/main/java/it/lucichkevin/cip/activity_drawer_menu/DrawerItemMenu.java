@@ -1,5 +1,8 @@
 package it.lucichkevin.cip.activity_drawer_menu;
 
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.StringRes;
 import android.view.View;
 
 
@@ -15,27 +18,28 @@ public class DrawerItemMenu {
     private Class classOfActivity;
     private OnClickListener onClickListener = null;
 
-    public DrawerItemMenu( Integer title, Class classOfActivity ){
+
+    public DrawerItemMenu( @StringRes Integer title, Class classOfActivity ){
         this( title, null, classOfActivity, null );
     }
 
-    public DrawerItemMenu( Integer title, OnClickListener onClickListener ){
+    public DrawerItemMenu( @StringRes Integer title, OnClickListener onClickListener ){
         this( title, null, null, onClickListener );
     }
 
-    public DrawerItemMenu( Integer title, Class classOfActivity, OnClickListener onClickListener ){
+    public DrawerItemMenu( @StringRes Integer title, Class classOfActivity, OnClickListener onClickListener ){
         this( title, null, classOfActivity, onClickListener );
     }
 
-    public DrawerItemMenu( Integer title, Integer image, Class classOfActivity ){
+    public DrawerItemMenu( @StringRes Integer title, Integer image, Class classOfActivity ){
         this( title, image, classOfActivity, null );
     }
 
-	public DrawerItemMenu( Integer title, Integer image, OnClickListener onClickListener ){
+	public DrawerItemMenu( @StringRes Integer title, Integer image, OnClickListener onClickListener ){
 		this( title, image, null, onClickListener );
 	}
 
-    public DrawerItemMenu(Integer title, Integer image, Class classOfActivity, OnClickListener onClickListener ){
+    public DrawerItemMenu( @StringRes Integer title, @DrawableRes Integer image, Class classOfActivity, OnClickListener onClickListener ){
         this.title = title;
         this.image = image;
         this.classOfActivity = classOfActivity;
@@ -56,6 +60,7 @@ public class DrawerItemMenu {
 	public void onStatusChanged(){
 		//	Do nothing...
 	}
+
 
     /////////////////////////////////////////
     //  Getters and setters

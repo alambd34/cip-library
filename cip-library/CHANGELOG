@@ -1,4 +1,12 @@
 
+v2.7.3
+	[NEW] Package "adapters" (includes ObjectAdapter and StringSpinnerAdapter)
+	[NEW] PickerDialogBuilder class to show (or get an instance) a dialog: DatePickerDialog, TimePickerDialog or NumberPickerDialog
+	[NEW] New Utils.loggerDebug( message ) and Utils.loggerDebug( message, exception )
+	[FIX] Fixed NumberPickerPreference
+	[FIX] Fixed method addItem to accept a Preference and not AbstractPreference
+	[REMOVE] Remove package "dialogs.pickers"
+
 v2.7.2
 	[FIX] Compatible with Android API 22 (Lollipop)
 

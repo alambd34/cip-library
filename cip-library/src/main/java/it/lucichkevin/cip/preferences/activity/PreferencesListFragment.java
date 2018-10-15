@@ -11,6 +11,7 @@ import it.lucichkevin.cip.R;
 import it.lucichkevin.cip.preferences.AbstractPreference;
 import it.lucichkevin.cip.preferences.CategoryPreference;
 import it.lucichkevin.cip.preferences.DatePickerPreference;
+import it.lucichkevin.cip.preferences.NumberPickerPreference;
 import it.lucichkevin.cip.preferences.Preference;
 import it.lucichkevin.cip.preferences.ListPreference;
 import it.lucichkevin.cip.preferences.PreferencesManager;
@@ -25,7 +26,7 @@ import it.lucichkevin.cip.preferences.TimePickerPreference;
  */
 public class PreferencesListFragment extends PreferenceFragment {
 
-	protected ArrayList<AbstractPreference> items = new ArrayList<AbstractPreference>();
+	protected ArrayList<Preference> items = new ArrayList<>();
 	protected ArrayList<CategoryPreference> categories = new ArrayList<CategoryPreference>();
 
 	public PreferencesListFragment() {
@@ -47,7 +48,7 @@ public class PreferencesListFragment extends PreferenceFragment {
 			populatePreferencesListWithDefault();
 		}
 
-		for( AbstractPreference item : items ){
+		for( Preference item : items ){
 			root.addPreference(createPreference(item));
 		}
 
@@ -65,7 +66,7 @@ public class PreferencesListFragment extends PreferenceFragment {
 		return root;
 	}
 
-	protected android.preference.Preference createPreference(final Preference item ){
+	protected android.preference.Preference createPreference( final Preference item ){
 
 		android.preference.Preference preference = null;
 
@@ -87,6 +88,8 @@ public class PreferencesListFragment extends PreferenceFragment {
 			preference = new android.preference.ListPreference(getActivity());
 			((android.preference.ListPreference) preference).setEntries(entry_keys);
 			((android.preference.ListPreference) preference).setEntryValues(entry_values);
+		}else if( item instanceof NumberPickerPreference ){
+			preference = (NumberPickerPreference) item;
 		}else if( item instanceof TimePickerPreference ){
 			preference = (TimePickerPreference) item;
 		}else if( item instanceof DatePickerPreference ){
@@ -102,7 +105,7 @@ public class PreferencesListFragment extends PreferenceFragment {
 		preference.setTitle(item.getTitle());
 		preference.setSummary(item.getSummary());
 
-		if( !((item instanceof TimePickerPreference) || (item instanceof DatePickerPreference)) ){
+		if( !((item instanceof NumberPickerPreference) || (item instanceof TimePickerPreference) || (item instanceof DatePickerPreference)) ){
 
 			preference.setOnPreferenceChangeListener(new android.preference.Preference.OnPreferenceChangeListener() {
 				@Override
@@ -133,11 +136,11 @@ public class PreferencesListFragment extends PreferenceFragment {
 		addCategory(new CategoryPreference("Debug", debug_items ));
 	}
 
-	protected void setItems( ArrayList<AbstractPreference> items ){
+	protected void setItems( ArrayList<Preference> items ){
 		this.items = items;
 	}
 
-	public void addItem( AbstractPreference item ){
+	public void addItem( Preference item ){
 		items.add(item);
 	}
 

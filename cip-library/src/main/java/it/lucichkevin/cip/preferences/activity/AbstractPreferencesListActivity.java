@@ -6,8 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import it.lucichkevin.cip.R;
-import it.lucichkevin.cip.preferences.AbstractPreference;
 import it.lucichkevin.cip.preferences.CategoryPreference;
+import it.lucichkevin.cip.preferences.Preference;
 
 
 /**
@@ -77,7 +77,7 @@ public abstract class AbstractPreferencesListActivity extends AppCompatActivity 
 		fragment.populatePreferencesListWithDefault();
 	}
 
-	public void addItem( AbstractPreference item ){
+	public void addItem( Preference item ){
 		fragment.addItem(item);
 	}
 

@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewStub;
 
 import it.lucichkevin.cip.R;
-import it.lucichkevin.cip.Utils;
 
 
 public abstract class AbstractActivityWithActionBarMenu extends AppCompatActivity {

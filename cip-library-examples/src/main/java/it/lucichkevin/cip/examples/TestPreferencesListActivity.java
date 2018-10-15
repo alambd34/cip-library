@@ -1,10 +1,13 @@
 package it.lucichkevin.cip.examples;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalTime;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 import it.lucichkevin.cip.Utils;
 import it.lucichkevin.cip.preferences.DatePickerPreference;
+import it.lucichkevin.cip.preferences.NumberPickerPreference;
 import it.lucichkevin.cip.preferences.Preference;
 import it.lucichkevin.cip.preferences.ListPreference;
 import it.lucichkevin.cip.preferences.SwitchPreference;
@@ -21,21 +24,31 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 
 		ArrayList<Preference> test_category = new ArrayList<>();
 
-		DatePickerPreference dpp = new DatePickerPreference( this, "TEST_DATEPICKER", R.string.test_title_first_preference, R.string.test_summary_first_preference);
+		NumberPickerPreference npp = new NumberPickerPreference( this,"TEST_NUMBER_PICKER", R.string.test_title_number_picker_preference, R.string.test_summary_number_picker_preference);
+		npp.setOnPreferenceChangeListener(new NumberPickerPreference.OnNumberPickerPreferenceChangeListener(){
+			@Override
+			public boolean onNumberPickerPreferenceChange( android.preference.Preference preference, int number ){
+				Utils.loggerDebug("NumberPickerPreference.OnNumberPickerPreferenceChangeListener => number="+ number);
+				return true;
+			}
+		});
+		test_category.add(npp);
+
+		DatePickerPreference dpp = new DatePickerPreference( this, "TEST_DATE_PICKER", R.string.test_title_date_picker_preference, R.string.test_summary_date_picker_preference);
 		dpp.setOnPreferenceChangeListener(new DatePickerPreference.OnDatePickerPreferenceChangeListener(){
 			@Override
-			public boolean onDatePickerPreferenceChange(android.preference.Preference preference, Date date ){
+			public boolean onDatePickerPreferenceChange( android.preference.Preference preference, LocalDate date ){
 				Utils.loggerDebug("DatePickerPreference.onDatePickerPreferenceChange => "+ String.valueOf(date));
 				return true;
 			}
 		});
 		test_category.add(dpp);
 
-		TimePickerPreference tpp = new TimePickerPreference( this,"TEST_TIMEPICKER", R.string.test_title_second_preference, R.string.test_summary_second_preference);
+		TimePickerPreference tpp = new TimePickerPreference( this,"TEST_TIME_PICKER", R.string.test_title_time_picker_preference, R.string.test_summary_time_picker_preference);
 		tpp.setOnPreferenceChangeListener(new TimePickerPreference.OnTimePickerPreferenceChangeListener(){
 			@Override
-			public boolean onTimePickerPreferenceChange( android.preference.Preference preference, int hours, int minutes ){
-				Utils.loggerDebug("TimePickerPreference.onTimePickerPreferenceChange => h="+ String.valueOf(hours) +" / m="+ String.valueOf(minutes));
+			public boolean onTimePickerPreferenceChange( android.preference.Preference preference, LocalTime time ){
+				Utils.loggerDebug("TimePickerPreference.onTimePickerPreferenceChange => h="+ String.valueOf(time.getHour()) +" / m="+ String.valueOf(time.getMinute()));
 				return true;
 			}
 		});

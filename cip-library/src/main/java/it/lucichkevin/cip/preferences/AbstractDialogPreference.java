@@ -2,25 +2,28 @@ package it.lucichkevin.cip.preferences;
 
 import android.content.Context;
 import android.preference.DialogPreference;
+import android.support.annotation.StringRes;
 
 
 public abstract class AbstractDialogPreference extends DialogPreference implements Preference {
 
+	private Object default_value = null;
+
 	//  null OnPreferenceChangeListener
-	public AbstractDialogPreference( Context context, String key, int title, int summary ){
-		this( context, key, context.getString(title), context.getString(summary), null, null, null );
+	public AbstractDialogPreference( Context context, String key, @StringRes int title, @StringRes int summary ){
+		this( context, key, title, summary, null, null, null );
 	}
 
-	public AbstractDialogPreference( Context context, String key, int title, int summary, Object default_value ){
-		this( context, key, context.getString(title), context.getString(summary), null, null, default_value );
+	public AbstractDialogPreference( Context context, String key, @StringRes int title, @StringRes int summary, Object default_value ){
+		this( context, key, title, summary, null, null, default_value );
 	}
 
 	//  OnPreferenceChangeListener set
-	public AbstractDialogPreference(Context context, String key, int title, int summary, android.preference.Preference.OnPreferenceChangeListener changeListener, android.preference.Preference.OnPreferenceClickListener clickListener ){
-		this( context, key, context.getString(title), context.getString(summary), changeListener, clickListener, null );
+	public AbstractDialogPreference(Context context, String key, @StringRes int title, @StringRes int summary, android.preference.Preference.OnPreferenceChangeListener changeListener, android.preference.Preference.OnPreferenceClickListener clickListener ){
+		this( context, key, title, summary, changeListener, clickListener, null );
 	}
 
-	protected AbstractDialogPreference(Context context, String key, String title, String summary, android.preference.Preference.OnPreferenceChangeListener changeListener, android.preference.Preference.OnPreferenceClickListener clickListener, Object default_value ){
+	protected AbstractDialogPreference( Context context, String key, @StringRes int title, @StringRes int summary, android.preference.Preference.OnPreferenceChangeListener changeListener, android.preference.Preference.OnPreferenceClickListener clickListener, Object default_value ){
 		super( context, null );
 
 		setPositiveButtonText("Set");
@@ -33,7 +36,10 @@ public abstract class AbstractDialogPreference extends DialogPreference implemen
 	}
 
 	@Override
-	public Object getDefaultValue() {
-		return null;
+	public Object getDefaultValue(){
+		return default_value;
+	}
+	public void setDefaultValue( Object default_value ){
+		this.default_value = default_value;
 	}
 }

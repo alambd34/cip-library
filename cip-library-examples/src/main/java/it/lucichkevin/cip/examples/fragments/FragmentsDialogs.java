@@ -1,15 +1,19 @@
 package it.lucichkevin.cip.examples.fragments;
 
+import android.app.DatePickerDialog;
 import android.app.Fragment;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.NumberPicker;
+import android.widget.TimePicker;
 
 import it.lucichkevin.cip.Utils;
 import it.lucichkevin.cip.dialogs.AlertDialogHelper;
-import it.lucichkevin.cip.dialogs.pickers.MinutesPickerDialog;
-import it.lucichkevin.cip.dialogs.pickers.TimePickerDialog;
+import it.lucichkevin.cip.dialogs.PickerDialogBuilder;
 import it.lucichkevin.cip.examples.R;
 
 
@@ -24,24 +28,47 @@ public class FragmentsDialogs extends Fragment {
 
 		View rootView = inflater.inflate(R.layout.fragment_dialogs, container, false);
 
-		(Utils.findViewById( rootView, R.id.open_dialoghelper )).setOnClickListener(new View.OnClickListener() {
+		rootView.findViewById(R.id.open_dialoghelper).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick( View v ){
-				AlertDialogHelper.create(getActivity()).setTitle(R.string.dialoghelper_title);
+				AlertDialogHelper.create(getActivity())
+					.setTitle(R.string.dialoghelper_title);
 			}
 		});
 
-		(Utils.findViewById( rootView, R.id.open_timepickerdialog )).setOnClickListener(new View.OnClickListener() {
+		rootView.findViewById(R.id.open_date_picker_dialog).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick( View v ){
-				(new TimePickerDialog()).show( getFragmentManager(), "TimePickerDialog" );
+				PickerDialogBuilder.DatePickerDialog.show( getActivity(), null, new DatePickerDialog.OnDateSetListener(){
+					@Override
+					public void onDateSet( DatePicker view, int year, int month, int dayOfMonth ){
+						Utils.loggerDebug("[DatePickerDialog.OnDateSetListener] year = "+ year +" | month = "+ month +" | dayOfMonth = "+ dayOfMonth );
+					}
+				});
 			}
 		});
 
-		(Utils.findViewById( rootView, R.id.open_minutespickerdialog )).setOnClickListener(new View.OnClickListener() {
+		rootView.findViewById(R.id.open_time_picker_dialog).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick( View v ){
-				(new MinutesPickerDialog()).show( getFragmentManager(), "MinutesPickerDialog" );
+				PickerDialogBuilder.TimePickerDialog.show(getActivity(), null, new TimePickerDialog.OnTimeSetListener(){
+					@Override
+					public void onTimeSet( TimePicker view, int hourOfDay, int minute ){
+						Utils.loggerDebug("[TimePickerDialog.OnTimeSetListener] hourOfDay = "+ hourOfDay +" | minute = "+ minute );
+					}
+				});
+			}
+		});
+
+		(Utils.findViewById( rootView, R.id.open_number_picker_dialog )).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick( View v ){
+				PickerDialogBuilder.NumberPickerDialog.show(getActivity(), 0, 10, 8, new PickerDialogBuilder.NumberPickerDialog.OnNumberPickerChangeListener() {
+					@Override
+					public void onNumberPickerChange( NumberPicker number_picker, int number ){
+						Utils.loggerDebug("[PickerDialogBuilder.OnNumberPickerChangeListener] number = "+ number );
+					}
+				});
 			}
 		});
 

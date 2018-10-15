@@ -16,7 +16,7 @@
 			android:id="@+id/imgLogo"
 			android:layout_width="200dip"
 			android:layout_height="200dip"
-			android:src="@mipmap/ic_cip_launcher_round" />
+			android:src="@mipmap/ic_cip_launcher_rounded" />
 
 		<TextView
 			android:layout_width="fill_parent"

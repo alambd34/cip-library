@@ -12,14 +12,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
 import java.util.List;
 import java.util.Locale;
 
 import it.lucichkevin.cip.preferences.PreferencesManager;
 
 /**
- * @author	Kevin Lucich (14/02/14).
- * @author	Marco Zanetti - MarKco - method Utils.logger(String,int)
+ * @author	Kevin Lucich 2014-02-14
  * @version	1.1.0 (2018-08-24)
  *
  * @update
@@ -41,16 +42,15 @@ public class Utils {
 	protected static String device_id = null;
 	protected static String APP_TAG = "";
 
-	public static void init(Context context) {
-		setContext(context);
-		setAppTag();    //  Default: use getPackageName() method
-		PreferencesManager.init(context);
+	public static void init( Context context ){
+		Utils.init( context, context.getPackageName() );
 	}
 
-	public static void init(Context context, String app_tag) {
+	public static void init( Context context, String app_tag ){
 		setContext(context);
 		setAppTag(app_tag);
 		PreferencesManager.init(context);
+		AndroidThreeTen.init(context);
 	}
 
 	/**
@@ -174,10 +174,19 @@ public class Utils {
 
 	/**
 	 *	Log a debug message using a default app tag
-	 *	@param  message	String	Message to log
+	 *	@param	message		Message to log
 	 */
 	public static void loggerDebug( String message ){
 		Utils.logger( getAppTag(), message, Utils.LOG_DEBUG );
+	}
+
+	/**
+	 *	Log a debug message using a default app tag
+	 *	@param	message		Message to log
+	 *	@param  exception	An exception to log
+	 */
+	public static void loggerDebug( String message, Throwable exception ){
+		Utils.loggerDebug( message +"\n\n"+ Log.getStackTraceString(exception) );
 	}
 
 	/**

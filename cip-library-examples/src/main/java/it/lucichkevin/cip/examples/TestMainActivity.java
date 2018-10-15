@@ -18,33 +18,11 @@ public class TestMainActivity extends AbstractActivityWithActionBarMenu {
 
 		items_menu_list = new DrawerItemMenu[]{
 
-			new DrawerItemMenu( R.string.test_drawer_arrayitemnumber1, R.drawable.ic_menu_camera, new DrawerItemMenu.OnClickListener() {
-				@Override
-				public void onClick() {
-					Utils.Toaster( TestMainActivity.this, "I'm number 1" );
-				}
-			}),
+			new DrawerItemMenu( R.string.test_drawer_arrayitemnumber1, R.drawable.ic_menu_camera, new OnClickItemMenuListener(1) ),
 
-			new DrawerItemMenu( R.string.test_drawer_arrayitemnumber2, new DrawerItemMenu.OnClickListener() {
-				@Override
-				public void onClick() {
-					Utils.Toaster( TestMainActivity.this, "I'm number 2" );
-				}
-			}),
+			new DrawerItemMenu( R.string.test_drawer_arrayitemnumber2, new OnClickItemMenuListener(2)),
 
-			new DrawerItemMenu( R.string.test_drawer_arrayitemnumber3, new DrawerItemMenu.OnClickListener() {
-				@Override
-				public void onClick() {
-					Utils.Toaster( TestMainActivity.this, "I'm number 3" );
-				}
-			}),
-
-			new DrawerItemMenu( R.string.test_drawer_arrayitemnumber4, new DrawerItemMenu.OnClickListener() {
-				@Override
-				public void onClick(){
-					Utils.Toaster( TestMainActivity.this, "Normal click" );
-				}
-			}),
+			new DrawerItemMenu( R.string.test_drawer_arrayitemnumber3, new OnClickItemMenuListener(3)),
 
 			new DrawerItemMenu( R.string.open_requester_statistics, RequesterStatisticsActivity.class ),
 
@@ -93,4 +71,15 @@ public class TestMainActivity extends AbstractActivityWithActionBarMenu {
 		Utils.init(TestMainActivity.this);
 	}
 
+
+	private class OnClickItemMenuListener extends DrawerItemMenu.OnClickListener {
+		private int index_item;
+		public OnClickItemMenuListener( int index_item ){
+			this.index_item = index_item;
+		}
+		@Override
+		public void onClick() {
+			Utils.Toaster( TestMainActivity.this, "I'm number "+ index_item );
+		}
+	}
 }

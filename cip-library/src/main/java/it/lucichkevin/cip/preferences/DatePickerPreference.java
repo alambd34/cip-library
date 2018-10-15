@@ -1,76 +1,73 @@
 package it.lucichkevin.cip.preferences;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.view.View;
+import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.widget.DatePicker;
 
-import java.util.Calendar;
-import java.util.Date;
+import org.threeten.bp.LocalDate;
+
+import it.lucichkevin.cip.dialogs.PickerDialogBuilder;
 
 /**
- *  @author	 Kevin Lucich (11/09/14)
+ * @author	 Kevin Lucich 2014-09-11
+ *
+ * @version 2.0.0 (2018-10-11)
  */
-public class DatePickerPreference extends AbstractDialogPreference {
+public class DatePickerPreference extends AbstractDialogPreference implements Preference {
 
-	private DatePicker datePicker = null;
 	private OnDatePickerPreferenceChangeListener onDatePickerPreferenceChangeListener = null;
 
-	public DatePickerPreference(Context context, String key, int title, int summary) {
-		super(context, key, title, summary);
-	}
-	public DatePickerPreference(Context context, String key, int title, int summary, Object default_value) {
-		super(context, key, title, summary, default_value);
-	}
-	public DatePickerPreference(Context context, String key, int title, int summary, Preference.OnPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener) {
-		super(context, key, title, summary, null);
-		setOnPreferenceChangeListener(changeListener);
-	}
-	protected DatePickerPreference(Context context, String key, String title, String summary, OnDatePickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener, Object default_value) {
-		super(context, key, title, summary, null, clickListener, default_value);
-		setOnPreferenceChangeListener(changeListener);
-	}
 
+	public DatePickerPreference( Context context, String key, @StringRes int title, @StringRes int summary ){
+		this( context, key, title, summary, null, null, null );
+	}
+	public DatePickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, LocalDate default_value ){
+		this( context, key, title, summary, null, null, default_value );
+	}
+	public DatePickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, OnDatePickerPreferenceChangeListener changeListener, LocalDate default_value ){
+		this( context, key, title, summary, changeListener, null, default_value );
+	}
+	public DatePickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, OnDatePickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener ){
+		this( context, key, title, summary, changeListener, clickListener, null );
+	}
+	public DatePickerPreference( Context context, String key, @StringRes int title, @StringRes int summary, OnDatePickerPreferenceChangeListener changeListener, Preference.OnPreferenceClickListener clickListener, LocalDate default_value ){
+		super( context, key, title, summary, null, clickListener, default_value );
+
+		if( default_value == null ){
+			default_value = LocalDate.now();
+		}
+		setDefaultValue(default_value);
+
+		setOnPreferenceChangeListener(changeListener);
+	}
 
 	@Override
-	protected View onCreateDialogView() {
-		datePicker = new DatePicker(getContext());
+	protected void showDialog( Bundle state ){
 
-		Calendar c = Calendar.getInstance();
-		c.set(Calendar.HOUR_OF_DAY, 0);
-		c.set(Calendar.MINUTE, 0);
-		c.set(Calendar.SECOND, 0);
-
+		LocalDate date_selected = getDefaultValue();
 		long default_millis = PreferencesManager.getPreferences().getLong( getKey(), 0 );
-		if( default_millis != 0 ){
-			c.setTimeInMillis(default_millis);
+		if( default_millis > -1 ){
+			date_selected = LocalDate.ofEpochDay(default_millis);
 		}
-		datePicker.updateDate( c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH) );
+		PickerDialogBuilder.DatePickerDialog.show(getContext(), date_selected, new DatePickerDialog.OnDateSetListener(){
+			@Override
+			public void onDateSet( DatePicker view, int year, int month, int dayOfMonth ){
 
-		return datePicker;
-	}
+				LocalDate date_selected = LocalDate.of(year, month, dayOfMonth);
+				long millis_to_date_selected = date_selected.toEpochDay();
 
-	@Override
-	protected void onDialogClosed( boolean positiveResult ){
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.YEAR, datePicker.getYear());
-		calendar.set(Calendar.MONTH, datePicker.getMonth());
-		calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
-
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-
-		if( positiveResult ){
-			if( getOnDatePickerPreferenceChangeListener() != null ){
-				if( getOnDatePickerPreferenceChangeListener().onDatePickerPreferenceChange(this, calendar.getTime()) ){
-					savePreferenceValue(calendar.getTimeInMillis());
+				if( getOnDatePickerPreferenceChangeListener() != null ){
+					if( getOnDatePickerPreferenceChangeListener().onDatePickerPreferenceChange(DatePickerPreference.this,date_selected) ){
+						savePreferenceValue(millis_to_date_selected);
+					}
+				}else{
+					savePreferenceValue(millis_to_date_selected);
 				}
-			}else{
-				savePreferenceValue(calendar.getTimeInMillis());
 			}
-		}
+		});
 	}
 
 	protected void savePreferenceValue( long millis_to_save ){
@@ -80,6 +77,10 @@ public class DatePickerPreference extends AbstractDialogPreference {
 	}
 
 
+	public LocalDate getDefaultValue() {
+		return (LocalDate) super.getDefaultValue();
+	}
+
 	public OnDatePickerPreferenceChangeListener getOnDatePickerPreferenceChangeListener() {
 		return onDatePickerPreferenceChangeListener;
 	}
@@ -88,7 +89,7 @@ public class DatePickerPreference extends AbstractDialogPreference {
 	}
 
 	public static abstract class OnDatePickerPreferenceChangeListener {
-		public abstract boolean onDatePickerPreferenceChange( android.preference.Preference preference, Date date );
+		public abstract boolean onDatePickerPreferenceChange( android.preference.Preference preference, LocalDate date );
 	}
 
 }

@@ -12,9 +12,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import it.lucichkevin.cip.Utils;
-import it.lucichkevin.cip.activity_drawer_menu.AbstractActivityWithActionBarMenu;
 import it.lucichkevin.cip.examples.R;
-import it.lucichkevin.cip.ObjectAdapter;
+import it.lucichkevin.cip.adapters.ObjectAdapter;
 import it.lucichkevin.cip.examples.fragments.testKalima.FragmentsKalima;
 
 /**
