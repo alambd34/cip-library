@@ -26,7 +26,10 @@
 	<string name="test_summary_fourth_preference">List with custom value and label</string>
 	<string name="version_text">Version %1s</string>
 	<string name="open_requester_statistics">Open statistics</string>
-	<string name="open_time_picker_dialog">Apri un TimePicker dialog</string>
-	<string name="open_date_picker_dialog">Apri un DatePicker</string>
+	<string name="open_simple_native_dialog">Open a simple native dialog</string>
+	<string name="open_time_picker_dialog">Open a TimePicker dialog</string>
+	<string name="open_date_picker_dialog">Open a DatePicker</string>
+
+	<string name="welcome">Welcome!</string>
 
 </resources>

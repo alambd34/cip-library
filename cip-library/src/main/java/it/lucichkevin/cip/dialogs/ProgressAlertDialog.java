@@ -18,9 +18,10 @@ public class ProgressAlertDialog {
 	}
 
 	public ProgressAlertDialog( @NonNull Context context, boolean is_cancelable ){
-		dialog = AlertDialogHelper.Builder(context,R.layout.layout_loading_dialog)
-					.setCancelable(is_cancelable)
-					.create();
+		dialog = new AlertDialog.Builder(context)
+			.setView(R.layout.layout_loading_dialog)
+			.setCancelable(is_cancelable)
+			.create();
 	}
 
 	public void setCancelable( boolean is_cancelable ){

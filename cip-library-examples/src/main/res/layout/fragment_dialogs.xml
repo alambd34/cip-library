@@ -5,16 +5,16 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:paddingStart="20dp"
-	android:paddingEnd="20dp"
+	android:paddingStart="30dp"
+	android:paddingEnd="30dp"
 	android:gravity="center">
 
 	<Button
-		android:id="@+id/open_dialoghelper"
+		android:id="@+id/open_simple_native_dialog"
 		android:layout_width="match_parent"
 		android:layout_height="50dp"
 		android:layout_marginBottom="30dp"
-		android:text="Open DialogHelper" />
+		android:text="@string/open_simple_native_dialog" />
 
 	<Button
 		android:id="@+id/open_date_picker_dialog"

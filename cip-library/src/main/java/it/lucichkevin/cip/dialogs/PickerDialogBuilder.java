@@ -54,11 +54,11 @@ public class PickerDialogBuilder {
 
 	public static class NumberPickerDialog {
 
-		public static AlertDialog get( Context context, int min_value, int max_value, Integer value_selected, final OnNumberPickerChangeListener onNumberPickerChangeListener ){
+		public static AlertDialog get(Context context, int min_value, int max_value, Integer value_selected, final OnNumberPickerChangeListener onNumberPickerChangeListener ){
 
 			LinearLayout linearLayout = new LinearLayout(context);
 			linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
+				LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
 			));
 			linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
@@ -73,7 +73,7 @@ public class PickerDialogBuilder {
 
 			linearLayout.addView(number_picker);
 
-			return AlertDialogHelper.Builder(context)
+			return new AlertDialog.Builder(context)
 				.setView(linearLayout)
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					@Override

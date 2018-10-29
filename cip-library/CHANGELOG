@@ -1,4 +1,10 @@
 
+v2.7.4
+	[ADD] Class OnSwipeTouchListener to listen swipe touch on a view
+	[ADD] Add divider_line and divider_line_spaced layouts
+	[FIX] Fixed dictionary resource
+	[REMOVE] Remove obsolete AlertDialogHelper - instead use native call "new AlertDialog.Builder(getActivity())"
+
 v2.7.3
 	[NEW] Package "adapters" (includes ObjectAdapter and StringSpinnerAdapter)
 	[NEW] PickerDialogBuilder class to show (or get an instance) a dialog: DatePickerDialog, TimePickerDialog or NumberPickerDialog

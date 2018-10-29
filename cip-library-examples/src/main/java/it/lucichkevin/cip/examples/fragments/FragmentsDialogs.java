@@ -1,5 +1,6 @@
 package it.lucichkevin.cip.examples.fragments;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
@@ -12,7 +13,6 @@ import android.widget.NumberPicker;
 import android.widget.TimePicker;
 
 import it.lucichkevin.cip.Utils;
-import it.lucichkevin.cip.dialogs.AlertDialogHelper;
 import it.lucichkevin.cip.dialogs.PickerDialogBuilder;
 import it.lucichkevin.cip.examples.R;
 
@@ -24,15 +24,17 @@ public class FragmentsDialogs extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ){
 
 		View rootView = inflater.inflate(R.layout.fragment_dialogs, container, false);
 
-		rootView.findViewById(R.id.open_dialoghelper).setOnClickListener(new View.OnClickListener() {
+		rootView.findViewById(R.id.open_simple_native_dialog).setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick( View v ){
-				AlertDialogHelper.create(getActivity())
-					.setTitle(R.string.dialoghelper_title);
+				new AlertDialog.Builder(getActivity())
+					.setTitle(R.string.welcome)
+					.setMessage(R.string.app_name)
+					.show();
 			}
 		});
 

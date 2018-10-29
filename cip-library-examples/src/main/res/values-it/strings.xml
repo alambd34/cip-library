@@ -18,5 +18,8 @@
 	<string name="test_summary_third_preference">Valore vero/falso (abilita o disabilita una determinata funzionalità)</string>
 	<string name="test_summary_fourth_preference">Lista di chiavi e valori personalizzati</string>
 	<string name="version_text">Versione %1s</string>
+	<string name="open_simple_native_dialog">Apri un semplice dialog nativo</string>
+	<string name="open_date_picker_dialog">Apri un DatePicker dialog</string>
 	<string name="open_time_picker_dialog">Apri un TimePicker dialog</string>
+	<string name="welcome">Benvenuto!</string>
 </resources>
