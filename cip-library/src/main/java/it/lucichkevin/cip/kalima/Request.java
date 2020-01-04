@@ -6,6 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import it.lucichkevin.cip.Utils;
+import it.lucichkevin.cip.kalima.responses.AbstractResponse;
 
 /**
  *  It implements the struct of request to send to server
@@ -22,9 +23,9 @@ public class Request implements Serializable {
 
 	protected transient long delay = 0;
 	protected transient int timeout = 20000;
-	protected transient Class<? extends Response> classOfResponse;
+	protected transient Class<? extends AbstractResponse> classOfResponse;
 	protected transient boolean autoHandleData = false;
-	protected transient Callbacks callbacks = new Callbacks(){};
+	protected transient Callbacks callbacks = new Callbacks<AbstractResponse>(){};
 	protected transient AbstractRequester.Sender senderReference = null;
 
 	protected String request_id = "";
@@ -37,24 +38,24 @@ public class Request implements Serializable {
 		this( request_id, null, null );
 	}
 	public Request( Header header, Query query ){
-		this( null, header, query, Response.class, false, null );
+		this( null, header, query, AbstractResponse.class, false, null );
 	}
-	public Request( Header header, Query query, Class<? extends Response> classOfResponse ){
+	public Request( Header header, Query query, Class<? extends AbstractResponse> classOfResponse ){
 		this( null, header, query, classOfResponse, false, null );
 	}
-	public Request( Header header, Query query, Class<? extends Response> classOfResponse, boolean autoHandleData ){
+	public Request( Header header, Query query, Class<? extends AbstractResponse> classOfResponse, boolean autoHandleData ){
 		this( null, header, query, classOfResponse, autoHandleData, null );
 	}
-	public Request( Header header, Query query, Class<? extends Response> classOfResponse, boolean autoHandleData, Callbacks callbacks ){
+	public Request( Header header, Query query, Class<? extends AbstractResponse> classOfResponse, boolean autoHandleData, Callbacks callbacks ){
 		this( null, header, query, classOfResponse, autoHandleData, callbacks );
 	}
 	public Request( String request_id, Header header, Query query ){
-		this( request_id, header, query, Response.class, false, null );
+		this( request_id, header, query, AbstractResponse.class, false, null );
 	}
-	public Request( String request_id, Header header, Query query, Class<? extends Response> classOfResponse ){
+	public Request( String request_id, Header header, Query query, Class<? extends AbstractResponse> classOfResponse ){
 		this( request_id, header, query, classOfResponse, false, null );
 	}
-	public Request( String request_id, Header header, Query query, Class<? extends Response> classOfResponse, boolean autoHandleData ){
+	public Request( String request_id, Header header, Query query, Class<? extends AbstractResponse> classOfResponse, boolean autoHandleData ){
 		this(request_id, header, query, classOfResponse, autoHandleData, null );
 	}
 
@@ -66,7 +67,7 @@ public class Request implements Serializable {
 	 * @param autoHandleData  If TRUE the AbstractRequester called automatically the handleData() method of Respose
 	 * @param callbacks	   The instance of callback called from AbstractRequester Object
 	 */
-	public Request( String request_id, Header header, Query query, Class<? extends Response> classOfResponse, boolean autoHandleData, Callbacks callbacks ){
+	public Request( String request_id, Header header, Query query, Class<? extends AbstractResponse> classOfResponse, boolean autoHandleData, Callbacks callbacks ){
 		setRequestId(request_id);
 		setHeader(header);
 		setQuery(query);
@@ -134,10 +135,10 @@ public class Request implements Serializable {
 		setRequestId(md5);
 	}
 
-	public Class<? extends Response> getClassOfResponse() {
+	public Class<? extends AbstractResponse> getClassOfResponse() {
 		return classOfResponse;
 	}
-	public void setClassOfResponse( Class<? extends Response> classOfResponse ){
+	public void setClassOfResponse( Class<? extends AbstractResponse> classOfResponse ){
 		this.classOfResponse = classOfResponse;
 	}
 
@@ -307,7 +308,7 @@ public class Request implements Serializable {
 		 This his abstract class structure functions that the object AbstractRequester called when an action is performed (before a req onStart, etc ...)
 		 @author	 Kevin Lucich
 	*/
-	public static abstract class Callbacks {
+	public static abstract class Callbacks<T extends AbstractResponse> {
 
 		public static String getPrefixLog( Request request ){
 			return getPrefixLog( request.getClassNameResponse(), request.getRequestId() );
@@ -326,10 +327,10 @@ public class Request implements Serializable {
 
 		/**
 		 *	Method called after a request has been successful and the response from the server has been correctly interpreted
-		 *	@param	request	Request		Reference to the instance of the Request
+		 *	@param	request		Request		Reference to the instance of the Request
 		 *	@param	response	Response	The response received from the server
 		*/
-		public void onEnd( Request request, Response response ){ }
+		public void onEnd( Request request, T response ){ }
 
 		/**
 		 *	Method called when an error is encountered
@@ -364,7 +365,7 @@ public class Request implements Serializable {
 	/**
 	 *	Each callbacks write a log in Logcat
 	 */
-	public static class SpeakingCallbacks extends Callbacks {
+	public static class SpeakingCallbacks<X extends AbstractResponse> extends Callbacks<X> {
 
 		/**
 		 *	Method called before the AbstractRequester keep the connection with the server, view onPreExecute of AsyncTask
@@ -381,7 +382,7 @@ public class Request implements Serializable {
 		 *	@param	request	Request		Reference to the instance of the Request
 		 *	@param	response	Response	The response received from the server
 		*/
-		public void onEnd( Request request, Response response ){
+		public void onEnd( Request request, X response ){
 			Utils.logger( getPrefixLog(request) +" END", Utils.LOG_INFO );
 		}
 

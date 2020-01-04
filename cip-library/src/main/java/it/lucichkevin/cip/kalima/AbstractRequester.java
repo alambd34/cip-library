@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.lucichkevin.cip.kalima.responses.AbstractResponse;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -48,7 +49,7 @@ import java.util.concurrent.Executor;
 		}
 
 		&#64;Override
-		public void onEnd( Request request, Response response ){
+		public void onEnd( Request request, AbstractResponse response ){
 			super.onEnd(request, response);
 			setSomethingToGreen("request_" + request.getRequestId() + "_FINISHED");
 		}
@@ -108,13 +109,14 @@ public abstract class AbstractRequester {
 	 *	Array with requests to send
 	 */
 	protected ArrayList<Request> requests = new ArrayList<Request>();
-	protected Request.Callbacks callbacks = new Request.Callbacks() {
+	protected Request.Callbacks callbacks = new Request.Callbacks<AbstractResponse>(){
 		@Override
 		public void onSend( Request request, String url ){
 			request.callbacks.onSend(request,url);
 		}
 		@Override
-		public void onEnd( Request request, Response response ){
+		@SuppressWarnings("unchecked")
+		public void onEnd( Request request, AbstractResponse response ){
 			request.callbacks.onEnd(request, response);
 		}
 		@Override
@@ -328,12 +330,12 @@ public abstract class AbstractRequester {
 
 	protected class RequestAndResponse{
 		public Request request = null;
-		public Response response = null;
+		public AbstractResponse response = null;
 
 		public RequestAndResponse( Request request ){
 			this.request = request;
 		}
-		public RequestAndResponse( Request request, Response response ){
+		public RequestAndResponse( Request request, AbstractResponse response ){
 			this.request = request;
 			this.response = response;
 		}
@@ -485,6 +487,7 @@ public abstract class AbstractRequester {
 		}
 
 		@Override
+		@SuppressWarnings("unchecked")
 		protected void onPostExecute( RequestAndResponse rr ){
 			rr.request.setStatus(Request.Status.FINISHED);
 			if( rr.response != null ){

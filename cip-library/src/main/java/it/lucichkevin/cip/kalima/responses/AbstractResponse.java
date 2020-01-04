@@ -1,10 +1,10 @@
-package it.lucichkevin.cip.kalima;
+package it.lucichkevin.cip.kalima.responses;
+
+import it.lucichkevin.cip.kalima.Request;
 
 import java.io.Serializable;
 
-import it.lucichkevin.cip.Utils;
-
-public abstract class Response implements Serializable {
+public abstract class AbstractResponse implements Serializable {
 
 	protected Request request;
 //	protected Object data;	//	Implemented into subclass

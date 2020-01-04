@@ -1,4 +1,7 @@
 
+v2.7.5
+	[FIX] Kalima callbacks now have automatic cast to the Response class
+
 v2.7.4
 	[ADD] Class OnSwipeTouchListener to listen swipe touch on a view
 	[ADD] Add divider_line and divider_line_spaced layouts
