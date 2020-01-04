@@ -41,6 +41,9 @@
 			android:label="Requester Statistics">
 		</activity>
 
-	</application>
+	    <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a7cb879666109b9cefda01bac6067156d29e877d" />
+    </application>
 
 </manifest>
