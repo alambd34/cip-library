@@ -13,9 +13,9 @@ import android.widget.TextView;
 import it.lucichkevin.cip.examples.R;
 import it.lucichkevin.cip.kalima.AbstractRequester;
 import it.lucichkevin.cip.kalima.Request;
-import it.lucichkevin.cip.kalima.Response;
 import it.lucichkevin.cip.examples.fragments.testKalima.requester.test.TestQuery;
 import it.lucichkevin.cip.examples.fragments.testKalima.response.test.TestResponse;
+import it.lucichkevin.cip.kalima.responses.AbstractResponse;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -70,7 +70,7 @@ public class FragmentsKalima extends Fragment {
 		requester.add( new Request( "5", new Request.Header("TestAsyncRequests","fn_5"), new TestQuery("5"), TestResponse.class, true ) );
 
 
-		requester.setCallbacks(new Request.Callbacks() {
+		requester.setCallbacks(new Request.Callbacks<AbstractResponse>(){
 
 			@Override
 			public void onSend( Request request, String url ){
@@ -79,7 +79,7 @@ public class FragmentsKalima extends Fragment {
 			}
 
 			@Override
-			public void onEnd( Request request, Response response ){
+			public void onEnd( Request request, AbstractResponse response ){
 				super.onEnd(request, response);
 				setSomethingToGreen("request_" + request.getRequestId() + "_FINISHED");
 			}
