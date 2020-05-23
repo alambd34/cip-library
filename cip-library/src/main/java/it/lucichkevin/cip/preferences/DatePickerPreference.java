@@ -4,12 +4,13 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.widget.DatePicker;
 
 import org.threeten.bp.LocalDate;
 
 import it.lucichkevin.cip.dialogs.PickerDialogBuilder;
+
 
 /**
  * @author	 Kevin Lucich 2014-09-11
@@ -44,7 +45,7 @@ public class DatePickerPreference extends AbstractDialogPreference implements Pr
 		setOnPreferenceChangeListener(changeListener);
 	}
 
-	@Override
+
 	protected void showDialog( Bundle state ){
 
 		LocalDate date_selected = getDefaultValue();
@@ -71,7 +72,7 @@ public class DatePickerPreference extends AbstractDialogPreference implements Pr
 	}
 
 	protected void savePreferenceValue( long millis_to_save ){
-		SharedPreferences.Editor editor = getEditor();
+		SharedPreferences.Editor editor = PreferencesManager.getEditor();
 		editor.putLong( getKey(), millis_to_save );
 		editor.commit();
 	}
@@ -89,7 +90,7 @@ public class DatePickerPreference extends AbstractDialogPreference implements Pr
 	}
 
 	public static abstract class OnDatePickerPreferenceChangeListener {
-		public abstract boolean onDatePickerPreferenceChange( android.preference.Preference preference, LocalDate date );
+		public abstract boolean onDatePickerPreferenceChange( androidx.preference.Preference preference, LocalDate date );
 	}
 
 }

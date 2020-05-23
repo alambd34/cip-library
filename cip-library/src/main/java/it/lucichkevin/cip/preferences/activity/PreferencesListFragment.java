@@ -1,9 +1,9 @@
 package it.lucichkevin.cip.preferences.activity;
 
 import android.os.Bundle;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceScreen;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ import it.lucichkevin.cip.preferences.TimePickerPreference;
  *  @author	Kevin Lucich	(2018-08-13)
  *  @since	CipLibrary v2.1.1
  */
-public class PreferencesListFragment extends PreferenceFragment {
+public class PreferencesListFragment extends PreferenceFragmentCompat {
 
 	protected ArrayList<Preference> items = new ArrayList<>();
 	protected ArrayList<CategoryPreference> categories = new ArrayList<CategoryPreference>();
@@ -38,6 +38,11 @@ public class PreferencesListFragment extends PreferenceFragment {
 		super.onCreate(savedInstanceState);
 
 		setPreferenceScreen( createPreferenceHierarchy() );
+	}
+
+	@Override
+	public void onCreatePreferences( Bundle savedInstanceState, String rootKey ) {
+
 	}
 
 	protected PreferenceScreen createPreferenceHierarchy() {
@@ -66,13 +71,13 @@ public class PreferencesListFragment extends PreferenceFragment {
 		return root;
 	}
 
-	protected android.preference.Preference createPreference( final Preference item ){
+	protected androidx.preference.Preference createPreference( final Preference item ){
 
-		android.preference.Preference preference = null;
+		androidx.preference.Preference preference = null;
 
 
 		if( item instanceof SwitchPreference ){
-			preference = new android.preference.SwitchPreference(getActivity());
+			preference = new androidx.preference.SwitchPreference(getActivity());
 		}else if( item instanceof ListPreference ){
 			ArrayList<ListPreference.Entry> entries_list = ((ListPreference) item).getEntriesList();
 
@@ -85,9 +90,9 @@ public class PreferencesListFragment extends PreferenceFragment {
 				entry_values[i] = entry.getValue();	//	value saved into preferences
 			}
 
-			preference = new android.preference.ListPreference(getActivity());
-			((android.preference.ListPreference) preference).setEntries(entry_keys);
-			((android.preference.ListPreference) preference).setEntryValues(entry_values);
+			preference = new androidx.preference.ListPreference(getActivity());
+			((androidx.preference.ListPreference) preference).setEntries(entry_keys);
+			((androidx.preference.ListPreference) preference).setEntryValues(entry_values);
 		}else if( item instanceof NumberPickerPreference ){
 			preference = (NumberPickerPreference) item;
 		}else if( item instanceof TimePickerPreference ){
@@ -107,17 +112,17 @@ public class PreferencesListFragment extends PreferenceFragment {
 
 		if( !((item instanceof NumberPickerPreference) || (item instanceof TimePickerPreference) || (item instanceof DatePickerPreference)) ){
 
-			preference.setOnPreferenceChangeListener(new android.preference.Preference.OnPreferenceChangeListener() {
+			preference.setOnPreferenceChangeListener(new androidx.preference.Preference.OnPreferenceChangeListener() {
 				@Override
-				public boolean onPreferenceChange(android.preference.Preference preference, Object newValue ) {
+				public boolean onPreferenceChange(androidx.preference.Preference preference, Object newValue ) {
 					//  Communicate to Preferences method that new value must be saved
 					return (item.getOnPreferenceChangeListener() == null) || item.getOnPreferenceChangeListener().onPreferenceChange(preference, newValue);
 				}
 			});
 
-			preference.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
+			preference.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
 				@Override
-				public boolean onPreferenceClick(android.preference.Preference preference ) {
+				public boolean onPreferenceClick(androidx.preference.Preference preference ) {
 					//  Communicate to Preferences method that click event is not handled
 					return (item.getOnPreferenceClickListener() != null) && item.getOnPreferenceClickListener().onPreferenceClick(preference);
 				}

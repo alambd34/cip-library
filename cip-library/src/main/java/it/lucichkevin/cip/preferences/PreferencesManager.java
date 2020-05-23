@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.Locale;
@@ -83,7 +83,8 @@ public class PreferencesManager {
 		}
 		return context;
 	}
-	public static void setContext(Context context) {
+
+	public static void setContext( Context context ){
 		PreferencesManager.context = context;
 	}
 	public static boolean isInitialized(){
@@ -357,7 +358,7 @@ public class PreferencesManager {
 	/**
 	 Return the version code of package or 0 if exception occurs
 	 */
-	public static int getVersionCode(){
+	public static long getVersionCode(){
 		PackageInfo packageInfo = getPackageInfo();
 		return (packageInfo != null) ? packageInfo.versionCode : 0;
 	}

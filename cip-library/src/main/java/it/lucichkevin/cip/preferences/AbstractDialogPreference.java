@@ -1,8 +1,8 @@
 package it.lucichkevin.cip.preferences;
 
 import android.content.Context;
-import android.preference.DialogPreference;
-import android.support.annotation.StringRes;
+import androidx.preference.DialogPreference;
+import androidx.annotation.StringRes;
 
 
 public abstract class AbstractDialogPreference extends DialogPreference implements Preference {
@@ -19,11 +19,11 @@ public abstract class AbstractDialogPreference extends DialogPreference implemen
 	}
 
 	//  OnPreferenceChangeListener set
-	public AbstractDialogPreference(Context context, String key, @StringRes int title, @StringRes int summary, android.preference.Preference.OnPreferenceChangeListener changeListener, android.preference.Preference.OnPreferenceClickListener clickListener ){
+	public AbstractDialogPreference(Context context, String key, @StringRes int title, @StringRes int summary, androidx.preference.Preference.OnPreferenceChangeListener changeListener, androidx.preference.Preference.OnPreferenceClickListener clickListener ){
 		this( context, key, title, summary, changeListener, clickListener, null );
 	}
 
-	protected AbstractDialogPreference( Context context, String key, @StringRes int title, @StringRes int summary, android.preference.Preference.OnPreferenceChangeListener changeListener, android.preference.Preference.OnPreferenceClickListener clickListener, Object default_value ){
+	protected AbstractDialogPreference( Context context, String key, @StringRes int title, @StringRes int summary, androidx.preference.Preference.OnPreferenceChangeListener changeListener, androidx.preference.Preference.OnPreferenceClickListener clickListener, Object default_value ){
 		super( context, null );
 
 		setPositiveButtonText("Set");
@@ -42,4 +42,5 @@ public abstract class AbstractDialogPreference extends DialogPreference implemen
 	public void setDefaultValue( Object default_value ){
 		this.default_value = default_value;
 	}
+
 }

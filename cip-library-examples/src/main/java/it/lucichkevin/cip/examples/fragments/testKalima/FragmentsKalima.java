@@ -2,7 +2,7 @@ package it.lucichkevin.cip.examples.fragments.testKalima;
 
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

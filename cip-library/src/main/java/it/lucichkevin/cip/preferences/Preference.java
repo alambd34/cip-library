@@ -9,16 +9,16 @@ public interface Preference {
 	CharSequence getTitle();
 	CharSequence getSummary();
 
-	android.preference.Preference.OnPreferenceChangeListener getOnPreferenceChangeListener();
-	android.preference.Preference.OnPreferenceClickListener getOnPreferenceClickListener();
+	androidx.preference.Preference.OnPreferenceChangeListener getOnPreferenceChangeListener();
+	androidx.preference.Preference.OnPreferenceClickListener getOnPreferenceClickListener();
 
 
 	//	Simplify writing code :)
-	interface OnPreferenceChangeListener extends android.preference.Preference.OnPreferenceChangeListener {
-        boolean onPreferenceChange( android.preference.Preference preference, Object newValue);
+	interface OnPreferenceChangeListener extends androidx.preference.Preference.OnPreferenceChangeListener {
+        boolean onPreferenceChange( androidx.preference.Preference preference, Object newValue);
 	}
-	interface OnPreferenceClickListener extends android.preference.Preference.OnPreferenceClickListener {
-        boolean onPreferenceClick( android.preference.Preference preference);
+	interface OnPreferenceClickListener extends androidx.preference.Preference.OnPreferenceClickListener {
+        boolean onPreferenceClick( androidx.preference.Preference preference);
 	}
 
 }

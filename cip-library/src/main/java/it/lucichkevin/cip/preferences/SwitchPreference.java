@@ -1,7 +1,7 @@
 package it.lucichkevin.cip.preferences;
 
 
-import android.preference.Preference;
+import androidx.preference.Preference;
 
 import it.lucichkevin.cip.Utils;
 
@@ -36,10 +36,10 @@ public class SwitchPreference extends AbstractPreference {
 
 	public static abstract class OnSwitchPreferenceChangeListener implements Preference.OnPreferenceChangeListener {
 
-		public abstract boolean onSwitchPreferenceChange( android.preference.Preference preference, Boolean newValue );
+		public abstract boolean onSwitchPreferenceChange( androidx.preference.Preference preference, Boolean newValue );
 
 		@Override
-		public boolean onPreferenceChange( android.preference.Preference preference, Object newValue) {
+		public boolean onPreferenceChange( androidx.preference.Preference preference, Object newValue) {
 			return onSwitchPreferenceChange( preference, (Boolean) newValue );
 		}
 	}

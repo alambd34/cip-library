@@ -2,7 +2,7 @@ package it.lucichkevin.cip.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -35,7 +35,7 @@ public class NumberPickerPreference extends AbstractDialogPreference implements 
 		setOnPreferenceChangeListener(changeListener);
 	}
 
-	@Override
+//	@Override
 	protected View onCreateDialogView() {
 
 		LinearLayout linearLayout = new LinearLayout(getContext());
@@ -59,7 +59,7 @@ public class NumberPickerPreference extends AbstractDialogPreference implements 
 		return linearLayout;
 	}
 
-	@Override
+//	@Override
 	protected void onDialogClosed( boolean positiveResult ){
 
 		if( !positiveResult ){
@@ -78,7 +78,7 @@ public class NumberPickerPreference extends AbstractDialogPreference implements 
 	}
 
 	protected void savePreferenceValue( int number_to_save ){
-		SharedPreferences.Editor editor = getEditor();
+		SharedPreferences.Editor editor = PreferencesManager.getEditor();
 		editor.putInt( getKey(), number_to_save );
 		editor.commit();
 	}
@@ -118,6 +118,6 @@ public class NumberPickerPreference extends AbstractDialogPreference implements 
 
 
 	public static abstract class OnNumberPickerPreferenceChangeListener {
-		public abstract boolean onNumberPickerPreferenceChange( android.preference.Preference preference, @StringRes int number );
+		public abstract boolean onNumberPickerPreferenceChange( androidx.preference.Preference preference, @StringRes int number );
 	}
 }

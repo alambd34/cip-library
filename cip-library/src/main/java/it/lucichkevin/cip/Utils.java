@@ -58,7 +58,7 @@ public class Utils {
 	 * @param	bytes	The number bytes that user will read
 	 * @param	si		True to use the International System of Units (SI)
 	 */
-	public static String humanReadableByteCount( long bytes, boolean si ){
+	public static String humanReadableByteCount(long bytes, boolean si ){
 		int unit = si ? 1000 : 1024;
 		if( bytes < unit ){
 			return bytes + " B";
@@ -300,7 +300,7 @@ public class Utils {
 			this.callbacks = callbacks;
 		}
 
-		//  This method is called before the SplashScreen, if version is updated execute all method inside writted ;)
+		//  This method is called before the SplashScreen, if version is updated execute all method inside written ;)
 		public static void onUpdateVersion( Callbacks callbacks ) {
 			(new Utils.App(callbacks)).execute();
 		}
@@ -311,16 +311,22 @@ public class Utils {
 			}catch( PackageManager.NameNotFoundException | NullPointerException e ){
 				e.printStackTrace();
 				PackageInfo PI = new PackageInfo();
-				PI.versionCode = 0;
 				PI.versionName = "N/A";
+				PI.versionCode = 0;
 				return PI;
 			}
 		}
+
 		public static String getVersionName(){
 			return getPackageInfo().versionName;
 		}
-		public static int getVersionCode(){
-			return getPackageInfo().versionCode;
+
+		public static long getVersionCode(){
+			if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ){
+				return getPackageInfo().getLongVersionCode();
+			}else{
+				return getPackageInfo().versionCode;
+			}
 		}
 
 

@@ -2,8 +2,8 @@ package it.lucichkevin.cip.dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.IdRes;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.IdRes;
+import androidx.appcompat.app.AlertDialog;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -31,7 +31,7 @@ public class PickerDialogBuilder {
 
 	public static class TimePickerDialog {
 
-		protected static int style_time_picker = android.R.style.Theme_Holo_Light_Dialog;
+		protected static int style_time_picker = android.R.style.Theme_Material_Light_Dialog;
 
 		public static android.app.TimePickerDialog get( Context context, LocalTime time_selected, android.app.TimePickerDialog.OnTimeSetListener onTimeSetListener ){
 			if( time_selected == null ){

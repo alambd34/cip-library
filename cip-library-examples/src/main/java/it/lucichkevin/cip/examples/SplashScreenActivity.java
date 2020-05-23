@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
 
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
 import it.lucichkevin.cip.Utils;
 import it.lucichkevin.cip.preferences.PreferencesManager;
 
@@ -17,7 +15,7 @@ public class SplashScreenActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Fabric.with(this, new Crashlytics());
+
 		setContentView(R.layout.activity_splash_screen);
 
 		//  First and unique instance - set the Context into Utils class

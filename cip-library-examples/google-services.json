@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "303049115515",
+    "firebase_url": "https://cip-library.firebaseio.com",
+    "project_id": "cip-library",
+    "storage_bucket": "cip-library.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303049115515:android:ff382a94ea85160ddcdfde",
+        "android_client_info": {
+          "package_name": "it.lucichkevin.cip.examples"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "303049115515-uchrrah0ku9r2b729bomv0k7vji6jra3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDM5_1RC02aA7F78P5z9SgVHy7ej_lvWPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "303049115515-uchrrah0ku9r2b729bomv0k7vji6jra3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

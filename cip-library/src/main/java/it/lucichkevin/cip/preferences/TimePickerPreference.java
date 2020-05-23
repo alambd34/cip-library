@@ -4,7 +4,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.widget.TimePicker;
 
 import org.threeten.bp.LocalTime;
@@ -43,7 +43,7 @@ public class TimePickerPreference extends AbstractDialogPreference implements Pr
 		setDefaultValue(default_value);
 
 		setOnPreferenceChangeListener(changeListener);
-		setDialogLayoutResource(android.R.style.Theme_Holo_Light_Dialog);
+		setDialogLayoutResource(android.R.style.Theme_Material_Light_Dialog);
 	}
 
 	protected void showDialog( Bundle state ){
@@ -72,7 +72,7 @@ public class TimePickerPreference extends AbstractDialogPreference implements Pr
 	}
 
 	protected void savePreferenceValue( int minutes_to_save ){
-		SharedPreferences.Editor editor = getEditor();
+		SharedPreferences.Editor editor = PreferencesManager.getEditor();
 		editor.putInt( getKey(), minutes_to_save );
 		editor.commit();
 	}
@@ -89,7 +89,7 @@ public class TimePickerPreference extends AbstractDialogPreference implements Pr
 	}
 
 	public static abstract class OnTimePickerPreferenceChangeListener {
-		public abstract boolean onTimePickerPreferenceChange( android.preference.Preference preference, LocalTime time );
+		public abstract boolean onTimePickerPreferenceChange( androidx.preference.Preference preference, LocalTime time );
 	}
 
 }

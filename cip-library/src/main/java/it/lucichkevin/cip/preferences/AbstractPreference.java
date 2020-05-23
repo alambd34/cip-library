@@ -9,8 +9,8 @@ public abstract class AbstractPreference implements Preference {
 	protected String title;
 	protected String summary;
 	protected Object default_value;
-	protected android.preference.Preference.OnPreferenceChangeListener onPreferenceChangeListener;
-	protected android.preference.Preference.OnPreferenceClickListener onPreferenceClickListener;
+	protected androidx.preference.Preference.OnPreferenceChangeListener onPreferenceChangeListener;
+	protected androidx.preference.Preference.OnPreferenceClickListener onPreferenceClickListener;
 
 
 	//  null OnPreferenceChangeListener
@@ -23,11 +23,11 @@ public abstract class AbstractPreference implements Preference {
 	}
 
 	//  OnPreferenceChangeListener set
-	public AbstractPreference(String key, int title, int summary, android.preference.Preference.OnPreferenceChangeListener changeListener, android.preference.Preference.OnPreferenceClickListener clickListener ){
+	public AbstractPreference(String key, int title, int summary, androidx.preference.Preference.OnPreferenceChangeListener changeListener, androidx.preference.Preference.OnPreferenceClickListener clickListener ){
 		this( key, Utils.getContext().getString(title), Utils.getContext().getString(summary), changeListener, clickListener, null );
 	}
 
-	protected AbstractPreference(String key, String title, String summary, android.preference.Preference.OnPreferenceChangeListener changeListener, android.preference.Preference.OnPreferenceClickListener clickListener, Object default_value ){
+	protected AbstractPreference(String key, String title, String summary, androidx.preference.Preference.OnPreferenceChangeListener changeListener, androidx.preference.Preference.OnPreferenceClickListener clickListener, Object default_value ){
 		setKey(key);
 		setTitle(title);
 		setSummary(summary);
@@ -74,17 +74,17 @@ public abstract class AbstractPreference implements Preference {
 		this.default_value = default_value;
 	}
 
-	public android.preference.Preference.OnPreferenceChangeListener getOnPreferenceChangeListener() {
+	public androidx.preference.Preference.OnPreferenceChangeListener getOnPreferenceChangeListener() {
 		return onPreferenceChangeListener;
 	}
-	public void setOnPreferenceChangeListener(android.preference.Preference.OnPreferenceChangeListener onPreferenceChangeListener) {
+	public void setOnPreferenceChangeListener(androidx.preference.Preference.OnPreferenceChangeListener onPreferenceChangeListener) {
 		this.onPreferenceChangeListener = onPreferenceChangeListener;
 	}
 
-	public android.preference.Preference.OnPreferenceClickListener getOnPreferenceClickListener() {
+	public androidx.preference.Preference.OnPreferenceClickListener getOnPreferenceClickListener() {
 		return onPreferenceClickListener;
 	}
-	public void setOnPreferenceClickListener(android.preference.Preference.OnPreferenceClickListener onPreferenceClickListener) {
+	public void setOnPreferenceClickListener(androidx.preference.Preference.OnPreferenceClickListener onPreferenceClickListener) {
 		this.onPreferenceClickListener = onPreferenceClickListener;
 	}
 }

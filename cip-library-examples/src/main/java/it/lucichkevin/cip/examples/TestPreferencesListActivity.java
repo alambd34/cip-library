@@ -27,7 +27,7 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 		NumberPickerPreference npp = new NumberPickerPreference( this,"TEST_NUMBER_PICKER", R.string.test_title_number_picker_preference, R.string.test_summary_number_picker_preference);
 		npp.setOnPreferenceChangeListener(new NumberPickerPreference.OnNumberPickerPreferenceChangeListener(){
 			@Override
-			public boolean onNumberPickerPreferenceChange( android.preference.Preference preference, int number ){
+			public boolean onNumberPickerPreferenceChange( androidx.preference.Preference preference, int number ){
 				Utils.loggerDebug("NumberPickerPreference.OnNumberPickerPreferenceChangeListener => number="+ number);
 				return true;
 			}
@@ -37,7 +37,7 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 		DatePickerPreference dpp = new DatePickerPreference( this, "TEST_DATE_PICKER", R.string.test_title_date_picker_preference, R.string.test_summary_date_picker_preference);
 		dpp.setOnPreferenceChangeListener(new DatePickerPreference.OnDatePickerPreferenceChangeListener(){
 			@Override
-			public boolean onDatePickerPreferenceChange( android.preference.Preference preference, LocalDate date ){
+			public boolean onDatePickerPreferenceChange( androidx.preference.Preference preference, LocalDate date ){
 				Utils.loggerDebug("DatePickerPreference.onDatePickerPreferenceChange => "+ String.valueOf(date));
 				return true;
 			}
@@ -47,7 +47,7 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 		TimePickerPreference tpp = new TimePickerPreference( this,"TEST_TIME_PICKER", R.string.test_title_time_picker_preference, R.string.test_summary_time_picker_preference);
 		tpp.setOnPreferenceChangeListener(new TimePickerPreference.OnTimePickerPreferenceChangeListener(){
 			@Override
-			public boolean onTimePickerPreferenceChange( android.preference.Preference preference, LocalTime time ){
+			public boolean onTimePickerPreferenceChange( androidx.preference.Preference preference, LocalTime time ){
 				Utils.loggerDebug("TimePickerPreference.onTimePickerPreferenceChange => h="+ String.valueOf(time.getHour()) +" / m="+ String.valueOf(time.getMinute()));
 				return true;
 			}
@@ -57,7 +57,7 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 		SwitchPreference sp = new SwitchPreference( "TEST_SWITCH", R.string.test_title_third_preference, R.string.test_summary_third_preference);
 		sp.setOnPreferenceChangeListener(new SwitchPreference.OnSwitchPreferenceChangeListener(){
 			@Override
-			public boolean onSwitchPreferenceChange( android.preference.Preference preference, Boolean newValue ){
+			public boolean onSwitchPreferenceChange( androidx.preference.Preference preference, Boolean newValue ){
 				Utils.loggerDebug("SwitchPreference.onSwitchPreferenceChange => "+ newValue);
 				return true;
 			}
@@ -70,7 +70,7 @@ public class TestPreferencesListActivity extends AbstractPreferencesListActivity
 		ip.setEntriesList(getHowOftenOptions());
 		ip.setOnPreferenceChangeListener(new ListPreference.OnListPreferenceChangeListener(){
 			@Override
-			public boolean onListPreferenceChange( android.preference.Preference preference, String newValue ){
+			public boolean onListPreferenceChange( androidx.preference.Preference preference, String newValue ){
 				Utils.loggerDebug("ListPreference.onPreferenceChange => "+ newValue);
 				return false;
 			}

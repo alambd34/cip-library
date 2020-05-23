@@ -1,7 +1,7 @@
 package it.lucichkevin.cip.preferences;
 
 
-import android.preference.Preference;
+import androidx.preference.Preference;
 
 import java.util.ArrayList;
 
@@ -86,10 +86,10 @@ public class ListPreference extends AbstractPreference {
 
 	public static abstract class OnListPreferenceChangeListener implements Preference.OnPreferenceChangeListener {
 
-		public abstract boolean onListPreferenceChange( android.preference.Preference preference, String newValue );
+		public abstract boolean onListPreferenceChange( androidx.preference.Preference preference, String newValue );
 
 		@Override
-		public boolean onPreferenceChange( android.preference.Preference preference, Object newValue ){
+		public boolean onPreferenceChange( androidx.preference.Preference preference, Object newValue ){
 			return onListPreferenceChange( preference, (String) newValue );
 		}
 	}
