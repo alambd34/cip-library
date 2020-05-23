@@ -157,7 +157,7 @@ public class PreferencesManager {
 	 Get an editor instance
 	 @return Editor for SharedPreferences
 	 */
-	protected static Editor getEditor(){
+	public static Editor getEditor(){
 		try {
 			return (PreferenceManager.getDefaultSharedPreferences(getContext())).edit();
 		}catch( Exception e ){

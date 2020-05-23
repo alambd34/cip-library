@@ -53,28 +53,6 @@ public class DatePickerPreference extends AbstractDialogPreference implements Pr
 		if( default_millis > -1 ){
 			date_selected = LocalDate.ofEpochDay(default_millis);
 		}
-		PickerDialogBuilder.DatePickerDialog.show(getContext(), date_selected, new DatePickerDialog.OnDateSetListener(){
-			@Override
-			public void onDateSet( DatePicker view, int year, int month, int dayOfMonth ){
-
-				LocalDate date_selected = LocalDate.of(year, month, dayOfMonth);
-				long millis_to_date_selected = date_selected.toEpochDay();
-
-				if( getOnDatePickerPreferenceChangeListener() != null ){
-					if( getOnDatePickerPreferenceChangeListener().onDatePickerPreferenceChange(DatePickerPreference.this,date_selected) ){
-						savePreferenceValue(millis_to_date_selected);
-					}
-				}else{
-					savePreferenceValue(millis_to_date_selected);
-				}
-			}
-		});
-	}
-
-	protected void savePreferenceValue( long millis_to_save ){
-		SharedPreferences.Editor editor = PreferencesManager.getEditor();
-		editor.putLong( getKey(), millis_to_save );
-		editor.commit();
 	}
 
 

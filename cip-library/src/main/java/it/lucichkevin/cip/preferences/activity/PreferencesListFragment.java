@@ -1,6 +1,8 @@
 package it.lucichkevin.cip.preferences.activity;
 
 import android.os.Bundle;
+
+import androidx.fragment.app.DialogFragment;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
@@ -8,7 +10,6 @@ import androidx.preference.PreferenceScreen;
 import java.util.ArrayList;
 
 import it.lucichkevin.cip.R;
-import it.lucichkevin.cip.preferences.AbstractPreference;
 import it.lucichkevin.cip.preferences.CategoryPreference;
 import it.lucichkevin.cip.preferences.DatePickerPreference;
 import it.lucichkevin.cip.preferences.NumberPickerPreference;
@@ -31,6 +32,27 @@ public class PreferencesListFragment extends PreferenceFragmentCompat {
 
 	public PreferencesListFragment() {
 
+	}
+
+	@Override
+	public void onDisplayPreferenceDialog( androidx.preference.Preference preference ) {
+
+		DialogFragment dialogFragment = null;
+
+		if( preference instanceof NumberPickerPreference ){
+			dialogFragment = NumberPickerDialogPreferenceFragmentCompat.newInstance(preference.getKey());
+		} else if( preference instanceof TimePickerPreference ){
+			dialogFragment = TimePickerDialogPreferenceFragmentCompat.newInstance(preference.getKey());
+		} else if( preference instanceof DatePickerPreference ){
+			dialogFragment = DatePickerDialogPreferenceFragmentCompat.newInstance(preference.getKey());
+		}
+
+		if( dialogFragment != null ){
+			dialogFragment.setTargetFragment(this, 0);
+			dialogFragment.show(getParentFragmentManager(), null);
+		}else{
+			super.onDisplayPreferenceDialog(preference);
+		}
 	}
 
 	@Override

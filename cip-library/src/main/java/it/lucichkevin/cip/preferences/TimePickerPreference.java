@@ -1,15 +1,9 @@
 package it.lucichkevin.cip.preferences;
 
-import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
 import androidx.annotation.StringRes;
-import android.widget.TimePicker;
 
 import org.threeten.bp.LocalTime;
-
-import it.lucichkevin.cip.dialogs.PickerDialogBuilder;
 
 
 /**
@@ -46,36 +40,6 @@ public class TimePickerPreference extends AbstractDialogPreference implements Pr
 		setDialogLayoutResource(android.R.style.Theme_Material_Light_Dialog);
 	}
 
-	protected void showDialog( Bundle state ){
-
-		LocalTime time_selected = getDefaultValue();
-		long minutes_to_set = PreferencesManager.getPreferences().getLong( getKey(), -1 );
-		if( minutes_to_set > -1 ){
-			time_selected = LocalTime.ofSecondOfDay(minutes_to_set*60);
-		}
-		PickerDialogBuilder.TimePickerDialog.show(getContext(), time_selected, new TimePickerDialog.OnTimeSetListener() {
-			@Override
-			public void onTimeSet( TimePicker view, int hour, int minute ){
-
-				int minutes_to_save = (hour * 60 + minute);
-				LocalTime time_selected = LocalTime.of(hour, minute);
-
-				if( getOnTimePickerPreferenceChangeListener() != null ){
-					if( getOnTimePickerPreferenceChangeListener().onTimePickerPreferenceChange(TimePickerPreference.this,time_selected) ){
-						savePreferenceValue(minutes_to_save);
-					}
-				}else{
-					savePreferenceValue(minutes_to_save);
-				}
-			}
-		});
-	}
-
-	protected void savePreferenceValue( int minutes_to_save ){
-		SharedPreferences.Editor editor = PreferencesManager.getEditor();
-		editor.putInt( getKey(), minutes_to_save );
-		editor.commit();
-	}
 
 	public LocalTime getDefaultValue() {
 		return (LocalTime) super.getDefaultValue();
