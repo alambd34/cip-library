@@ -312,7 +312,11 @@ public class Utils {
 				e.printStackTrace();
 				PackageInfo PI = new PackageInfo();
 				PI.versionName = "N/A";
-				PI.versionCode = 0;
+				if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ){
+					PI.setLongVersionCode(0);
+				}else{
+					PI.versionCode = 0;
+				}
 				return PI;
 			}
 		}
@@ -325,6 +329,7 @@ public class Utils {
 			if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ){
 				return getPackageInfo().getLongVersionCode();
 			}else{
+				//noinspection deprecation
 				return getPackageInfo().versionCode;
 			}
 		}

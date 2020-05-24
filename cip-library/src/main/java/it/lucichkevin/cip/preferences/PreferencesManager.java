@@ -6,6 +6,8 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import androidx.preference.PreferenceManager;
+
+import android.os.Build;
 import android.util.Log;
 
 import java.util.Locale;
@@ -360,7 +362,14 @@ public class PreferencesManager {
 	 */
 	public static long getVersionCode(){
 		PackageInfo packageInfo = getPackageInfo();
-		return (packageInfo != null) ? packageInfo.versionCode : 0;
+		if( packageInfo == null ){
+			return 0;
+		}
+		if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ){
+			return packageInfo.getLongVersionCode();
+		}
+		//noinspection deprecation
+		return packageInfo.versionCode;
 	}
 
 	/**
